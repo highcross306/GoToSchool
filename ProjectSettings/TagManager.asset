@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Routes
+    uniqueID: 3390479331
+    locked: 0
+  - name: Nodes
+    uniqueID: 1583189043
+    locked: 0
+  - name: Player
+    uniqueID: 1294206393
+    locked: 0
+  - name: UI
+    uniqueID: 2677289065
+    locked: 0
