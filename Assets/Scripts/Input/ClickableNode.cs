@@ -1,18 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+// ============================================================
+// ClickableNode.cs
+// 역할: 노드 오브젝트의 클릭/터치 감지 전담
+//       감지한 이벤트를 Node.cs에 전달
+//       Node 프리팹에 함께 부착
+// ============================================================
+
 using UnityEngine;
 
 public class ClickableNode : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Node node;
+
+    private void Awake()
     {
-        
+        node = GetComponent<Node>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseDown()
     {
-        
+        // Planning 단계일 때만 클릭 처리
+        if (GameState.CurrentPhase != Phase.Planning) return;
+
+        node.OnClicked();
     }
 }

@@ -17,8 +17,9 @@ public class TransportCost
 [Serializable]
 public class RouteData
 {
-    public string id;             // 경로 고유 ID (예: "route_01")
-    public string fromNodeId;     // 출발 노드 ID
-    public string toNodeId;       // 도착 노드 ID
-    public TransportCost[] transportCosts; // 이동수단별 비용/시간 목록
+    public string id;              // 경로 고유 ID (예: "route_01")
+    public string fromNodeId;      // 출발 노드 ID
+    public string toNodeId;        // 도착 노드 ID
+    public bool isBidirectional; // true: 양방향 / false: 단방향
+    public TransportCost[] transportCosts;  // 이동수단별 비용/시간 목록
 }
