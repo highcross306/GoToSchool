@@ -48,10 +48,4 @@ public class Route : MonoBehaviour
         GameObject obj = GameObject.Find(id);
         return obj != null ? obj.GetComponent<Node>() : null;
     }
-
-    // ClickableRoute가 클릭을 감지하면 이 메서드 호출
-    public void OnClicked()
-    {
-        PlanningManager.Instance.OnRouteClicked(this);
-    }
 }

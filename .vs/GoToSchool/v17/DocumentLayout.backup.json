@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "E:\\ShortTraval\\GoToSchool\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\stage\\routedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stage\\routedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\planning\\selectionvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\planning\\selectionvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\planning\\selectionvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\stage\\routedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stage\\routedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\world\\route.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,11 +23,11 @@
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\world\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\input\\clickablenode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\input\\clickablenode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\input\\clickablenode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\stage\\stagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\stage\\stagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stage\\stagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -54,17 +54,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "PlanningManager.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Planning\\PlanningManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Planning\\PlanningManager.cs",
               "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Planning\\PlanningManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Planning\\PlanningManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHkAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAgwI4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-26T10:58:04.982Z",
               "EditorCaption": ""
@@ -77,7 +77,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Planning\\SelectionValidator.cs",
               "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Planning\\SelectionValidator.cs",
               "RelativeToolTip": "Assets\\Scripts\\Planning\\SelectionValidator.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAC8AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAQwCYAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-26T10:37:20.013Z",
               "EditorCaption": ""
@@ -92,8 +92,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Input\\ClickableNode.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T10:28:46.131Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T10:28:46.131Z"
             },
             {
               "$type": "Document",
@@ -105,8 +104,7 @@
               "RelativeToolTip": "Assets\\Scripts\\World\\Route.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAQwBcAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T09:41:05.76Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T09:41:05.76Z"
             },
             {
               "$type": "Document",
@@ -118,8 +116,7 @@
               "RelativeToolTip": "Assets\\Scripts\\World\\Node.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAAwBAAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T09:34:22.145Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T09:34:22.145Z"
             },
             {
               "$type": "Document",
@@ -131,8 +128,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Stage\\StageManager.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAUwD4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T09:16:53.215Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T09:16:53.215Z"
             },
             {
               "$type": "Document",
@@ -148,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "RouteData.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Stage\\RouteData.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stage\\RouteData.cs",
