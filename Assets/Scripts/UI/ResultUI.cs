@@ -1,9 +1,9 @@
-// ============================================================
+ï»¿// ============================================================
 // ResultUI.cs
-// ¿ªÇÒ: °á°ú È­¸é UI
-//       ¼º°ø/½ÇÆĞ Ç¥½Ã, ÃÖÁ¾ Á¡¼ö, ³²Àº ÀÚ±İ/½Ã°£ Ç¥½Ã
-//       Àç½Ãµµ / ´ÙÀ½ ½ºÅ×ÀÌÁö ¹öÆ° Ã³¸®
-// ºÎÂø: Canvas ÇÏÀ§ ResultPanel ¿ÀºêÁ§Æ®¿¡ ºÎÂø
+// ì—­í• : ê²°ê³¼ í™”ë©´ UI
+//       ì„±ê³µ/ì‹¤íŒ¨ í‘œì‹œ, ìµœì¢… ì ìˆ˜, ë‚¨ì€ ìê¸ˆ/ì‹œê°„ í‘œì‹œ
+//       ì¬ì‹œë„ / ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ë²„íŠ¼ ì²˜ë¦¬
+// ë¶€ì°©: Canvas í•˜ìœ„ ResultPanel ì˜¤ë¸Œì íŠ¸ì— ë¶€ì°©
 // ============================================================
 
 using UnityEngine;
@@ -14,18 +14,18 @@ public class ResultUI : MonoBehaviour
 {
     public static ResultUI Instance { get; private set; }
 
-    [Header("°á°ú ÅØ½ºÆ®")]
-    public TextMeshProUGUI resultTitleText;  // ¼º°ø / ½ÇÆĞ
-    public TextMeshProUGUI scoreText;        // ÃÖÁ¾ Á¡¼ö
-    public TextMeshProUGUI budgetText;       // ³²Àº ÀÚ±İ
-    public TextMeshProUGUI timeText;         // °æ°ú ½Ã°£
-    public TextMeshProUGUI failReasonText;   // ½ÇÆĞ ÀÌÀ¯ (½ÇÆĞ ½Ã¸¸ Ç¥½Ã)
+    [Header("ê²°ê³¼ í…ìŠ¤íŠ¸")]
+    public TextMeshProUGUI resultTitleText;  // ì„±ê³µ / ì‹¤íŒ¨
+    public TextMeshProUGUI scoreText;        // ìµœì¢… ì ìˆ˜
+    public TextMeshProUGUI budgetText;       // ë‚¨ì€ ìê¸ˆ
+    public TextMeshProUGUI timeText;         // ê²½ê³¼ ì‹œê°„
+    public TextMeshProUGUI failReasonText;   // ì‹¤íŒ¨ ì´ìœ  (ì‹¤íŒ¨ ì‹œë§Œ í‘œì‹œ)
 
-    [Header("¹öÆ°")]
-    public Button retryButton;        // Àç½Ãµµ
-    public Button nextStageButton;    // ´ÙÀ½ ½ºÅ×ÀÌÁö (¼º°ø ½Ã¸¸ È°¼ºÈ­)
+    [Header("ë²„íŠ¼")]
+    public Button retryButton;        // ì¬ì‹œë„
+    public Button nextStageButton;    // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ (ì„±ê³µ ì‹œë§Œ í™œì„±í™”)
 
-    [Header("ÆĞ³Î")]
+    [Header("íŒ¨ë„")]
     public GameObject resultPanel;
 
     private void Awake()
@@ -38,50 +38,50 @@ public class ResultUI : MonoBehaviour
         resultPanel.SetActive(false);
     }
 
-    // ResultEvaluator ¡æ ¼º°ø ½Ã È£Ãâ
+    // ResultEvaluator â†’ ì„±ê³µ ì‹œ í˜¸ì¶œ
     public void ShowSuccess(int score)
     {
         resultPanel.SetActive(true);
         failReasonText.gameObject.SetActive(false);
         nextStageButton.interactable = true;
 
-        resultTitleText.text = "¼º°ø!";
+        resultTitleText.text = "ì„±ê³µ!";
         resultTitleText.color = Color.green;
-        scoreText.text = $"Á¡¼ö  {score}Á¡";
-        budgetText.text = $"³²Àº ÀÚ±İ  {PlayerBudget.Instance.RemainingBudget}¿ø";
-        timeText.text = $"¼Ò¿ä ½Ã°£  {PlayerBudget.Instance.ElapsedMinutes}ºĞ";
+        scoreText.text = $"ì ìˆ˜  {score}ì ";
+        budgetText.text = $"ë‚¨ì€ ìê¸ˆ  {PlayerBudget.Instance.RemainingBudget}ì›";
+        timeText.text = $"ì†Œìš” ì‹œê°„  {PlayerBudget.Instance.ElapsedMinutes}ë¶„";
     }
 
-    // ResultEvaluator ¡æ ½ÇÆĞ ½Ã È£Ãâ
+    // ResultEvaluator â†’ ì‹¤íŒ¨ ì‹œ í˜¸ì¶œ
     public void ShowFail(string reason)
     {
         resultPanel.SetActive(true);
         failReasonText.gameObject.SetActive(true);
         nextStageButton.interactable = false;
 
-        resultTitleText.text = "½ÇÆĞ";
+        resultTitleText.text = "ì‹¤íŒ¨";
         resultTitleText.color = Color.red;
         scoreText.text = "";
         failReasonText.text = reason;
-        budgetText.text = $"³²Àº ÀÚ±İ  {PlayerBudget.Instance.RemainingBudget}¿ø";
-        timeText.text = $"¼Ò¿ä ½Ã°£  {PlayerBudget.Instance.ElapsedMinutes}ºĞ";
+        budgetText.text = $"ë‚¨ì€ ìê¸ˆ  {PlayerBudget.Instance.RemainingBudget}ì›";
+        timeText.text = $"ì†Œìš” ì‹œê°„  {PlayerBudget.Instance.ElapsedMinutes}ë¶„";
     }
 
-    // Àç½Ãµµ ¹öÆ°
+    // ì¬ì‹œë„ ë²„íŠ¼
     private void OnRetryClicked()
     {
         resultPanel.SetActive(false);
         GameManager.Instance.LoadStage(GameState.CurrentStage);
     }
 
-    // ´ÙÀ½ ½ºÅ×ÀÌÁö ¹öÆ°
+    // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ë²„íŠ¼
     private void OnNextStageClicked()
     {
         int next = GameState.CurrentStage + 1;
         if (next > 4)
         {
-            Debug.Log("[ResultUI] ¸ğµç ½ºÅ×ÀÌÁö Å¬¸®¾î!");
-            // ÃßÈÄ ¿£µù ¾À ¶Ç´Â Å¸ÀÌÆ²·Î ÀüÈ¯
+            Debug.Log("[ResultUI] ëª¨ë“  ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´!");
+            // ì¶”í›„ ì—”ë”© ì”¬ ë˜ëŠ” íƒ€ì´í‹€ë¡œ ì „í™˜
             return;
         }
         resultPanel.SetActive(false);

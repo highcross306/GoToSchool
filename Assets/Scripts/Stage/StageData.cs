@@ -1,9 +1,9 @@
-// ============================================================
+ï»¿// ============================================================
 // StageData.cs
-// ¿ªÇÒ: ½ºÅ×ÀÌÁö ÇÏ³ªÀÇ ÀüÃ¼ ¼³Á¤À» ´ã´Â ScriptableObject
-//       ÀÎ½ºÆåÅÍ¿¡¼­ Á÷Á¢ ¼öÄ¡ ¼öÁ¤ °¡´É
-// »ı¼º: Assets/ScriptableObjects/Stages Æú´õ ¿ìÅ¬¸¯
-//       ¡æ Create ¡æ Game ¡æ Stage Data
+// ì—­í• : ìŠ¤í…Œì´ì§€ í•˜ë‚˜ì˜ ì „ì²´ ì„¤ì •ì„ ë‹´ëŠ” ScriptableObject
+//       ì¸ìŠ¤í™í„°ì—ì„œ ì§ì ‘ ìˆ˜ì¹˜ ìˆ˜ì • ê°€ëŠ¥
+// ìƒì„±: Assets/ScriptableObjects/Stages í´ë” ìš°í´ë¦­
+//       â†’ Create â†’ Game â†’ Stage Data
 // ============================================================
 
 using UnityEngine;
@@ -14,12 +14,12 @@ using UnityEngine;
 )]
 public class StageData : ScriptableObject
 {
-    [Header("½ºÅ×ÀÌÁö ±âº» ¼³Á¤")]
-    public int stageIndex;       // ½ºÅ×ÀÌÁö ¹øÈ£ (1~4)
-    public int timeLimitSeconds; // Á¦ÇÑ ½Ã°£ (ÃÊ) ¿¹: 3600 = 60ºĞ
-    public int initialBudget;    // ÃÊ±â ÀÚ±İ (¿ø) ¿¹: 2000
+    [Header("ìŠ¤í…Œì´ì§€ ê¸°ë³¸ ì„¤ì •")]
+    public int stageIndex;       // ìŠ¤í…Œì´ì§€ ë²ˆí˜¸ (1~4)
+    public int timeLimitSeconds; // ì œí•œ ì‹œê°„ (ì´ˆ) ì˜ˆ: 3600 = 60ë¶„
+    public int initialBudget;    // ì´ˆê¸° ìê¸ˆ (ì›) ì˜ˆ: 2000
 
-    [Header("³ëµå & °æ·Î")]
-    public NodeData[] nodes;    // ÀÌ ½ºÅ×ÀÌÁöÀÇ ³ëµå ¸ñ·Ï
-    public RouteData[] routes;   // ÀÌ ½ºÅ×ÀÌÁöÀÇ °æ·Î ¸ñ·Ï
+    [Header("ë…¸ë“œ & ê²½ë¡œ")]
+    public NodeData[] nodes;    // ì´ ìŠ¤í…Œì´ì§€ì˜ ë…¸ë“œ ëª©ë¡
+    public RouteData[] routes;   // ì´ ìŠ¤í…Œì´ì§€ì˜ ê²½ë¡œ ëª©ë¡
 }
