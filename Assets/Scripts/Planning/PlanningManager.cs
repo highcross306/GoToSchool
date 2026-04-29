@@ -85,9 +85,9 @@ public class PlanningManager : MonoBehaviour
 
         // 연결 확인 → 이동수단 선택 대기
         pendingRoute = connectedRoute;
+        PlanningUI.Instance.ShowSelectionCards(connectedRoute);
         Debug.Log($"[Planning] 경로 확정: {connectedRoute.id} / 이동수단을 선택하세요.");
 
-        // 추후 UI 연결 시 SelectionCardUI 표시 코드 추가
     }
 
     // SelectionCardUI에서 이동수단 선택 시 호출
@@ -115,7 +115,7 @@ public class PlanningManager : MonoBehaviour
                 Selections, StageManager.Instance.CurrentStageData))
         {
             Debug.Log("[Planning] 선택 완료! 결정 버튼 활성화");
-            // 추후 UI 연결 시 PlanningUI.SetDecideButtonActive(true) 호출
+            PlanningUI.Instance.SetDecideButtonActive(true);
         }
     }
 

@@ -30,14 +30,14 @@ public class ResultEvaluator : MonoBehaviour
             if (isBudgetOver && isTimeOver) reason = "자금 부족 + 시간 초과";
 
             Debug.Log($"[Result] 실패 — {reason}");
-            // 추후 UI 연결 시 ResultUI.ShowFail(reason) 호출
+            ResultUI.Instance.ShowFail(reason);
         }
         else
         {
             // 성공
             int score = ScoreCalculator.Instance.Calculate();
             Debug.Log($"[Result] 성공 — 최종 점수: {score}점");
-            // 추후 UI 연결 시 ResultUI.ShowSuccess(score) 호출
+            ResultUI.Instance.ShowSuccess(score);
         }
     }
 }
