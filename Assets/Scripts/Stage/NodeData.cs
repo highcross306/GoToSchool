@@ -1,7 +1,7 @@
 ﻿// ============================================================
 // NodeData.cs
 // 역할: 노드 하나의 순수 데이터
-//       StageData 안에 배열로 포함됨
+//       이동수단 허용 목록은 RouteData에서 관리
 // ============================================================
 
 using System;
@@ -24,8 +24,7 @@ public enum TransportType
 [Serializable]
 public class NodeData
 {
-    public string id;                   // 노드 고유 ID (예: "node_01")
-    public NodeType nodeType;             // 노드 타입 (출발/거점/도착)
-    public Vector2 position;             // 씬 배치 좌표
-    public TransportType[] availableTransports;  // 이 노드에서 선택 가능한 이동수단
+    public string id;       // 노드 고유 ID (예: "node_01")
+    public NodeType nodeType; // 노드 타입 (출발/거점/도착)
+    public Vector2 position; // 씬 배치 좌표
 }

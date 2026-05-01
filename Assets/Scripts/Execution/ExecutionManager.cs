@@ -1,9 +1,8 @@
 ﻿// ============================================================
 // ExecutionManager.cs
 // 역할: 실행 단계 전체 관리
-//       PlanningManager의 선택 목록을 순서대로 소비
-//       PlayerMover에게 이동 명령 → PlayerBudget 차감
-//       모든 경로 완료 시 GameManager에 결과 신호
+//       선택 목록을 순서대로 소비
+//       TransportSettings에서 비용/시간 조회 후 PlayerBudget 차감
 // ============================================================
 
 using System.Collections.Generic;
@@ -12,6 +11,9 @@ using UnityEngine;
 public class ExecutionManager : MonoBehaviour
 {
     public static ExecutionManager Instance { get; private set; }
+
+    [Header("이동수단 설정 연결")]
+    public TransportSettings transportSettings; // 인스펙터에서 TransportSettings 에셋 연결
 
     private List<SelectionEntry> selections;
     private int currentIndex = 0;
@@ -22,7 +24,6 @@ public class ExecutionManager : MonoBehaviour
         Instance = this;
     }
 
-    // GameManager.StartExecution() → 여기서 시작
     public void StartExecution()
     {
         selections = PlanningManager.Instance.Selections;
@@ -32,12 +33,10 @@ public class ExecutionManager : MonoBehaviour
         ExecuteNext();
     }
 
-    // 다음 경로 실행
     private void ExecuteNext()
     {
         if (currentIndex >= selections.Count)
         {
-            // 모든 경로 완료
             Debug.Log("[Execution] 모든 경로 이동 완료");
             GameManager.Instance.ShowResult();
             return;
@@ -47,7 +46,6 @@ public class ExecutionManager : MonoBehaviour
         Debug.Log($"[Execution] {currentIndex + 1}번째 이동: " +
                   $"{entry.route.fromNodeId} → {entry.route.toNodeId} ({entry.transport})");
 
-        // 목표 노드 위치 탐색
         GameObject targetObj = GameObject.Find(entry.route.toNodeId);
         if (targetObj == null)
         {
@@ -55,32 +53,19 @@ public class ExecutionManager : MonoBehaviour
             return;
         }
 
-        // PlayerMover에게 이동 명령
         PlayerMover.Instance.MoveTo(targetObj.transform.position, OnMoveComplete);
     }
 
-    // PlayerMover 이동 완료 콜백
     private void OnMoveComplete()
     {
         SelectionEntry entry = selections[currentIndex];
 
-        // 해당 이동수단의 비용/시간 찾기
-        TransportCost cost = FindTransportCost(entry.route, entry.transport);
-        if (cost != null)
-            PlayerBudget.Instance.Consume(cost.cost, cost.timeMinutes);
+        // TransportSettings에서 고정 비용/시간 조회
+        TransportSetting setting = transportSettings.Get(entry.transport);
+        if (setting != null)
+            PlayerBudget.Instance.Consume(setting.cost, setting.timeMinutes);
 
         currentIndex++;
         ExecuteNext();
-    }
-
-    // RouteData에서 선택한 이동수단의 비용 데이터 반환
-    private TransportCost FindTransportCost(RouteData route, TransportType transport)
-    {
-        foreach (TransportCost cost in route.transportCosts)
-        {
-            if (cost.transportType == transport) return cost;
-        }
-        Debug.LogWarning($"[Execution] {route.id}에서 {transport} 비용 데이터를 찾을 수 없습니다.");
-        return null;
     }
 }

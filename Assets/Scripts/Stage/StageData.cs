@@ -1,7 +1,6 @@
 ﻿// ============================================================
 // StageData.cs
 // 역할: 스테이지 하나의 전체 설정을 담는 ScriptableObject
-//       인스펙터에서 직접 수치 수정 가능
 // 생성: Assets/ScriptableObjects/Stages 폴더 우클릭
 //       → Create → Game → Stage Data
 // ============================================================
@@ -20,6 +19,6 @@ public class StageData : ScriptableObject
     public int initialBudget;    // 초기 자금 (원) 예: 2000
 
     [Header("노드 & 경로")]
-    public NodeData[] nodes;    // 이 스테이지의 노드 목록
-    public RouteData[] routes;   // 이 스테이지의 경로 목록
+    public NodeData[] nodes;
+    public RouteData[] routes;
 }

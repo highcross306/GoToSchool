@@ -1,9 +1,7 @@
 ﻿// ============================================================
 // PlanningUI.cs
 // 역할: 선택 단계 전체 UI 컨트롤러
-//       선택지 카드 표시/숨김
-//       결정 버튼 활성/비활성 처리
-// 부착: Canvas 하위 SelectionPanel 오브젝트에 부착
+//       RouteData의 allowedTransports 기준으로 카드 표시
 // ============================================================
 
 using UnityEngine;
@@ -14,9 +12,9 @@ public class PlanningUI : MonoBehaviour
     public static PlanningUI Instance { get; private set; }
 
     [Header("UI 연결")]
-    public SelectionCardUI[] selectionCards; // 이동수단 카드 배열 (Walk/Bus/Taxi)
-    public Button decideButton;   // 결정 버튼
-    public GameObject selectionPanel; // 카드 패널 전체
+    public SelectionCardUI[] selectionCards;
+    public Button decideButton;
+    public GameObject selectionPanel;
 
     private void Awake()
     {
@@ -28,24 +26,19 @@ public class PlanningUI : MonoBehaviour
         HideSelectionCards();
     }
 
-    // PlanningManager가 노드 클릭 → 경로 확정 후 호출
-    // 해당 경로의 이동수단 카드를 화면에 표시
+    // 경로의 allowedTransports 기준으로 카드 표시
     public void ShowSelectionCards(RouteData route)
     {
-        // 모든 카드 숨기기
         HideSelectionCards();
-
         selectionPanel.SetActive(true);
 
-        // 경로에 있는 이동수단만 카드로 표시
-        foreach (TransportCost cost in route.transportCosts)
+        foreach (TransportType type in route.allowedTransports)
         {
-            SelectionCardUI card = FindCardByType(cost.transportType);
-            if (card != null) card.Setup(cost);
+            SelectionCardUI card = FindCardByType(type);
+            if (card != null) card.Setup(type);
         }
     }
 
-    // 카드 패널 전체 숨기기
     public void HideSelectionCards()
     {
         selectionPanel.SetActive(false);
@@ -53,7 +46,6 @@ public class PlanningUI : MonoBehaviour
             card.Hide();
     }
 
-    // 결정 버튼 활성/비활성
     public void SetDecideButtonActive(bool active)
     {
         decideButton.interactable = active;
@@ -68,7 +60,6 @@ public class PlanningUI : MonoBehaviour
     {
         foreach (SelectionCardUI card in selectionCards)
         {
-            // 카드 이름으로 타입 매칭 (Walk/Bus/Taxi)
             if (card.name.Contains(type.ToString())) return card;
         }
         return null;

@@ -1,18 +1,11 @@
 ﻿// ============================================================
 // RouteData.cs
 // 역할: 경로 하나의 순수 데이터
-//       두 노드를 잇고, 이동수단별 비용/시간 페어를 보관
+//       허용 이동수단 목록만 보관
+//       비용/시간은 TransportSettings에서 전역 관리
 // ============================================================
 
 using System;
-
-[Serializable]
-public class TransportCost
-{
-    public TransportType transportType; // 이동수단 종류
-    public int cost;          // 비용 (원)
-    public int timeMinutes;   // 소요 시간 (분)
-}
 
 [Serializable]
 public class RouteData
@@ -21,5 +14,5 @@ public class RouteData
     public string fromNodeId;      // 출발 노드 ID
     public string toNodeId;        // 도착 노드 ID
     public bool isBidirectional; // true: 양방향 / false: 단방향
-    public TransportCost[] transportCosts;  // 이동수단별 비용/시간 목록
+    public TransportType[] allowedTransports; // 이 경로에서 허용된 이동수단 목록
 }

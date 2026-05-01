@@ -1,9 +1,7 @@
 ﻿// ============================================================
 // SelectionCardUI.cs
 // 역할: 이동수단 선택지 카드 하나를 표현
-//       노드 클릭 시 PlanningManager가 카드를 활성화
-//       카드 클릭 시 PlanningManager.OnTransportSelected() 호출
-// 부착: SelectionPanel 하위 카드 오브젝트마다 부착
+//       TransportSettings에서 비용/시간을 조회해 표시
 // ============================================================
 
 using UnityEngine;
@@ -13,13 +11,15 @@ using TMPro;
 public class SelectionCardUI : MonoBehaviour
 {
     [Header("UI 연결")]
-    public TextMeshProUGUI transportNameText; // 이동수단 이름
-    public TextMeshProUGUI costText;          // 비용
-    public TextMeshProUGUI timeText;          // 소요 시간
-    public Button cardButton;        // 카드 버튼
+    public TextMeshProUGUI transportNameText;
+    public TextMeshProUGUI costText;
+    public TextMeshProUGUI timeText;
+    public Button cardButton;
+
+    [Header("이동수단 설정 연결")]
+    public TransportSettings transportSettings; // 인스펙터에서 TransportSettings 에셋 연결
 
     private TransportType transportType;
-    private TransportCost transportCost;
 
     private void Awake()
     {
@@ -27,32 +27,35 @@ public class SelectionCardUI : MonoBehaviour
     }
 
     // PlanningUI가 카드 활성화 시 호출
-    public void Setup(TransportCost cost)
+    // 허용된 이동수단 타입만 받아 TransportSettings에서 비용/시간 조회
+    public void Setup(TransportType type)
     {
-        transportCost = cost;
-        transportType = cost.transportType;
+        transportType = type;
 
-        transportNameText.text = cost.transportType switch
+        TransportSetting setting = transportSettings.Get(type);
+
+        transportNameText.text = type switch
         {
             TransportType.Walk => "걷기",
             TransportType.Bus => "버스",
             TransportType.Taxi => "택시",
-            _ => cost.transportType.ToString()
+            _ => type.ToString()
         };
 
-        costText.text = cost.cost == 0 ? "무료" : $"{cost.cost}원";
-        timeText.text = $"{cost.timeMinutes}분";
+        if (setting != null)
+        {
+            costText.text = setting.cost == 0 ? "무료" : $"{setting.cost}원";
+            timeText.text = $"{setting.timeMinutes}분";
+        }
 
         gameObject.SetActive(true);
     }
 
-    // 카드 비활성화
     public void Hide()
     {
         gameObject.SetActive(false);
     }
 
-    // 카드 클릭 시
     private void OnCardClicked()
     {
         PlanningManager.Instance.OnTransportSelected(transportType);
