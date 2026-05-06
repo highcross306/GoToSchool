@@ -21,6 +21,9 @@ public class ClickableNode : MonoBehaviour
         // Planning 단계일 때만 클릭 처리
         if (GameState.CurrentPhase != Phase.Planning) return;
 
+        //입력 잠금 상태이면 무반을
+        if (InputLock.IsLocked) return;
+
         node.OnClicked();
     }
 }

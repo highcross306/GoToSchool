@@ -92,6 +92,9 @@ public class PlanningUI : MonoBehaviour
         isDeciding = true;
         decideButton.interactable = false;
 
+        //입력 전체 잠금
+        InputLock.Lock();
+
         // 이동수단 확정 → PlanningManager
         PlanningManager.Instance.OnTransportSelected(selectedCard.TransportType);
 

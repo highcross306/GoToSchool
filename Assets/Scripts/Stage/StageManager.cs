@@ -11,14 +11,13 @@ public class StageManager : MonoBehaviour
     public static StageManager Instance { get; private set; }
 
     [Header("프리팹 연결")]
-    public GameObject nodePrefab;  // 인스펙터에서 Node 프리팹 연결
-    public GameObject routePrefab; // 인스펙터에서 Route 프리팹 연결
+    public GameObject nodePrefab;
+    public GameObject routePrefab;
 
     [Header("부모 오브젝트")]
-    public Transform nodesParent;  // Hierarchy의 World/Nodes
-    public Transform routesParent; // Hierarchy의 World/Routes
+    public Transform nodesParent;
+    public Transform routesParent;
 
-    // 현재 스테이지 데이터 (다른 스크립트에서 참조 가능)
     public StageData CurrentStageData { get; private set; }
 
     private void Awake()
@@ -27,17 +26,33 @@ public class StageManager : MonoBehaviour
         Instance = this;
     }
 
-    // StageData를 받아 씬에 오브젝트 생성
     public void BuildStage(StageData data)
     {
         CurrentStageData = data;
         ClearStage();
+
+        // 입력 잠금 해제 (스테이지 시작/재시작 시)
+        InputLock.Unlock();
 
         foreach (NodeData nodeData in data.nodes)
             SpawnNode(nodeData);
 
         foreach (RouteData routeData in data.routes)
             SpawnRoute(routeData);
+
+        // 시작 노드 ID를 PlanningManager에 전달
+        string startNodeId = FindStartNodeId(data);
+        PlanningManager.Instance.Initialize(startNodeId);
+        PlayerBudget.Instance.Initialize(data.initialBudget, data.timeLimitSeconds);
+    }
+
+    private string FindStartNodeId(StageData data)
+    {
+        foreach (NodeData node in data.nodes)
+        {
+            if (node.nodeType == NodeType.Start) return node.id;
+        }
+        return "";
     }
 
     private void SpawnNode(NodeData nodeData)
@@ -54,7 +69,6 @@ public class StageManager : MonoBehaviour
         obj.GetComponent<Route>().Initialize(routeData);
     }
 
-    // 기존 오브젝트 전부 제거 (스테이지 재시작 시 사용)
     private void ClearStage()
     {
         foreach (Transform child in nodesParent) Destroy(child.gameObject);
