@@ -5,6 +5,7 @@
 //       TransportSettings에서 비용/시간 조회 후 PlayerBudget 차감
 // ============================================================
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ public class ExecutionManager : MonoBehaviour
         if (currentIndex >= selections.Count)
         {
             Debug.Log("[Execution] 모든 경로 이동 완료");
-            GameManager.Instance.ShowResult();
+            StartCoroutine(ShowResultAfterDelay(0.5f));
             return;
         }
 
@@ -67,5 +68,11 @@ public class ExecutionManager : MonoBehaviour
 
         currentIndex++;
         ExecuteNext();
+    }
+    //딜레이만큼 대기 후 실행
+    private IEnumerator ShowResultAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GameManager.Instance.ShowResult();
     }
 }

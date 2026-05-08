@@ -45,7 +45,7 @@ public class ResultUI : MonoBehaviour
         failReasonText.gameObject.SetActive(false);
         nextStageButton.interactable = true;
 
-        resultTitleText.text = "성공!";
+        resultTitleText.text = "스테이지 클리어!";
         resultTitleText.color = Color.green;
         scoreText.text = $"점수  {score}점";
         budgetText.text = $"남은 자금  {PlayerBudget.Instance.RemainingBudget}원";
@@ -59,7 +59,7 @@ public class ResultUI : MonoBehaviour
         failReasonText.gameObject.SetActive(true);
         nextStageButton.interactable = false;
 
-        resultTitleText.text = "실패";
+        resultTitleText.text = "실패...";
         resultTitleText.color = Color.red;
         scoreText.text = "";
         failReasonText.text = reason;
