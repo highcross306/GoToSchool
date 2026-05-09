@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50cc8c62419fffe46bc8222d9744218a, type: 3}
   m_Name: TransportSettings
   m_EditorClassIdentifier: 
-  settings: []
+  settings:
+  - transportType: 0
+    cost: 0
+    timeMinutes: 45
+  - transportType: 1
+    cost: 1000
+    timeMinutes: 30
+  - transportType: 2
+    cost: 2000
+    timeMinutes: 15

@@ -1,7 +1,7 @@
 ﻿// ============================================================
 // HUDController.cs
-// 역할: 실행 단계에서 자금/시간을 실시간으로 화면에 표시
-//       PlayerBudget 값을 매 프레임 읽어 갱신
+// 역할: 선택/실행 단계에서 남은 시간과 현재 자금을 화면에 표시
+//       좌측 상단: 남은 시간 / 우측 상단: 현재 자금
 // 부착: Canvas 하위 HUD 오브젝트에 부착
 // ============================================================
 
@@ -13,8 +13,8 @@ public class HUDController : MonoBehaviour
     public static HUDController Instance { get; private set; }
 
     [Header("UI 연결")]
-    public TextMeshProUGUI budgetText;  // 현재 자금 표시
-    public TextMeshProUGUI timeText;    // 경과 시간 표시
+    public TextMeshProUGUI remainingTimeText; // 좌측 상단: 남은 시간
+    public TextMeshProUGUI currentBudgetText; // 우측 상단: 현재 자금
 
     private void Awake()
     {
@@ -24,29 +24,41 @@ public class HUDController : MonoBehaviour
 
     private void Update()
     {
-        // Execution 단계에서만 갱신
-        if (GameState.CurrentPhase != Phase.Execution) return;
-
-        UpdateBudget();
-        UpdateTime();
+        if (GameState.CurrentPhase == Phase.Planning ||
+            GameState.CurrentPhase == Phase.Execution)
+        {
+            UpdateRemainingTime();
+            UpdateCurrentBudget();
+        }
     }
 
-    private void UpdateBudget()
+    // 남은 시간 = 제한 시간 - 경과 시간
+    private void UpdateRemainingTime()
     {
-        int remaining = PlayerBudget.Instance.RemainingBudget;
-        budgetText.text = $"자금  {remaining}원";
+        int limitMinutes = PlayerBudget.Instance.TimeLimitSeconds / 60;
+        int remaining = Mathf.Max(0, limitMinutes - PlayerBudget.Instance.ElapsedMinutes);
 
-        // 자금 부족 시 빨간색으로 표시
-        budgetText.color = remaining < 0 ? Color.red : Color.white;
+        remainingTimeText.text = $"남은 시간: {remaining}분";
+
+        // 남은 시간 20% 미만 시 빨간색 경고
+        remainingTimeText.color = remaining <= limitMinutes * 0.2f ? Color.red : Color.white;
     }
 
-    private void UpdateTime()
+    // 현재 자금
+    private void UpdateCurrentBudget()
     {
-        int elapsed = PlayerBudget.Instance.ElapsedMinutes;
-        int limit = PlayerBudget.Instance.TimeLimitSeconds / 60;
-        timeText.text = $"시간  {elapsed} / {limit}분";
+        int budget = PlayerBudget.Instance.RemainingBudget;
 
-        // 제한 시간 80% 초과 시 주황색 경고
-        timeText.color = elapsed >= limit * 0.8f ? new Color(1f, 0.5f, 0f) : Color.white;
+        currentBudgetText.text = $"현재 자금: {budget}원";
+
+        // 자금 부족 시 빨간색
+        currentBudgetText.color = budget < 0 ? Color.red : Color.white;
+    }
+
+    // 외부에서 HUD 즉시 갱신 시 호출 (Consume 직후 등)
+    public void RefreshHUD()
+    {
+        UpdateRemainingTime();
+        UpdateCurrentBudget();
     }
 }
