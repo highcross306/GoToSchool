@@ -12,19 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669bfaa9ebbac2540a5c6fd44ef585cb, type: 3}
   m_Name: StageData
   m_EditorClassIdentifier: 
-  stageIndex: 1
   timeLimitSeconds: 3600
   initialBudget: 2000
-  nodes:
-  - id: node_start
-    nodeType: 0
-    position: {x: 0, y: 0}
-  - id: node_end
-    nodeType: 2
-    position: {x: 3, y: 0}
-  routes:
-  - id: route_01
-    fromNodeId: node_start
-    toNodeId: node_end
-    isBidirectional: 0
-    allowedTransports: 000000000000000000000000
+  nodes: []
+  routes: []

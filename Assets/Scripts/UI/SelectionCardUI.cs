@@ -1,8 +1,7 @@
 ﻿// ============================================================
 // SelectionCardUI.cs
 // 역할: 이동수단 선택지 카드 하나를 표현
-//       클릭 시 강조 표시만 (확정은 결정 버튼에서)
-//       다른 카드 클릭 시 이전 선택 자동 해제
+//       TransportSettings에서 비용/시간을 조회해 표시
 // ============================================================
 
 using UnityEngine;
@@ -16,17 +15,11 @@ public class SelectionCardUI : MonoBehaviour
     public TextMeshProUGUI costText;
     public TextMeshProUGUI timeText;
     public Button cardButton;
-    public Image cardBackground; // 카드 배경 이미지 (테두리 강조용)
 
     [Header("이동수단 설정 연결")]
-    public TransportSettings transportSettings;
+    public TransportSettings transportSettings; // 인스펙터에서 TransportSettings 에셋 연결
 
-    [Header("선택 상태 색상")]
-    public Color normalColor;   // 기본 상태 색상
-    public Color selectedColor; // 선택 상태 색상
-
-    public TransportType TransportType { get; private set; }
-    public bool IsSelected { get; private set; } = false;
+    private TransportType transportType;
 
     private void Awake()
     {
@@ -34,15 +27,16 @@ public class SelectionCardUI : MonoBehaviour
     }
 
     // PlanningUI가 카드 활성화 시 호출
+    // 허용된 이동수단 타입만 받아 TransportSettings에서 비용/시간 조회
     public void Setup(TransportType type)
     {
-        TransportType = type;
+        transportType = type;
 
         TransportSetting setting = transportSettings.Get(type);
 
         transportNameText.text = type switch
         {
-            TransportType.Walk => "도보",
+            TransportType.Walk => "걷기",
             TransportType.Bus => "버스",
             TransportType.Taxi => "택시",
             _ => type.ToString()
@@ -50,36 +44,21 @@ public class SelectionCardUI : MonoBehaviour
 
         if (setting != null)
         {
-            costText.text = setting.cost == 0 ? "-0원" : $"-{setting.cost}원";
-            timeText.text = $"-{setting.timeMinutes}분";
+            costText.text = setting.cost == 0 ? "무료" : $"{setting.cost}원";
+            timeText.text = $"{setting.timeMinutes}분";
         }
 
-        SetSelected(false);
         gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        SetSelected(false);
         gameObject.SetActive(false);
     }
 
-    // 선택 상태 설정 (PlanningUI에서 호출)
-    public void SetSelected(bool selected)
-    {
-        IsSelected = selected;
-
-        // 테두리 색상 변경
-        if (cardBackground != null)
-            cardBackground.color = selected ? selectedColor : normalColor;
-
-        // 1.05배 확대 / 원래 크기
-        transform.localScale = selected ? Vector3.one * 1.05f : Vector3.one;
-    }
-
-    // 카드 클릭 시 → PlanningUI에 알림 (확정 아님)
     private void OnCardClicked()
     {
-        PlanningUI.Instance.OnCardSelected(this);
+        PlanningManager.Instance.OnTransportSelected(transportType);
+        PlanningUI.Instance.HideSelectionCards();
     }
 }
