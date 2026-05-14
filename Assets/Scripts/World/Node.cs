@@ -2,7 +2,7 @@
 // Node.cs
 // 역할: 씬에 배치된 노드 오브젝트
 //       NodeData를 참조해 노드 타입별 스프라이트 적용
-//       ClickableNode로부터 클릭 이벤트를 받아 PlanningManager에 전달
+//       결정 완료된 노드는 시각적으로 비활성화 표시
 // ============================================================
 
 using UnityEngine;
@@ -10,9 +10,12 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     [Header("노드 타입별 스프라이트")]
-    public Sprite startSprite;      // 출발 노드 스프라이트
-    public Sprite checkpointSprite; // 거점 노드 스프라이트
-    public Sprite endSprite;        // 도착 노드 스프라이트
+    public Sprite startSprite;
+    public Sprite checkpointSprite;
+    public Sprite endSprite;
+
+    [Header("결정 완료 시 색상 (반투명 처리)")]
+    public Color decidedColor = new Color(1f, 1f, 1f, 0.4f); // 기본: 반투명 흰색
 
     public NodeData Data { get; private set; }
 
@@ -27,6 +30,7 @@ public class Node : MonoBehaviour
     public void Initialize(NodeData data)
     {
         Data = data;
+        spriteRenderer.color = Color.white;
         ApplyVisual();
     }
 
@@ -40,6 +44,12 @@ public class Node : MonoBehaviour
             NodeType.End => endSprite,
             _ => null
         };
+    }
+
+    // PlanningManager가 결정 완료 시 호출 → 반투명 처리
+    public void SetDecided()
+    {
+        spriteRenderer.color = decidedColor;
     }
 
     // ClickableNode가 클릭을 감지하면 이 메서드 호출
