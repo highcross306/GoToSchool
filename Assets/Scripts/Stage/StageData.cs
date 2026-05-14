@@ -1,24 +1,30 @@
 ﻿// ============================================================
 // StageData.cs
-// 역할: 스테이지 하나의 전체 설정을 담는 ScriptableObject
+// 역할: 스테이지 설정 ScriptableObject
+//       routes 배열 제거 — NodeData.outgoingRoutes로 관리
 // 생성: Assets/ScriptableObjects/Stages 폴더 우클릭
 //       → Create → Game → Stage Data
 // ============================================================
 
 using UnityEngine;
 
-[CreateAssetMenu(
-    fileName = "StageData",
-    menuName = "Game/Stage Data"
-)]
+[CreateAssetMenu(fileName = "StageData", menuName = "Game/Stage Data")]
 public class StageData : ScriptableObject
 {
     [Header("스테이지 기본 설정")]
-    public int stageIndex;       // 스테이지 번호 (1~4)
-    public int timeLimitSeconds; // 제한 시간 (초) 예: 3600 = 60분
-    public int initialBudget;    // 초기 자금 (원) 예: 2000
+    public int stageIndex;
+    public int timeLimitSeconds;
+    public int initialBudget;
 
-    [Header("노드 & 경로")]
-    public NodeData[] nodes;
-    public RouteData[] routes;
+    [Header("노드 목록 (씬 생성용)")]
+    public NodeData[] allNodes;
+
+    // 전체 경로 수 계산 (IsSelectionComplete에서 사용)
+    public int GetTotalRouteCount()
+    {
+        int count = 0;
+        foreach (NodeData node in allNodes)
+            count += node.outgoingRoutes.Length;
+        return count;
+    }
 }

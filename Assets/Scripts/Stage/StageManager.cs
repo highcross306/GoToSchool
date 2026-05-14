@@ -1,9 +1,10 @@
 ﻿// ============================================================
 // StageManager.cs
-// 역할: StageData를 읽어 Node/Route 프리팹을 씬에 생성
-//       씬에 [GameManager] 오브젝트에 부착
+// 역할: StageData를 읽어 씬에 노드/경로 오브젝트 생성
+//       nodeMap으로 NodeData ↔ Node 컴포넌트 빠른 조회 지원
 // ============================================================
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -20,6 +21,9 @@ public class StageManager : MonoBehaviour
 
     public StageData CurrentStageData { get; private set; }
 
+    // NodeData → Node 컴포넌트 빠른 조회
+    private Dictionary<NodeData, Node> nodeMap = new();
+
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -30,47 +34,56 @@ public class StageManager : MonoBehaviour
     {
         CurrentStageData = data;
         ClearStage();
-
-        // 입력 잠금 해제 (스테이지 시작/재시작 시)
         InputLock.Unlock();
 
-        foreach (NodeData nodeData in data.nodes)
+        // 노드 생성
+        foreach (NodeData nodeData in data.allNodes)
             SpawnNode(nodeData);
 
-        foreach (RouteData routeData in data.routes)
-            SpawnRoute(routeData);
+        // 각 노드의 outgoingRoutes에서 경로 생성
+        foreach (NodeData nodeData in data.allNodes)
+            foreach (RouteData routeData in nodeData.outgoingRoutes)
+                SpawnRoute(routeData);
 
-        // 시작 노드 ID를 PlanningManager에 전달
-        string startNodeId = FindStartNodeId(data);
-        PlanningManager.Instance.Initialize(startNodeId);
+        // 시작 노드 탐색 후 PlanningManager 초기화
+        NodeData startNode = FindStartNode(data);
+        PlanningManager.Instance.Initialize(startNode);
         PlayerBudget.Instance.Initialize(data.initialBudget, data.timeLimitSeconds);
     }
 
-    private string FindStartNodeId(StageData data)
+    // NodeData로 Node 컴포넌트 조회
+    public Node GetNode(NodeData data)
     {
-        foreach (NodeData node in data.nodes)
-        {
-            if (node.nodeType == NodeType.Start) return node.id;
-        }
-        return "";
+        nodeMap.TryGetValue(data, out Node node);
+        return node;
     }
 
     private void SpawnNode(NodeData nodeData)
     {
         GameObject obj = Instantiate(nodePrefab, nodeData.position, Quaternion.identity, nodesParent);
-        obj.name = nodeData.id;
-        obj.GetComponent<Node>().Initialize(nodeData);
+        obj.name = nodeData.name;
+        Node node = obj.GetComponent<Node>();
+        node.Initialize(nodeData);
+        nodeMap[nodeData] = node;
     }
 
     private void SpawnRoute(RouteData routeData)
     {
         GameObject obj = Instantiate(routePrefab, Vector3.zero, Quaternion.identity, routesParent);
-        obj.name = routeData.id;
+        obj.name = routeData.name;
         obj.GetComponent<Route>().Initialize(routeData);
+    }
+
+    private NodeData FindStartNode(StageData data)
+    {
+        foreach (NodeData node in data.allNodes)
+            if (node.nodeType == NodeType.Start) return node;
+        return null;
     }
 
     private void ClearStage()
     {
+        nodeMap.Clear();
         foreach (Transform child in nodesParent) Destroy(child.gameObject);
         foreach (Transform child in routesParent) Destroy(child.gameObject);
     }

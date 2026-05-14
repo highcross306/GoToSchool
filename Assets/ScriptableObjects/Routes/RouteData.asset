@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 669bfaa9ebbac2540a5c6fd44ef585cb, type: 3}
-  m_Name: StageData
+  m_Script: {fileID: 11500000, guid: e9c290896d621c3418518184477d2b6b, type: 3}
+  m_Name: RouteData
   m_EditorClassIdentifier: 
-  stageIndex: 0
-  timeLimitSeconds: 0
-  initialBudget: 0
-  allNodes: []
+  fromNode: {fileID: 0}
+  toNode: {fileID: 0}
+  allowedTransports: 
