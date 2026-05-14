@@ -49,8 +49,8 @@ public class Route : MonoBehaviour
         // 3. 두 노드 사이의 거리에 맞게 X축 스케일 조정
         float distance = Vector3.Distance(fromPos, toPos);
         float spriteWidth = spriteRenderer.sprite != null
-                                 ? spriteRenderer.sprite.bounds.size.x
-                                 : 1f;
+                               ? spriteRenderer.sprite.bounds.size.x
+                               : 1f;
         transform.localScale = new Vector3(distance / spriteWidth, 1f, 1f);
     }
 }

@@ -34,10 +34,6 @@ public class SelectionValidator : MonoBehaviour
         {
             if (route.fromNodeId == currentNodeId && route.toNodeId == targetNodeId)
                 return route;
-
-            if (route.isBidirectional &&
-                route.fromNodeId == targetNodeId && route.toNodeId == currentNodeId)
-                return route;
         }
         return null;
     }
