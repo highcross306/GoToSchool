@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c290896d621c3418518184477d2b6b, type: 3}
   m_Name: RouteData
   m_EditorClassIdentifier: 
-  fromNode: {fileID: 0}
-  toNode: {fileID: 0}
-  allowedTransports: 
+  fromNode: {fileID: 11400000, guid: cdbc74b4761b86541a66c6fe9737183b, type: 2}
+  toNode: {fileID: 11400000, guid: 1123d78f5f081864a92c5329e8656ee4, type: 2}
+  allowedTransports: 000000000100000002000000

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669bfaa9ebbac2540a5c6fd44ef585cb, type: 3}
   m_Name: StageData
   m_EditorClassIdentifier: 
-  stageIndex: 0
-  timeLimitSeconds: 0
-  initialBudget: 0
-  allNodes: []
+  stageIndex: 1
+  timeLimitSeconds: 3600
+  initialBudget: 2000
+  allNodes:
+  - {fileID: 11400000, guid: cdbc74b4761b86541a66c6fe9737183b, type: 2}
+  - {fileID: 11400000, guid: 1123d78f5f081864a92c5329e8656ee4, type: 2}

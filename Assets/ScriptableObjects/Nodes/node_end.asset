@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb9c5cf9fc18084992ceb0bb6affb56, type: 3}
-  m_Name: NodeData
+  m_Name: node_end
   m_EditorClassIdentifier: 
-  nodeType: 0
-  position: {x: 0, y: 0}
+  nodeType: 2
+  position: {x: 3, y: 0}
   outgoingRoutes: []
