@@ -1,8 +1,7 @@
 ﻿// ============================================================
 // PlanningUI.cs
-// 역할: 선택 단계 전체 UI 컨트롤러
-//       카드 선택/해제 관리
-//       결정 버튼 클릭 시 선택된 이동수단을 PlanningManager에 전달
+// 역할: 선택 단계 전체 UI 관리
+//       상태별 메시지 처리
 // ============================================================
 
 using UnityEngine;
@@ -17,8 +16,8 @@ public class PlanningUI : MonoBehaviour
     public Button decideButton;
     public GameObject selectionPanel;
 
-    private SelectionCardUI selectedCard = null;  // 현재 선택된 카드
-    private bool isDeciding = false; // 결정 버튼 연타 방지
+    private SelectionCardUI selectedCard = null;
+    private bool isDeciding = false;
 
     private void Awake()
     {
@@ -26,11 +25,9 @@ public class PlanningUI : MonoBehaviour
         Instance = this;
 
         decideButton.onClick.AddListener(OnDecideButtonClicked);
-        SetDecideButtonActive(false);
         HideSelectionCards();
     }
 
-    // PlanningManager → 노드 클릭 후 경로 확정 시 호출
     public void ShowSelectionCards(RouteData route)
     {
         HideSelectionCards();
@@ -44,60 +41,74 @@ public class PlanningUI : MonoBehaviour
         }
     }
 
-    // 카드 패널 전체 숨기기
     public void HideSelectionCards()
     {
+        selectionPanel.SetActive(false);
         selectedCard = null;
         foreach (SelectionCardUI card in selectionCards)
             card.Hide();
         SetDecideButtonActive(false);
     }
 
-    // SelectionCardUI 클릭 시 호출
     public void OnCardSelected(SelectionCardUI clickedCard)
     {
-        // 이전 선택 해제
-        if (selectedCard != null)
-            selectedCard.SetSelected(false);
-
-        // 같은 카드 다시 클릭 시 선택 해제
+        // 같은 카드 다시 클릭 → 선택 해제
         if (selectedCard == clickedCard)
         {
+            MessageSystem.L("이동수단 선택 해제.");
+            selectedCard.SetSelected(false);
             selectedCard = null;
             SetDecideButtonActive(false);
             return;
         }
 
-        // 새 카드 선택
+        // 다른 카드 클릭 → 변경
+        if (selectedCard != null)
+        {
+            MessageSystem.L("이동수단 변경.");
+            selectedCard.SetSelected(false);
+        }
+
         selectedCard = clickedCard;
         selectedCard.SetSelected(true);
         SetDecideButtonActive(true);
     }
 
-    // 결정 버튼 활성/비활성
     public void SetDecideButtonActive(bool active)
     {
         decideButton.interactable = active;
     }
 
-    // 결정 버튼 클릭 시
-    // → 선택된 이동수단을 PlanningManager에 전달 후 실행 단계로 전환
     private void OnDecideButtonClicked()
     {
-        // 연타 방지
         if (isDeciding) return;
-        if (selectedCard == null) return;
+
+        // 이동 중
+        if (GameState.CurrentPhase == Phase.Execution)
+        {
+            MessageSystem.E("이동 중에는 조작할 수 없습니다!");
+            return;
+        }
+
+        // 노드 미선택 + 이동수단 미선택
+        if (!PlanningManager.Instance.HasPendingRoute && selectedCard == null)
+        {
+            MessageSystem.E("아직 이동할 노드를 선택하지 않았습니다!");
+            return;
+        }
+
+        // 노드 선택 + 이동수단 미선택
+        if (PlanningManager.Instance.HasPendingRoute && selectedCard == null)
+        {
+            MessageSystem.E("먼저 이동수단을 선택해주세요!");
+            return;
+        }
 
         isDeciding = true;
         decideButton.interactable = false;
-
-        //입력 전체 잠금
         InputLock.Lock();
 
-        // 이동수단 확정 → PlanningManager
         PlanningManager.Instance.OnTransportSelected(selectedCard.TransportType);
-
-        // 선택 완료 시 실행 단계로 전환
         PlanningManager.Instance.OnDecideButtonClicked();
     }
 

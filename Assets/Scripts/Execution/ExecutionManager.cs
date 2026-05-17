@@ -1,7 +1,6 @@
 ﻿// ============================================================
 // ExecutionManager.cs
 // 역할: 실행 단계 전체 관리
-//       StageManager.nodeMap으로 Node 컴포넌트 직접 조회
 // ============================================================
 
 using System.Collections;
@@ -28,7 +27,7 @@ public class ExecutionManager : MonoBehaviour
     {
         selections = PlanningManager.Instance.Selections;
         currentIndex = 0;
-        Debug.Log($"[Execution] 실행 단계 시작 — 총 {selections.Count}개 경로");
+        MessageSystem.L("이동 시작.");
         ExecuteNext();
     }
 
@@ -36,23 +35,20 @@ public class ExecutionManager : MonoBehaviour
     {
         if (currentIndex >= selections.Count)
         {
-            Debug.Log("[Execution] 모든 경로 이동 완료");
             StartCoroutine(ShowResultAfterDelay(0.5f));
             return;
         }
 
         SelectionEntry entry = selections[currentIndex];
-        Debug.Log($"[Execution] {currentIndex + 1}번째 이동: " +
-                  $"{entry.route.fromNode.name} → {entry.route.toNode.name} ({entry.transport})");
-
-        // nodeMap에서 목표 노드 컴포넌트 직접 조회
         Node targetNode = StageManager.Instance.GetNode(entry.route.toNode);
+
         if (targetNode == null)
         {
             Debug.LogError($"[Execution] 노드를 찾을 수 없습니다: {entry.route.toNode.name}");
             return;
         }
 
+        MessageSystem.L($"{currentIndex + 1}번째 이동: {entry.route.fromNode.name} → {entry.route.toNode.name} ({entry.transport})");
         PlayerMover.Instance.MoveTo(targetNode.transform.position, OnMoveComplete);
     }
 

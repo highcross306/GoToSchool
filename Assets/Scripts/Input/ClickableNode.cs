@@ -1,8 +1,6 @@
 ﻿// ============================================================
 // ClickableNode.cs
-// 역할: 노드 오브젝트의 클릭/터치 감지 전담
-//       감지한 이벤트를 Node.cs에 전달
-//       Node 프리팹에 함께 부착
+// 역할: 노드 클릭 감지 + 상태별 메시지 처리
 // ============================================================
 
 using UnityEngine;
@@ -18,11 +16,21 @@ public class ClickableNode : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // Planning 단계일 때만 클릭 처리
-        if (GameState.CurrentPhase != Phase.Planning) return;
+        // 이동 중
+        if (GameState.CurrentPhase == Phase.Execution)
+        {
+            MessageSystem.E("이동 중에는 조작할 수 없습니다!");
+            return;
+        }
 
-        //입력 잠금 상태이면 무반을
-        if (InputLock.IsLocked) return;
+        // 결과 팝업
+        if (GameState.CurrentPhase == Phase.Result)
+        {
+            MessageSystem.E("결과 확인 후 진행해주세요!");
+            return;
+        }
+
+        if (GameState.CurrentPhase != Phase.Planning) return;
 
         node.OnClicked();
     }
