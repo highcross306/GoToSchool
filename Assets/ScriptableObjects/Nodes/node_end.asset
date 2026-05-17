@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: node_end
   m_EditorClassIdentifier: 
   nodeType: 2
-  position: {x: 3, y: 0}
+  position: {x: 6, y: 0}
   outgoingRoutes: []

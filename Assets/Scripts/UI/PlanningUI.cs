@@ -47,7 +47,6 @@ public class PlanningUI : MonoBehaviour
     // 카드 패널 전체 숨기기
     public void HideSelectionCards()
     {
-        selectionPanel.SetActive(false);
         selectedCard = null;
         foreach (SelectionCardUI card in selectionCards)
             card.Hide();
