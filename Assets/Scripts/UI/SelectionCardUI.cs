@@ -1,7 +1,8 @@
 ﻿// ============================================================
 // SelectionCardUI.cs
 // 역할: 이동수단 선택 카드
-//       노드 미선택 상태에서 클릭 시 에러 메시지
+//       3가지 상태 — 기본 / 선택 / 비활성화
+//       상태 변화는 스프라이트 교체로 처리
 // ============================================================
 
 using UnityEngine;
@@ -15,26 +16,28 @@ public class SelectionCardUI : MonoBehaviour
     public TextMeshProUGUI costText;
     public TextMeshProUGUI timeText;
     public Button cardButton;
-    public Image cardBackground;
+    public Image cardImage; // 카드 배경 이미지
+
+    [Header("카드 상태 스프라이트")]
+    public Sprite defaultSprite;  // 기본 상태
+    public Sprite selectedSprite; // 선택 상태
+    public Sprite disabledSprite; // 비활성화 상태
 
     [Header("이동수단 설정 연결")]
     public TransportSettings transportSettings;
 
-    [Header("선택 상태 색상")]
-    public Color normalColor;
-    public Color selectedColor;
-
     public TransportType TransportType { get; private set; }
-    public bool IsSelected { get; private set; } = false;
 
     private void Awake()
     {
         cardButton.onClick.AddListener(OnCardClicked);
     }
 
+    // PlanningUI가 카드 활성화 시 호출
     public void Setup(TransportType type)
     {
         TransportType = type;
+
         TransportSetting setting = transportSettings.Get(type);
 
         transportNameText.text = type switch
@@ -51,41 +54,48 @@ public class SelectionCardUI : MonoBehaviour
             timeText.text = $"-{setting.timeMinutes}분";
         }
 
-        SetSelected(false);
+        SetDefault();
         gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        SetSelected(false);
         gameObject.SetActive(false);
     }
 
-    public void SetSelected(bool selected)
+    // 기본 상태
+    public void SetDefault()
     {
-        IsSelected = selected;
-        if (cardBackground != null)
-            cardBackground.color = selected ? selectedColor : normalColor;
-        transform.localScale = selected ? Vector3.one * 1.05f : Vector3.one;
+        cardImage.sprite = defaultSprite;
+        cardButton.interactable = true;
+    }
+
+    // 선택 상태
+    public void SetSelected()
+    {
+        cardImage.sprite = selectedSprite;
+        cardButton.interactable = true;
+    }
+
+    // 비활성화 상태 (다른 카드가 선택됐을 때)
+    public void SetDisabled()
+    {
+        cardImage.sprite = disabledSprite;
+        cardButton.interactable = false;
     }
 
     private void OnCardClicked()
     {
-        // 이동 중
         if (GameState.CurrentPhase == Phase.Execution)
         {
             MessageSystem.E("이동 중에는 조작할 수 없습니다!");
             return;
         }
-
-        // 결과 팝업
         if (GameState.CurrentPhase == Phase.Result)
         {
             MessageSystem.E("결과 확인 후 진행해주세요!");
             return;
         }
-
-        // 노드 미선택 상태
         if (!PlanningManager.Instance.HasPendingRoute)
         {
             MessageSystem.E("먼저 이동할 노드를 선택해주세요!");
