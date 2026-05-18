@@ -3,27 +3,31 @@
   "WorkspaceRootPath": "E:\\ShortTraval\\GoToSchool\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\ui\\resultui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\resultui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\execution\\executionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\execution\\executionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\ui\\selectioncardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\ui\\selectioncardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\selectioncardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\ui\\planningui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\ui\\planningui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\planningui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\input\\clickablenode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\input\\clickablenode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\input\\clickablenode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\core\\messagesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\core\\messagesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\messagesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -39,6 +43,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ResultUI.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\ResultUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\ResultUI.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\ResultUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\ResultUI.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAAAB4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T08:39:06.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "ExecutionManager.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Execution\\ExecutionManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Execution\\ExecutionManager.cs",
@@ -51,7 +68,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "SelectionCardUI.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\SelectionCardUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\SelectionCardUI.cs",
@@ -59,12 +76,11 @@
               "RelativeToolTip": "Assets\\Scripts\\UI\\SelectionCardUI.cs",
               "ViewState": "AgIAAD4AAAAAAAAAAAAUwGAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-17T07:17:08.221Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-17T07:17:08.221Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PlanningManager.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Planning\\PlanningManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Planning\\PlanningManager.cs",
@@ -72,12 +88,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Planning\\PlanningManager.cs",
               "ViewState": "AgIAAEUAAAAAAAAAAAAUwGcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-17T07:16:50.326Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-17T07:16:50.326Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ClickableNode.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Input\\ClickableNode.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Input\\ClickableNode.cs",
@@ -85,12 +100,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Input\\ClickableNode.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAUwCQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-17T07:16:42.752Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-17T07:16:42.752Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Messagesystem.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Core\\Messagesystem.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\Messagesystem.cs",
@@ -98,12 +112,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Core\\Messagesystem.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAYwD0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-17T07:13:52.019Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-17T07:13:52.019Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PlanningUI.cs",
               "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\PlanningUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\PlanningUI.cs",
@@ -111,8 +124,7 @@
               "RelativeToolTip": "Assets\\Scripts\\UI\\PlanningUI.cs",
               "ViewState": "AgIAAFgAAAAAAAAAAAAUwHoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-17T05:02:01.483Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-17T05:02:01.483Z"
             }
           ]
         }

@@ -1,9 +1,8 @@
 ﻿// ============================================================
 // ResultUI.cs
-// 역할: 결과 화면 UI
-//       성공/실패 표시, 최종 점수, 남은 자금/시간 표시
-//       재시도 / 다음 스테이지 버튼 처리
-// 부착: Canvas 하위 ResultPanel 오브젝트에 부착
+// 역할: 결과 팝업 UI
+//       성공: 남은 시간/자금/점수 + 다시하기/다음 스테이지 버튼
+//       실패: 실패 사유 + 다시하기 버튼만
 // ============================================================
 
 using UnityEngine;
@@ -14,19 +13,23 @@ public class ResultUI : MonoBehaviour
 {
     public static ResultUI Instance { get; private set; }
 
-    [Header("결과 텍스트")]
-    public TextMeshProUGUI resultTitleText;  // 성공 / 실패
-    public TextMeshProUGUI scoreText;        // 최종 점수
-    public TextMeshProUGUI budgetText;       // 남은 자금
-    public TextMeshProUGUI timeText;         // 경과 시간
-    public TextMeshProUGUI failReasonText;   // 실패 이유 (실패 시만 표시)
+    [Header("팝업 패널")]
+    public GameObject resultPanel;  // 팝업 전체
+    public GameObject dimOverlay;   // 뒷배경 어두운 오버레이
+
+    [Header("성공 UI")]
+    public GameObject successPanel;         // 성공 내용 패널
+    public TextMeshProUGUI remainingTimeText; // 남은 시간
+    public TextMeshProUGUI remainingBudgetText; // 남은 자금
+    public TextMeshProUGUI scoreText;        // 점수
+
+    [Header("실패 UI")]
+    public GameObject failPanel;            // 실패 내용 패널
+    public TextMeshProUGUI failReasonText;  // 실패 사유
 
     [Header("버튼")]
-    public Button retryButton;        // 재시도
-    public Button nextStageButton;    // 다음 스테이지 (성공 시만 활성화)
-
-    [Header("패널")]
-    public GameObject resultPanel;
+    public Button retryButton;              // 다시하기 (성공/실패 공통)
+    public Button nextStageButton;          // 다음 스테이지 (성공만)
 
     private void Awake()
     {
@@ -35,42 +38,57 @@ public class ResultUI : MonoBehaviour
 
         retryButton.onClick.AddListener(OnRetryClicked);
         nextStageButton.onClick.AddListener(OnNextStageClicked);
+
         resultPanel.SetActive(false);
+        if (dimOverlay != null) dimOverlay.SetActive(false);
     }
 
     // ResultEvaluator → 성공 시 호출
     public void ShowSuccess(int score)
     {
-        resultPanel.SetActive(true);
-        failReasonText.gameObject.SetActive(false);
-        nextStageButton.interactable = true;
+        // 남은 시간 계산
+        int limitMinutes = PlayerBudget.Instance.TimeLimitSeconds / 60;
+        int remainingMinutes = Mathf.Max(0, limitMinutes - PlayerBudget.Instance.ElapsedMinutes);
 
-        resultTitleText.text = "스테이지 클리어!";
-        resultTitleText.color = Color.green;
+        remainingTimeText.text = $"남은 시간  {remainingMinutes}분";
+        remainingBudgetText.text = $"남은 자금  {PlayerBudget.Instance.RemainingBudget}원";
         scoreText.text = $"점수  {score}점";
-        budgetText.text = $"남은 자금  {PlayerBudget.Instance.RemainingBudget}원";
-        timeText.text = $"소요 시간  {PlayerBudget.Instance.ElapsedMinutes}분";
+
+        successPanel.SetActive(true);
+        failPanel.SetActive(false);
+        nextStageButton.gameObject.SetActive(true); // 다음 스테이지 버튼 표시
+
+        ShowPopup();
     }
 
     // ResultEvaluator → 실패 시 호출
     public void ShowFail(string reason)
     {
-        resultPanel.SetActive(true);
-        failReasonText.gameObject.SetActive(true);
-        nextStageButton.interactable = false;
-
-        resultTitleText.text = "실패...";
-        resultTitleText.color = Color.red;
-        scoreText.text = "";
         failReasonText.text = reason;
-        budgetText.text = $"남은 자금  {PlayerBudget.Instance.RemainingBudget}원";
-        timeText.text = $"소요 시간  {PlayerBudget.Instance.ElapsedMinutes}분";
+
+        successPanel.SetActive(false);
+        failPanel.SetActive(true);
+        nextStageButton.gameObject.SetActive(false); // 다음 스테이지 버튼 숨김
+
+        ShowPopup();
     }
 
-    // 재시도 버튼
-    private void OnRetryClicked()
+    private void ShowPopup()
+    {
+        if (dimOverlay != null) dimOverlay.SetActive(true);
+        resultPanel.SetActive(true);
+    }
+
+    private void HidePopup()
     {
         resultPanel.SetActive(false);
+        if (dimOverlay != null) dimOverlay.SetActive(false);
+    }
+
+    // 다시하기 버튼
+    private void OnRetryClicked()
+    {
+        HidePopup();
         GameManager.Instance.LoadStage(GameState.CurrentStage);
     }
 
@@ -81,10 +99,9 @@ public class ResultUI : MonoBehaviour
         if (next > 4)
         {
             Debug.Log("[ResultUI] 모든 스테이지 클리어!");
-            // 추후 엔딩 씬 또는 타이틀로 전환
             return;
         }
-        resultPanel.SetActive(false);
+        HidePopup();
         GameManager.Instance.LoadStage(next);
     }
 }
