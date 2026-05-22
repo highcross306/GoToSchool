@@ -1,8 +1,8 @@
 ﻿// ============================================================
 // SelectionCardUI.cs
-// 역할: 이동수단 선택 카드
-//       3가지 상태 — 기본 / 선택 / 비활성화
-//       상태 변화는 스프라이트 교체로 처리
+// 역할: 이동수단 선택 카드 (항상 화면에 표시)
+//       카드 타입은 Inspector에서 미리 설정
+//       상태 변화만 스프라이트 교체로 처리
 // ============================================================
 
 using UnityEngine;
@@ -11,56 +11,50 @@ using TMPro;
 
 public class SelectionCardUI : MonoBehaviour
 {
+    [Header("카드 타입 (Inspector에서 설정)")]
+    public TransportType cardType; // Walk / Bus / Taxi
+
     [Header("UI 연결")]
     public TextMeshProUGUI transportNameText;
     public TextMeshProUGUI costText;
     public TextMeshProUGUI timeText;
     public Button cardButton;
-    public Image cardImage; // 카드 배경 이미지
+    public Image cardImage;
 
     [Header("카드 상태 스프라이트")]
-    public Sprite defaultSprite;  // 기본 상태
-    public Sprite selectedSprite; // 선택 상태
-    public Sprite disabledSprite; // 비활성화 상태
+    public Sprite defaultSprite;
+    public Sprite selectedSprite;
+    public Sprite disabledSprite;
 
     [Header("이동수단 설정 연결")]
     public TransportSettings transportSettings;
 
-    public TransportType TransportType { get; private set; }
+    public TransportType TransportType => cardType;
 
     private void Awake()
     {
         cardButton.onClick.AddListener(OnCardClicked);
+        SetupDisplay(); // 텍스트 초기화
+        SetDefault();   // 기본 상태로 시작
     }
 
-    // PlanningUI가 카드 활성화 시 호출
-    public void Setup(TransportType type)
+    // Awake에서 카드 텍스트 초기화
+    private void SetupDisplay()
     {
-        TransportType = type;
-
-        TransportSetting setting = transportSettings.Get(type);
-
-        transportNameText.text = type switch
+        transportNameText.text = cardType switch
         {
             TransportType.Walk => "도보",
             TransportType.Bus => "버스",
             TransportType.Taxi => "택시",
-            _ => type.ToString()
+            _ => cardType.ToString()
         };
 
+        TransportSetting setting = transportSettings.Get(cardType);
         if (setting != null)
         {
             costText.text = setting.cost == 0 ? "-0원" : $"-{setting.cost}원";
             timeText.text = $"-{setting.timeMinutes}분";
         }
-
-        SetDefault();
-        gameObject.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
     }
 
     // 기본 상태
@@ -77,7 +71,7 @@ public class SelectionCardUI : MonoBehaviour
         cardButton.interactable = true;
     }
 
-    // 비활성화 상태 (다른 카드가 선택됐을 때)
+    // 비활성화 상태
     public void SetDisabled()
     {
         cardImage.sprite = disabledSprite;

@@ -1,10 +1,11 @@
 ﻿// ============================================================
 // PlanningUI.cs
 // 역할: 선택 단계 전체 UI 관리
-//       카드 선택 시 → 선택 카드 강조 + 나머지 2개 비활성화
-//       카드 해제 시 → 전체 기본 상태 복구
+//       카드는 항상 표시 — 허용/비허용 여부로 상태만 변경
+//       결정 버튼은 interactable로만 제어
 // ============================================================
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,10 +16,8 @@ public class PlanningUI : MonoBehaviour
     [Header("UI 연결")]
     public SelectionCardUI[] selectionCards; // Card_Walk, Card_Bus, Card_Taxi
     public Button decideButton;
-    public GameObject selectionPanel;
 
     private SelectionCardUI selectedCard = null;
-    private bool isDeciding = false;
 
     private void Awake()
     {
@@ -27,43 +26,48 @@ public class PlanningUI : MonoBehaviour
 
         decideButton.onClick.AddListener(OnDecideButtonClicked);
         SetDecideButtonActive(false);
-        HideSelectionCards();
+        ResetAllCardsToDefault(); // 시작 시 모든 카드 기본 상태
     }
 
-    // 경로 확정 후 허용된 이동수단 카드 표시
+    // 노드 클릭 후 경로 확정 시 호출
+    // → 허용된 이동수단 카드만 Default, 나머지는 Disabled
     public void ShowSelectionCards(RouteData route)
     {
-        HideSelectionCards();
-        selectionPanel.SetActive(true);
-        isDeciding = false;
+        selectedCard = null;
+        SetDecideButtonActive(false);
 
-        foreach (TransportType type in route.allowedTransports)
+        HashSet<TransportType> allowed = new HashSet<TransportType>(route.allowedTransports);
+
+        foreach (SelectionCardUI card in selectionCards)
         {
-            SelectionCardUI card = FindCardByType(type);
-            if (card != null) card.Setup(type);
+            if (allowed.Contains(card.cardType))
+                card.SetDefault();
+            else
+                card.SetDisabled();
         }
     }
 
-    // 카드 패널 숨기기 + 전체 초기화
-    public void HideSelectionCards()
+    // 스테이지 재시작 등 전체 초기화 시 호출
+    public void ResetAllCardsToDefault()
     {
-        selectionPanel.SetActive(false);
         selectedCard = null;
-        foreach (SelectionCardUI card in selectionCards)
-            card.Hide();
         SetDecideButtonActive(false);
+        foreach (SelectionCardUI card in selectionCards)
+            card.SetDefault();
     }
 
     // 카드 클릭 시 호출
     public void OnCardSelected(SelectionCardUI clickedCard)
     {
-        // 같은 카드 다시 클릭 → 선택 해제, 전체 기본 상태 복구
+        // 같은 카드 다시 클릭 → 선택 해제
         if (selectedCard == clickedCard)
         {
             MessageSystem.L("이동수단 선택 해제.");
-            ResetAllCardsToDefault();
             selectedCard = null;
             SetDecideButtonActive(false);
+
+            // 허용된 카드들만 다시 Default로 복구
+            RestoreAllowedCardsToDefault();
             return;
         }
 
@@ -71,12 +75,12 @@ public class PlanningUI : MonoBehaviour
         if (selectedCard != null)
             MessageSystem.L("이동수단 변경.");
 
-        // 선택된 카드 → Selected / 나머지 → Disabled
         selectedCard = clickedCard;
         UpdateCardStates();
         SetDecideButtonActive(true);
     }
 
+    // 결정 버튼 활성/비활성
     public void SetDecideButtonActive(bool active)
     {
         decideButton.interactable = active;
@@ -84,62 +88,40 @@ public class PlanningUI : MonoBehaviour
 
     private void OnDecideButtonClicked()
     {
-        if (isDeciding) return;
+        if (selectedCard == null) return;
 
-        if (GameState.CurrentPhase == Phase.Execution)
-        {
-            MessageSystem.E("이동 중에는 조작할 수 없습니다!");
-            return;
-        }
-        if (!PlanningManager.Instance.HasPendingRoute && selectedCard == null)
-        {
-            MessageSystem.E("아직 이동할 노드를 선택하지 않았습니다!");
-            return;
-        }
-        if (PlanningManager.Instance.HasPendingRoute && selectedCard == null)
-        {
-            MessageSystem.E("먼저 이동수단을 선택해주세요!");
-            return;
-        }
-
-        isDeciding = true;
-        decideButton.interactable = false;
-        InputLock.Lock();
+        SetDecideButtonActive(false); // 결정 즉시 비활성화
 
         PlanningManager.Instance.OnTransportSelected(selectedCard.TransportType);
         PlanningManager.Instance.OnDecideButtonClicked();
     }
 
-    // 선택 카드 → Selected / 나머지 활성 카드 → Disabled
+    // 선택 카드 → Selected / 나머지 → Disabled
     private void UpdateCardStates()
     {
         foreach (SelectionCardUI card in selectionCards)
         {
-            if (!card.gameObject.activeSelf) continue;
-
-            if (card == selectedCard)
-                card.SetSelected();
-            else
-                card.SetDisabled();
+            if (card == selectedCard) card.SetSelected();
+            else card.SetDisabled();
         }
     }
 
-    // 전체 활성 카드 → Default 상태로 복구
-    private void ResetAllCardsToDefault()
+    // 선택 해제 시 허용된 카드들만 Default로 복구
+    private void RestoreAllowedCardsToDefault()
     {
-        foreach (SelectionCardUI card in selectionCards)
+        if (PlanningManager.Instance.HasPendingRoute)
         {
-            if (!card.gameObject.activeSelf) continue;
-            card.SetDefault();
+            // 현재 경로의 허용 목록 참조해서 복구
+            foreach (SelectionCardUI card in selectionCards)
+            {
+                if (card.cardButton.interactable == false)
+                    continue; // 비허용 카드는 그대로 Disabled 유지
+                card.SetDefault();
+            }
         }
-    }
-
-    private SelectionCardUI FindCardByType(TransportType type)
-    {
-        foreach (SelectionCardUI card in selectionCards)
+        else
         {
-            if (card.name.Contains(type.ToString())) return card;
+            ResetAllCardsToDefault();
         }
-        return null;
     }
 }
