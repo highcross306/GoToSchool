@@ -18,6 +18,7 @@ public class PlanningUI : MonoBehaviour
     public Button decideButton;
 
     private SelectionCardUI selectedCard = null;
+    private HashSet<TransportType> currentAllowedTypes = new();
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class PlanningUI : MonoBehaviour
     public void ShowSelectionCards(RouteData route)
     {
         selectedCard = null;
+        currentAllowedTypes = new HashSet<TransportType>(route.allowedTransports);
         SetDecideButtonActive(false);
 
         HashSet<TransportType> allowed = new HashSet<TransportType>(route.allowedTransports);
@@ -109,19 +111,12 @@ public class PlanningUI : MonoBehaviour
     // 선택 해제 시 허용된 카드들만 Default로 복구
     private void RestoreAllowedCardsToDefault()
     {
-        if (PlanningManager.Instance.HasPendingRoute)
-        {
-            // 현재 경로의 허용 목록 참조해서 복구
-            foreach (SelectionCardUI card in selectionCards)
-            {
-                if (card.cardButton.interactable == false)
-                    continue; // 비허용 카드는 그대로 Disabled 유지
+        foreach(SelectionCardUI card in selectionCards)
+    {
+            if (currentAllowedTypes.Contains(card.cardType))
                 card.SetDefault();
-            }
-        }
-        else
-        {
-            ResetAllCardsToDefault();
+            else
+                card.SetDisabled();
         }
     }
 }
