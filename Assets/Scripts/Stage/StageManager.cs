@@ -53,6 +53,14 @@ public class StageManager : MonoBehaviour
         // PlanningUI도 함께 초기화 — isConfirmed/isLocked 등 잔여 상태 제거
         // (재시작 시 결정 버튼이 영구적으로 잠기는 문제 방지)
         PlanningUI.Instance.ResetAllCardsToDefault();
+
+        // 플레이어 위치를 시작 노드로 리셋
+        // (재시작 시 이전 위치에 그대로 남아있는 문제 방지)
+        if (startNode != null && PlayerMover.Instance != null)
+        {
+            PlayerMover.Instance.transform.position = (Vector3)startNode.position;
+            PlayerMover.Instance.ResetSpeed(); // 배속 상태도 원래대로 초기화
+        }
     }
 
     // NodeData로 Node 컴포넌트 조회

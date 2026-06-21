@@ -41,6 +41,12 @@ public class PlayerMover : MonoBehaviour
         MessageSystem.L(IsFastForward ? "이동 배속 ON." : "이동 배속 OFF.");
     }
 
+    // 스테이지 시작/재시작 시 호출 — 배속 상태 원래대로 초기화
+    public void ResetSpeed()
+    {
+        IsFastForward = false;
+    }
+
     private IEnumerator MoveCoroutine(Vector3 targetPosition, Action onComplete)
     {
         Debug.Log($"[Mover] 이동 시작 → {targetPosition}");
