@@ -49,6 +49,10 @@ public class StageManager : MonoBehaviour
         NodeData startNode = FindStartNode(data);
         PlanningManager.Instance.Initialize(startNode);
         PlayerBudget.Instance.Initialize(data.initialBudget, data.timeLimitSeconds);
+
+        // PlanningUI도 함께 초기화 — isConfirmed/isLocked 등 잔여 상태 제거
+        // (재시작 시 결정 버튼이 영구적으로 잠기는 문제 방지)
+        PlanningUI.Instance.ResetAllCardsToDefault();
     }
 
     // NodeData로 Node 컴포넌트 조회
