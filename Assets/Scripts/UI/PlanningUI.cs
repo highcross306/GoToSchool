@@ -18,7 +18,8 @@ public class PlanningUI : MonoBehaviour
     public Button decideButton;
 
     private SelectionCardUI selectedCard = null;
-    private HashSet<TransportType> currentAllowedTypes = new();
+    private bool isConfirmed = false; // 결정 버튼 중복 클릭 완전 차단용 플래그
+    private bool isLocked = false; // 결정 직후 ~ 다음 노드 선택 전까지 카드/버튼 전체 잠금
 
     private void Awake()
     {
@@ -35,7 +36,8 @@ public class PlanningUI : MonoBehaviour
     public void ShowSelectionCards(RouteData route)
     {
         selectedCard = null;
-        currentAllowedTypes = new HashSet<TransportType>(route.allowedTransports);
+        isConfirmed = false; // 새 경로 선택 시 다시 클릭 가능하도록 리셋
+        isLocked = false; // 다음 노드 선택 시 잠금 해제
         SetDecideButtonActive(false);
 
         HashSet<TransportType> allowed = new HashSet<TransportType>(route.allowedTransports);
@@ -53,6 +55,8 @@ public class PlanningUI : MonoBehaviour
     public void ResetAllCardsToDefault()
     {
         selectedCard = null;
+        isConfirmed = false;
+        isLocked = false;
         SetDecideButtonActive(false);
         foreach (SelectionCardUI card in selectionCards)
             card.SetDefault();
@@ -61,6 +65,9 @@ public class PlanningUI : MonoBehaviour
     // 카드 클릭 시 호출
     public void OnCardSelected(SelectionCardUI clickedCard)
     {
+        // 결정 직후 ~ 다음 노드 선택 전까지는 카드 선택 자체를 차단
+        if (isLocked) return;
+
         // 같은 카드 다시 클릭 → 선택 해제
         if (selectedCard == clickedCard)
         {
@@ -86,15 +93,27 @@ public class PlanningUI : MonoBehaviour
     public void SetDecideButtonActive(bool active)
     {
         decideButton.interactable = active;
+        Debug.Log($"[PlanningUI] SetDecideButtonActive({active}) 호출 → " +
+                  $"실제 interactable 값: {decideButton.interactable}");
     }
 
     private void OnDecideButtonClicked()
     {
+        Debug.Log("[PlanningUI] OnDecideButtonClicked 호출됨 — " +
+                  $"isConfirmed: {isConfirmed} / selectedCard: {(selectedCard != null ? selectedCard.name : "null")}");
+
+        // 플래그로 즉시 차단 — interactable 갱신 타이밍에 의존하지 않음
+        if (isConfirmed) return;
         if (selectedCard == null) return;
 
-        SetDecideButtonActive(false); // 결정 즉시 비활성화
+        isConfirmed = true; // 가장 먼저 처리해 중복 클릭 원천 차단
+        isLocked = true; // 다음 노드를 선택하기 전까지 카드/결정 버튼 전체 잠금
 
-        PlanningManager.Instance.OnTransportSelected(selectedCard.TransportType);
+        TransportType confirmedTransport = selectedCard.TransportType;
+        selectedCard = null;
+        SetDecideButtonActive(false);
+
+        PlanningManager.Instance.OnTransportSelected(confirmedTransport);
         PlanningManager.Instance.OnDecideButtonClicked();
     }
 
@@ -111,12 +130,19 @@ public class PlanningUI : MonoBehaviour
     // 선택 해제 시 허용된 카드들만 Default로 복구
     private void RestoreAllowedCardsToDefault()
     {
-        foreach(SelectionCardUI card in selectionCards)
-    {
-            if (currentAllowedTypes.Contains(card.cardType))
+        if (PlanningManager.Instance.HasPendingRoute)
+        {
+            // 현재 경로의 허용 목록 참조해서 복구
+            foreach (SelectionCardUI card in selectionCards)
+            {
+                if (card.cardButton.interactable == false)
+                    continue; // 비허용 카드는 그대로 Disabled 유지
                 card.SetDefault();
-            else
-                card.SetDisabled();
+            }
+        }
+        else
+        {
+            ResetAllCardsToDefault();
         }
     }
 }

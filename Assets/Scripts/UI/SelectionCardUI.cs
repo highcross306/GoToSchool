@@ -62,13 +62,17 @@ public class SelectionCardUI : MonoBehaviour
     {
         cardImage.sprite = defaultSprite;
         cardButton.interactable = true;
+        transform.localScale = Vector3.one;
     }
 
-    // 선택 상태
+    // 선택 상태 — 크기 강조
+    // selectedSprite 캔버스가 defaultSprite보다 커서 (256x403 vs 220x360)
+    // 캔버스 비율 차이(~1.14)만큼 보정 + 강조 효과(1.05) = 약 1.2배
     public void SetSelected()
     {
         cardImage.sprite = selectedSprite;
         cardButton.interactable = true;
+        transform.localScale = Vector3.one * 1.2f;
     }
 
     // 비활성화 상태
@@ -76,6 +80,7 @@ public class SelectionCardUI : MonoBehaviour
     {
         cardImage.sprite = disabledSprite;
         cardButton.interactable = false;
+        transform.localScale = Vector3.one;
     }
 
     private void OnCardClicked()

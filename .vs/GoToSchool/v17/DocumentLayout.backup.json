@@ -1,14 +1,42 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\admin\\Documents\\GitHub\\GoToSchool\\",
+  "WorkspaceRootPath": "E:\\ShortTraval\\GoToSchool\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\admin\\Documents\\GitHub\\GoToSchool\\Assets\\Scripts\\UI\\ResultUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\UI\\ResultUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\planning\\planningmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\admin\\Documents\\GitHub\\GoToSchool\\Assets\\Scripts\\UI\\PlanningUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\UI\\PlanningUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\stage\\stagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stage\\stagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\PlanningUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\UI\\PlanningUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\execution\\tapspeedcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\execution\\tapspeedcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|e:\\shorttraval\\gotoschool\\assets\\scripts\\execution\\playermover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\execution\\playermover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\core\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\ui\\selectioncardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\selectioncardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\assets\\scripts\\ui\\resultui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\resultui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Result\\ResultEvaluator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71FB0197-000F-9129-0CF2-F29EF17D12EB}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\Result\\ResultEvaluator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,37 +46,120 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlanningManager.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Planning\\PlanningManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Planning\\PlanningManager.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Planning\\PlanningManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Planning\\PlanningManager.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAwG4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T09:22:27.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TapSpeedController.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Execution\\TapSpeedController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Execution\\TapSpeedController.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Execution\\TapSpeedController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Execution\\TapSpeedController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAADwvxwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T08:32:10.666Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PlayerMover.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Execution\\PlayerMover.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Execution\\PlayerMover.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Execution\\PlayerMover.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Execution\\PlayerMover.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T08:31:16.438Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "StageManager.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Stage\\StageManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stage\\StageManager.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Stage\\StageManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stage\\StageManager.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAAwF0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T08:30:35.126Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Core\\GameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\GameManager.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Core\\GameManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Core\\GameManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T08:29:14.074Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SelectionCardUI.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\SelectionCardUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\SelectionCardUI.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\SelectionCardUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\SelectionCardUI.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAIBPwGkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T08:05:24.57Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ResultEvaluator.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Result\\ResultEvaluator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Result\\ResultEvaluator.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\Result\\ResultEvaluator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Result\\ResultEvaluator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-30T08:46:49.243Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "PlanningUI.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Documents\\GitHub\\GoToSchool\\Assets\\Scripts\\UI\\PlanningUI.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\PlanningUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\PlanningUI.cs",
-              "ToolTip": "C:\\Users\\admin\\Documents\\GitHub\\GoToSchool\\Assets\\Scripts\\UI\\PlanningUI.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\PlanningUI.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\PlanningUI.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAADwvwUAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAAwJMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-28T19:30:05.094Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "ResultUI.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Documents\\GitHub\\GoToSchool\\Assets\\Scripts\\UI\\ResultUI.cs",
+              "DocumentMoniker": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\ResultUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\ResultUI.cs",
-              "ToolTip": "C:\\Users\\admin\\Documents\\GitHub\\GoToSchool\\Assets\\Scripts\\UI\\ResultUI.cs",
+              "ToolTip": "E:\\ShortTraval\\GoToSchool\\Assets\\Scripts\\UI\\ResultUI.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\ResultUI.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAABIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-28T19:28:17.638Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-28T19:28:17.638Z"
             }
           ]
         }

@@ -38,6 +38,12 @@ public class PlanningManager : MonoBehaviour
 
     public void Initialize(NodeData startNode)
     {
+        if (startNode == null)
+        {
+            Debug.LogError("[PlanningManager] startNode가 null입니다. StageData에 Start 노드가 있는지 확인하세요.");
+            return;
+        }
+
         Selections.Clear();
         decidedNodes.Clear();
         pendingRoute = null;
@@ -52,7 +58,6 @@ public class PlanningManager : MonoBehaviour
 
         if (targetNode.nodeType == NodeType.Start) return;
 
-        // 이미 결정된 노드 클릭
         if (decidedNodes.Contains(targetNode))
         {
             MessageSystem.E("결정을 마친 노드는 선택할 수 없습니다!");
@@ -90,8 +95,10 @@ public class PlanningManager : MonoBehaviour
         if (SelectionValidator.Instance.IsSelectionComplete(
                 Selections, StageManager.Instance.CurrentStageData))
         {
-            MessageSystem.L("전체 경로 선택 완료! 결정 버튼 활성화");
-            PlanningUI.Instance.SetDecideButtonActive(true);
+            MessageSystem.L("전체 경로 선택 완료!");
+            // 주의: 여기서 SetDecideButtonActive(true)를 호출하지 않습니다.
+            // 이미 결정 버튼은 OnDecideButtonClicked에서 비활성화된 상태이며,
+            // selectedCard도 null이므로 다시 활성화하면 빈 클릭 상태가 됩니다.
         }
     }
 

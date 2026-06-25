@@ -3,6 +3,7 @@
 // 역할: 플레이어 오브젝트를 노드에서 노드로 이동
 //       코루틴 기반 이동 애니메이션
 //       이동 완료 시 ExecutionManager에 콜백
+//       speedMultiplier로 화면 탭 시 배속 이동 지원
 // ============================================================
 
 using System;
@@ -14,7 +15,12 @@ public class PlayerMover : MonoBehaviour
     public static PlayerMover Instance { get; private set; }
 
     [Header("이동 설정")]
-    public float moveSpeed = 3f; // 이동 속도 (유닛/초)
+    public float moveSpeed = 3f; // 기본 이동 속도 (유닛/초)
+
+    [Header("배속 설정")]
+    public float fastForwardMultiplier = 2f; // 화면 탭 시 배속 배율
+
+    public bool IsFastForward { get; private set; } = false;
 
     private void Awake()
     {
@@ -23,10 +29,22 @@ public class PlayerMover : MonoBehaviour
     }
 
     // ExecutionManager가 호출 — 목표 노드로 이동 시작
-    // onComplete: 이동 완료 시 호출할 콜백
     public void MoveTo(Vector3 targetPosition, Action onComplete)
     {
         StartCoroutine(MoveCoroutine(targetPosition, onComplete));
+    }
+
+    // 화면 탭 시 호출 — 배속 토글
+    public void ToggleFastForward()
+    {
+        IsFastForward = !IsFastForward;
+        MessageSystem.L(IsFastForward ? "이동 배속 ON." : "이동 배속 OFF.");
+    }
+
+    // 스테이지 시작/재시작 시 호출 — 배속 상태 원래대로 초기화
+    public void ResetSpeed()
+    {
+        IsFastForward = false;
     }
 
     private IEnumerator MoveCoroutine(Vector3 targetPosition, Action onComplete)
@@ -35,15 +53,16 @@ public class PlayerMover : MonoBehaviour
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.05f)
         {
+            float currentSpeed = IsFastForward ? moveSpeed * fastForwardMultiplier : moveSpeed;
+
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
-                moveSpeed * Time.deltaTime
+                currentSpeed * Time.deltaTime
             );
             yield return null;
         }
 
-        // 목표 위치에 정확히 고정
         transform.position = targetPosition;
         Debug.Log($"[Mover] 이동 완료");
 
