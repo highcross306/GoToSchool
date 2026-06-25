@@ -21,6 +21,11 @@ public class PlanningUI : MonoBehaviour
     private bool isConfirmed = false; // 결정 버튼 중복 클릭 완전 차단용 플래그
     private bool isLocked = false; // 결정 직후 ~ 다음 노드 선택 전까지 카드/버튼 전체 잠금
 
+    // 현재 선택된 경로에서 허용되는 이동수단 목록
+    // cardButton.interactable은 선택/비활성 상태에 따라 계속 바뀌므로
+    // "허용 여부" 판단 기준으로 사용하면 안 됩니다.
+    private HashSet<TransportType> currentAllowedTransports = new();
+
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -40,11 +45,11 @@ public class PlanningUI : MonoBehaviour
         isLocked = false; // 다음 노드 선택 시 잠금 해제
         SetDecideButtonActive(false);
 
-        HashSet<TransportType> allowed = new HashSet<TransportType>(route.allowedTransports);
+        currentAllowedTransports = new HashSet<TransportType>(route.allowedTransports);
 
         foreach (SelectionCardUI card in selectionCards)
         {
-            if (allowed.Contains(card.cardType))
+            if (currentAllowedTransports.Contains(card.cardType))
                 card.SetDefault();
             else
                 card.SetDisabled();
@@ -58,6 +63,7 @@ public class PlanningUI : MonoBehaviour
         isConfirmed = false;
         isLocked = false;
         SetDecideButtonActive(false);
+        currentAllowedTransports.Clear();
         foreach (SelectionCardUI card in selectionCards)
             card.SetDefault();
     }
@@ -127,22 +133,21 @@ public class PlanningUI : MonoBehaviour
         }
     }
 
-    // 선택 해제 시 허용된 카드들만 Default로 복구
+    // 선택 해제 시 현재 경로에서 허용된 카드들만 Default로 복구
     private void RestoreAllowedCardsToDefault()
     {
-        if (PlanningManager.Instance.HasPendingRoute)
-        {
-            // 현재 경로의 허용 목록 참조해서 복구
-            foreach (SelectionCardUI card in selectionCards)
-            {
-                if (card.cardButton.interactable == false)
-                    continue; // 비허용 카드는 그대로 Disabled 유지
-                card.SetDefault();
-            }
-        }
-        else
+        if (!PlanningManager.Instance.HasPendingRoute)
         {
             ResetAllCardsToDefault();
+            return;
+        }
+
+        foreach (SelectionCardUI card in selectionCards)
+        {
+            if (currentAllowedTransports.Contains(card.cardType))
+                card.SetDefault();
+            else
+                card.SetDisabled();
         }
     }
 }
