@@ -19,6 +19,9 @@ public class StageData : ScriptableObject
     [Header("노드 목록 (씬 생성용)")]
     public NodeData[] allNodes;
 
+    [Header("이벤트 목록")]
+    public GameEvent[] events; // 이 스테이지에서 발생 가능한 이벤트들
+
     // 전체 경로 수 계산 (IsSelectionComplete에서 사용)
     public int GetTotalRouteCount()
     {
