@@ -1,6 +1,7 @@
 ﻿// ============================================================
 // PlanningManager.cs
-// 역할: 선택 단계 전체 흐름 관리
+// 역할: 선택 단계 흐름 관리
+//       결정 버튼 클릭 시 즉시 해당 경로 이동 트리거
 // ============================================================
 
 using System.Collections.Generic;
@@ -40,10 +41,9 @@ public class PlanningManager : MonoBehaviour
     {
         if (startNode == null)
         {
-            Debug.LogError("[PlanningManager] startNode가 null입니다. StageData에 Start 노드가 있는지 확인하세요.");
+            Debug.LogError("[PlanningManager] startNode가 null입니다.");
             return;
         }
-
         Selections.Clear();
         decidedNodes.Clear();
         pendingRoute = null;
@@ -83,29 +83,25 @@ public class PlanningManager : MonoBehaviour
         if (pendingRoute == null) return;
         if (!SelectionValidator.Instance.IsTransportValid(pendingRoute, transport)) return;
 
+        // 출발 노드 결정 완료 처리
         decidedNodes.Add(pendingRoute.fromNode);
         StageManager.Instance.GetNode(pendingRoute.fromNode)?.SetDecided();
 
-        Selections.Add(new SelectionEntry(pendingRoute, transport));
+        SelectionEntry entry = new SelectionEntry(pendingRoute, transport);
+        Selections.Add(entry);
         currentNode = pendingRoute.toNode;
         pendingRoute = null;
 
-        MessageSystem.L($"선택 확정 ({Selections.Count}번째): {transport} / 현재 위치: {currentNode.name}");
-
-        if (SelectionValidator.Instance.IsSelectionComplete(
-                Selections, StageManager.Instance.CurrentStageData))
-        {
-            MessageSystem.L("전체 경로 선택 완료!");
-            // 주의: 여기서 SetDecideButtonActive(true)를 호출하지 않습니다.
-            // 이미 결정 버튼은 OnDecideButtonClicked에서 비활성화된 상태이며,
-            // selectedCard도 null이므로 다시 활성화하면 빈 클릭 상태가 됩니다.
-        }
+        MessageSystem.L($"이동수단 확정: {transport} / 목적지: {currentNode.name}");
     }
 
+    // 결정 버튼 클릭 → 즉시 해당 경로 이동 시작
     public void OnDecideButtonClicked()
     {
-        if (!SelectionValidator.Instance.IsSelectionComplete(
-                Selections, StageManager.Instance.CurrentStageData)) return;
-        GameManager.Instance.StartExecution();
+        if (Selections.Count == 0) return;
+
+        // 가장 최근 확정된 경로를 즉시 실행
+        SelectionEntry latest = Selections[Selections.Count - 1];
+        GameManager.Instance.StartSingleRouteExecution(latest);
     }
 }
