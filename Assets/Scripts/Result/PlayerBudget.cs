@@ -43,5 +43,5 @@ public class PlayerBudget : MonoBehaviour
     public bool IsBudgetOver() => RemainingBudget < 0;
 
     // 시간 초과 여부
-    public bool IsTimeOver() => ElapsedMinutes * 60 >= TimeLimitSeconds;
+    public bool IsTimeOver() => ElapsedMinutes * 60 > TimeLimitSeconds;
 }

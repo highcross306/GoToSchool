@@ -1,8 +1,6 @@
 ﻿// ============================================================
 // ResultUI.cs
 // 역할: 결과 팝업 UI
-//       성공: 남은 시간/자금/점수 + 다시하기/다음 스테이지 버튼
-//       실패: 실패 사유 + 다시하기 버튼만
 // ============================================================
 
 using UnityEngine;
@@ -14,80 +12,107 @@ public class ResultUI : MonoBehaviour
     public static ResultUI Instance { get; private set; }
 
     [Header("팝업 패널")]
-    public GameObject resultPanel;  // 팝업 전체
-    public GameObject dimOverlay;   // 뒷배경 어두운 오버레이
+    public GameObject resultPanel;
+    public GameObject dimOverlay;
 
     [Header("성공 UI")]
-    public GameObject successPanel;         // 성공 내용 패널
-    public TextMeshProUGUI remainingTimeText; // 남은 시간
-    public TextMeshProUGUI remainingBudgetText; // 남은 자금
-    public TextMeshProUGUI scoreText;        // 점수
+    public GameObject successPanel;
+    public TextMeshProUGUI remainingTimeText;
+    public TextMeshProUGUI remainingBudgetText;
+    public TextMeshProUGUI scoreText;
 
     [Header("실패 UI")]
-    public GameObject failPanel;            // 실패 내용 패널
-    public TextMeshProUGUI failReasonText;  // 실패 사유
+    public GameObject failPanel;
+    public TextMeshProUGUI failReasonText;
 
     [Header("버튼")]
-    public Button retryButton;              // 다시하기 (성공/실패 공통)
-    public Button nextStageButton;          // 다음 스테이지 (성공만)
+    public Button retryButton;
+    public Button nextStageButton;
 
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
 
-        retryButton.onClick.AddListener(OnRetryClicked);
-        nextStageButton.onClick.AddListener(OnNextStageClicked);
+        // null 체크
+        if (retryButton == null)
+            Debug.LogError("[ResultUI] retryButton이 연결되지 않았습니다.");
+        else
+            retryButton.onClick.AddListener(OnRetryClicked);
 
-        resultPanel.SetActive(false);
+        if (nextStageButton == null)
+            Debug.LogError("[ResultUI] nextStageButton이 연결되지 않았습니다.");
+        else
+            nextStageButton.onClick.AddListener(OnNextStageClicked);
+
+        if (resultPanel != null) resultPanel.SetActive(false);
         if (dimOverlay != null) dimOverlay.SetActive(false);
     }
 
-    // ResultEvaluator → 성공 시 호출
+    // 성공 팝업
     public void ShowSuccess(int score)
     {
-        // 남은 시간 계산
+        Debug.Log($"[ResultUI] ShowSuccess 호출 — 점수: {score}");
+
         int limitMinutes = PlayerBudget.Instance.TimeLimitSeconds / 60;
         int remainingMinutes = Mathf.Max(0, limitMinutes - PlayerBudget.Instance.ElapsedMinutes);
 
-        remainingTimeText.text = $"남은 시간  {remainingMinutes}분";
-        remainingBudgetText.text = $"남은 자금  {PlayerBudget.Instance.RemainingBudget}원";
-        scoreText.text = $"점수  {score}점";
+        if (remainingTimeText != null) remainingTimeText.text = $"남은 시간  {remainingMinutes}분";
+        if (remainingBudgetText != null) remainingBudgetText.text = $"남은 자금  {PlayerBudget.Instance.RemainingBudget}원";
+        if (scoreText != null) scoreText.text = $"점수  {score}점";
 
-        successPanel.SetActive(true);
-        failPanel.SetActive(false);
-        nextStageButton.gameObject.SetActive(true); // 다음 스테이지 버튼 표시
+        if (successPanel != null) successPanel.SetActive(true);
+        if (failPanel != null) failPanel.SetActive(false);
+        if (nextStageButton != null) nextStageButton.gameObject.SetActive(true);
 
         ShowPopup();
     }
 
-    // ResultEvaluator → 실패 시 호출
+    // 실패 팝업
     public void ShowFail(string reason)
     {
-        failReasonText.text = reason;
+        Debug.Log($"[ResultUI] ShowFail 호출 — 사유: {reason}");
 
-        successPanel.SetActive(false);
-        failPanel.SetActive(true);
-        nextStageButton.gameObject.SetActive(false); // 다음 스테이지 버튼 숨김
+        if (failReasonText != null) failReasonText.text = reason;
+        else Debug.LogError("[ResultUI] failReasonText가 연결되지 않았습니다.");
+
+        if (successPanel != null) successPanel.SetActive(false);
+        if (failPanel != null) failPanel.SetActive(true);
+        else Debug.LogError("[ResultUI] failPanel이 연결되지 않았습니다.");
+
+        if (nextStageButton != null) nextStageButton.gameObject.SetActive(false);
+        if (retryButton != null) retryButton.gameObject.SetActive(true);
 
         ShowPopup();
     }
 
     private void ShowPopup()
     {
+        Debug.Log("[ResultUI] ShowPopup 호출");
         if (dimOverlay != null) dimOverlay.SetActive(true);
-        resultPanel.SetActive(true);
+        if (resultPanel != null) resultPanel.SetActive(true);
     }
 
     private void HidePopup()
     {
-        resultPanel.SetActive(false);
+        Debug.Log("[ResultUI] HidePopup 호출");
+        if (resultPanel != null) resultPanel.SetActive(false);
         if (dimOverlay != null) dimOverlay.SetActive(false);
     }
 
     // 다시하기 버튼
     private void OnRetryClicked()
     {
+        Debug.Log($"[ResultUI] OnRetryClicked 호출 — " +
+                  $"CurrentStage: {GameState.CurrentStage} / " +
+                  $"GameManager null: {GameManager.Instance == null}");
+
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("[ResultUI] GameManager.Instance가 null입니다.");
+            return;
+        }
+
         HidePopup();
         GameManager.Instance.LoadStage(GameState.CurrentStage);
     }
@@ -95,12 +120,21 @@ public class ResultUI : MonoBehaviour
     // 다음 스테이지 버튼
     private void OnNextStageClicked()
     {
+        Debug.Log($"[ResultUI] OnNextStageClicked 호출 — CurrentStage: {GameState.CurrentStage}");
+
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("[ResultUI] GameManager.Instance가 null입니다.");
+            return;
+        }
+
         int next = GameState.CurrentStage + 1;
         if (next > 4)
         {
             Debug.Log("[ResultUI] 모든 스테이지 클리어!");
             return;
         }
+
         HidePopup();
         GameManager.Instance.LoadStage(next);
     }
