@@ -2584,6 +2584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a6a5dc8f153fc479e0c235c30f076d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageData: {fileID: 11400000, guid: 98d4a08e8a7498448ab4f8d637a71ccc, type: 2}
   nodePrefab: {fileID: 3847827148209816191, guid: 382353e0417f226489efd7bba6972f14, type: 3}
   routePrefab: {fileID: 7091241863217466478, guid: 6f974aa2b8c4c1d4a93c70693f13d764, type: 3}
   nodesParent: {fileID: 1782985260}
@@ -4008,8 +4009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e43f9094da1274ba44970c7f93f4c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageDatas:
-  - {fileID: 11400000, guid: 98d4a08e8a7498448ab4f8d637a71ccc, type: 2}
+  stageSceneNames: []
 --- !u!4 &2100010421
 Transform:
   m_ObjectHideFlags: 0
