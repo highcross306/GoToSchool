@@ -1,8 +1,8 @@
 ﻿// ============================================================
 // EventManager.cs
-// 역할: 이벤트 발동 여부 판정 + 효과 적용
-//       각 시점에서 TryTriggerEvents()를 호출해 사용
-// 부착: 씬에 [EventManager] 오브젝트에 부착
+// 역할: 이벤트 발동 판정 + 효과 적용
+//       한 경로당 최대 하나의 이벤트만 발동 (긍정/부정/없음)
+//       노드별 이벤트가 있으면 기존 이동수단 이벤트를 대체
 // ============================================================
 
 using System.Collections.Generic;
@@ -12,10 +12,6 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
 
-    // 현재 스테이지에서 비활성화된 이동수단 목록
-    public HashSet<TransportType> DisabledTransports { get; private set; } = new();
-
-    // 이번 스테이지에서 추가된 점수 보너스
     public int BonusScore { get; private set; } = 0;
 
     private void Awake()
@@ -24,43 +20,84 @@ public class EventManager : MonoBehaviour
         Instance = this;
     }
 
-    // 스테이지 시작 시 초기화
     public void Initialize()
     {
-        DisabledTransports.Clear();
         BonusScore = 0;
     }
 
-    // 특정 시점에 해당하는 이벤트들을 순서대로 확률 판정 후 발동
-    // events: 현재 스테이지의 이벤트 목록 (StageData에서 전달)
-    // trigger: 현재 발동 시점
-    // 반환값: 실제로 발동된 이벤트 목록
-    public List<GameEvent> TryTriggerEvents(GameEvent[] events, EventTrigger trigger)
+    // 경로 완료 시 호출 — 이동수단 + 출발 노드 기반 이벤트 판정
+    // 반환값: 발동된 이벤트 (없으면 null)
+    public GameEvent TryTriggerEventForRoute(
+        GameEvent[] events,
+        TransportType transport,
+        NodeData fromNode)
     {
-        List<GameEvent> triggered = new();
-        if (events == null) return triggered;
+        if (events == null || events.Length == 0) return null;
+
+        // 1. 노드별 이벤트 필터링
+        List<GameEvent> nodeSpecific = FilterEvents(events, transport, fromNode, nodeSpecificOnly: true);
+        List<GameEvent> general = FilterEvents(events, transport, fromNode, nodeSpecificOnly: false);
+
+        // 노드별 이벤트가 있으면 그것만 사용 (일반 이벤트 대체)
+        List<GameEvent> candidates = nodeSpecific.Count > 0 ? nodeSpecific : general;
+
+        // 2. 순서대로 확률 판정 — 첫 번째 발동 이벤트만 적용 (중복 방지)
+        foreach (GameEvent ev in candidates)
+        {
+            if (Roll(ev.probability))
+            {
+                ApplyEvent(ev);
+                Debug.Log($"[EventManager] 이벤트 발동: {ev.eventName} ({ev.probability * 100}%)");
+                return ev;
+            }
+        }
+
+        return null;
+    }
+
+    // 이동수단 + 노드 조건으로 이벤트 필터링
+    private List<GameEvent> FilterEvents(
+        GameEvent[] events,
+        TransportType transport,
+        NodeData fromNode,
+        bool nodeSpecificOnly)
+    {
+        List<GameEvent> result = new();
 
         foreach (GameEvent ev in events)
         {
             if (ev == null) continue;
-            if (ev.trigger != trigger) continue;
-            if (!Roll(ev.probability)) continue;
+            if (ev.isNodeSpecific != nodeSpecificOnly) continue;
 
-            ApplyEvent(ev);
-            triggered.Add(ev);
-            Debug.Log($"[EventManager] 이벤트 발동: {ev.eventName} (확률: {ev.probability * 100}%)");
+            // 이동수단 조건 확인
+            if (ev.targetTransports != null && ev.targetTransports.Length > 0)
+            {
+                bool transportMatch = false;
+                foreach (TransportType t in ev.targetTransports)
+                    if (t == transport) { transportMatch = true; break; }
+                if (!transportMatch) continue;
+            }
+
+            // 출발 노드 조건 확인
+            if (ev.targetFromNodes != null && ev.targetFromNodes.Length > 0)
+            {
+                bool nodeMatch = false;
+                foreach (NodeData n in ev.targetFromNodes)
+                    if (n == fromNode) { nodeMatch = true; break; }
+                if (!nodeMatch) continue;
+            }
+
+            result.Add(ev);
         }
 
-        return triggered;
+        return result;
     }
 
-    // 확률 판정 — true면 이벤트 발동
-    public bool Roll(float probability)
+    private bool Roll(float probability)
     {
         return Random.value <= probability;
     }
 
-    // 이벤트 효과 적용
     private void ApplyEvent(GameEvent ev)
     {
         foreach (GameEventEffect effect in ev.effects)
@@ -68,35 +105,19 @@ public class EventManager : MonoBehaviour
             switch (effect.effectType)
             {
                 case EffectType.Budget:
+                    // 양수: 자금 증가 / 음수: 자금 감소
                     PlayerBudget.Instance.Consume(-effect.value, 0);
-                    // 양수 value → 자금 증가 (Consume에 음수 전달)
-                    // 음수 value → 자금 감소 (Consume에 양수 전달)
-                    Debug.Log($"[EventManager] 자금 변화: {effect.value}원");
                     break;
 
                 case EffectType.Time:
+                    // 양수: 시간 단축 / 음수: 시간 추가
                     PlayerBudget.Instance.Consume(0, -effect.value);
-                    // 양수 value → 시간 단축 (Consume에 음수 전달)
-                    // 음수 value → 시간 추가 소요
-                    Debug.Log($"[EventManager] 시간 변화: {effect.value}분");
-                    break;
-
-                case EffectType.DisableTransport:
-                    DisabledTransports.Add(effect.disableTarget);
-                    Debug.Log($"[EventManager] 이동수단 비활성화: {effect.disableTarget}");
                     break;
 
                 case EffectType.BonusScore:
                     BonusScore += effect.value;
-                    Debug.Log($"[EventManager] 보너스 점수: {effect.value}점");
                     break;
             }
         }
-    }
-
-    // 해당 이동수단이 현재 사용 가능한지 확인
-    public bool IsTransportAvailable(TransportType transport)
-    {
-        return !DisabledTransports.Contains(transport);
     }
 }

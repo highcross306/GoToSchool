@@ -1,53 +1,54 @@
 ﻿// ============================================================
 // GameEvent.cs
 // 역할: 이벤트 하나의 데이터 ScriptableObject
-//       확률, 발동 시점, 효과 목록을 보관
-// 생성: Assets/ScriptableObjects/Events 폴더 우클릭
+// 생성: Assets/ScriptableObjects/Events/ 우클릭
 //       → Create → Game → Game Event
 // ============================================================
 
 using UnityEngine;
 
-// 이벤트 발동 시점
 public enum EventTrigger
 {
-    OnStageStart,        // 스테이지 시작 시
-    OnNodeArrival,       // 노드 도착 시
-    OnTransportSelected, // 이동수단 결정 시
-    OnRouteComplete,     // 경로 이동 완료 시
+    OnStageStart,
+    OnRouteComplete, // 경로 이동 완료 시 (이동수단 확정 후 도착)
 }
 
-// 이벤트 효과 타입
 public enum EffectType
 {
     Budget,           // 자금 변화 (양수: 증가, 음수: 감소)
     Time,             // 시간 변화 (양수: 단축, 음수: 추가 소요)
-    DisableTransport, // 특정 이동수단 사용 불가
     BonusScore,       // 점수 보너스
 }
 
-// 이벤트 효과 하나
 [System.Serializable]
 public class GameEventEffect
 {
     public EffectType effectType;
-    public int value;           // 자금/시간/점수 변화량
-    public TransportType disableTarget;   // effectType이 DisableTransport일 때만 사용
+    public int value;
 }
 
 [CreateAssetMenu(fileName = "GameEvent", menuName = "Game/Game Event")]
 public class GameEvent : ScriptableObject
 {
     [Header("기본 정보")]
-    public string eventName;        // 이벤트 이름 (예: "버스 연착")
+    public string eventName;
     [TextArea]
-    public string description;      // 이벤트 설명 (UI 표시용)
+    public string uiMessage; // 플레이어에게 표시될 메시지
 
     [Header("발동 조건")]
-    public EventTrigger trigger;    // 언제 발동되는지
     [Range(0f, 1f)]
-    public float probability = 0.3f; // 발동 확률 (0.0 ~ 1.0)
+    public float probability = 0.3f;
+
+    [Header("이동수단 조건 (비워두면 모든 이동수단에 적용)")]
+    public TransportType[] targetTransports;
+
+    [Header("출발 노드 조건 (비워두면 모든 노드에 적용)")]
+    public NodeData[] targetFromNodes;
+
+    [Header("노드별 이벤트 여부")]
+    [Tooltip("true면 해당 노드에서 기존 이동수단 이벤트를 대체")]
+    public bool isNodeSpecific = false;
 
     [Header("효과 목록")]
-    public GameEventEffect[] effects; // 발동 시 적용될 효과들
+    public GameEventEffect[] effects;
 }
