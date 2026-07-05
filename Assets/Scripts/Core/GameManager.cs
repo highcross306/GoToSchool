@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("스테이지 씬 이름")]
-    public string[] stageSceneNames;
+    [Header("씬 이름")]
+    public string mainMenuSceneName = "MainMenu"; // 메인 메뉴 씬
+    public string[] stageSceneNames;                // 스테이지 씬
 
     private void Awake()
     {
@@ -48,6 +49,13 @@ public class GameManager : MonoBehaviour
     {
         GameState.CurrentPhase = Phase.Execution;
         ExecutionManager.Instance.ExecuteSingle(entry);
+    }
+
+    // 메인 메뉴로 이동
+    public void LoadMainMenu()
+    {
+        GameState.CurrentPhase = Phase.Planning;
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     // 결과 판정 호출
