@@ -31,9 +31,9 @@ public class PlayerBudget : MonoBehaviour
         ElapsedMinutes = 0;
         TimeLimitSeconds = timeLimitSeconds;
 
-        // 이전 틱 초기화 후 재시작
-        StopAllCoroutines();
-        StartCoroutine(TimeTickCoroutine());
+        // 실시간 시간 감소 비활성화 (활성화하려면 아래 주석 해제)
+        // StopAllCoroutines();
+        // StartCoroutine(TimeTickCoroutine());
 
         Debug.Log($"[Budget] 초기화 — 자금: {RemainingBudget}원 / 제한시간: {TimeLimitSeconds / 60}분");
     }
