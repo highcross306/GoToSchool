@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviour
     public StageData CurrentStageData { get; private set; }
 
     private Dictionary<NodeData, Node> nodeMap = new();
+    private Dictionary<RouteData, Route> routeMap = new();
 
     private void Awake()
     {
@@ -87,7 +88,9 @@ public class StageManager : MonoBehaviour
     {
         GameObject obj = Instantiate(routePrefab, Vector3.zero, Quaternion.identity, routesParent);
         obj.name = routeData.name;
-        obj.GetComponent<Route>().Initialize(routeData);
+        Route route = obj.GetComponent<Route>();
+        route.Initialize(routeData);
+        routeMap[routeData] = route;
     }
 
     private NodeData FindStartNode(StageData data)
@@ -99,9 +102,17 @@ public class StageManager : MonoBehaviour
         return null;
     }
 
+    // RouteData로 Route 컴포넌트 조회
+    public Route GetRoute(RouteData data)
+    {
+        routeMap.TryGetValue(data, out Route route);
+        return route;
+    }
+
     private void ClearStage()
     {
         nodeMap.Clear();
+        routeMap.Clear();
         foreach (Transform child in nodesParent) Destroy(child.gameObject);
         foreach (Transform child in routesParent) Destroy(child.gameObject);
     }
