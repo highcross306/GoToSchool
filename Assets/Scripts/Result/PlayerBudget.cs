@@ -50,41 +50,41 @@ public class PlayerBudget : MonoBehaviour
     // 실시간 시간 감소 코루틴
     // Planning 단계에서만 타이머가 진행됨
     // Execution(이동 중), Result(결과 화면)에서는 타이머 정지
-    //private IEnumerator TimeTickCoroutine()
-    //{
-    //    float accumulated = 0f;
+    private IEnumerator TimeTickCoroutine()
+    {
+        float accumulated = 0f;
 
-    //    while (true)
-    //    {
-    //        yield return null; // 매 프레임 확인
+        while (true)
+        {
+            yield return null; // 매 프레임 확인
 
-    //        // 결과 화면 → 코루틴 종료
-    //        if (GameState.CurrentPhase == Phase.Result) yield break;
+            // 결과 화면 → 코루틴 종료
+            if (GameState.CurrentPhase == Phase.Result) yield break;
 
-    //        // 이동 중 → 타이머 정지 (accumulated 유지)
-    //        if (GameState.CurrentPhase == Phase.Execution) continue;
+            // 이동 중 → 타이머 정지 (accumulated 유지)
+            if (GameState.CurrentPhase == Phase.Execution) continue;
 
-    //        // Planning 단계에서만 시간 누적
-    //        accumulated += Time.deltaTime;
+            // Planning 단계에서만 시간 누적
+            accumulated += Time.deltaTime;
 
-    //        if (accumulated >= tickInterval)
-    //        {
-    //            accumulated -= tickInterval;
-    //            ElapsedMinutes += tickMinutes;
-    //            Debug.Log($"[Budget] 시간 틱 +{tickMinutes}분 / " +
-    //                      $"경과: {ElapsedMinutes}분 / " +
-    //                      $"남은: {Mathf.Max(0, TimeLimitSeconds / 60 - ElapsedMinutes)}분");
+            if (accumulated >= tickInterval)
+            {
+                accumulated -= tickInterval;
+                ElapsedMinutes += tickMinutes;
+                Debug.Log($"[Budget] 시간 틱 +{tickMinutes}분 / " +
+                          $"경과: {ElapsedMinutes}분 / " +
+                          $"남은: {Mathf.Max(0, TimeLimitSeconds / 60 - ElapsedMinutes)}분");
 
-    //            // 시간 초과 시 즉시 실패 판정
-    //            if (IsTimeOver())
-    //            {
-    //                Debug.Log("[Budget] 시간 초과 — 실패 판정");
-    //                GameManager.Instance.ShowResult();
-    //                yield break;
-    //            }
-    //        }
-    //    }
-    //}
+                // 시간 초과 시 즉시 실패 판정
+                if (IsTimeOver())
+                {
+                    Debug.Log("[Budget] 시간 초과 — 실패 판정");
+                    GameManager.Instance.ShowResult();
+                    yield break;
+                }
+            }
+        }
+    }
 
     public bool IsBudgetOver() => RemainingBudget < 0;
     public bool IsTimeOver() => ElapsedMinutes * 60 > TimeLimitSeconds;

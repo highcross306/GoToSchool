@@ -31,10 +31,6 @@ public class PlanningManager : MonoBehaviour
     private NodeData currentNode;
     private HashSet<NodeData> decidedNodes = new();
 
-    // 현재 강조 중인 노드/경로 추적
-    private NodeData highlightedNode = null;
-    private RouteData highlightedRoute = null;
-
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -53,7 +49,6 @@ public class PlanningManager : MonoBehaviour
         pendingRoute = null;
         currentNode = startNode;
         decidedNodes.Add(startNode);
-        ClearHighlights();
         MessageSystem.L($"선택 단계 시작. 현재 위치: {startNode.name}");
     }
 
@@ -79,14 +74,6 @@ public class PlanningManager : MonoBehaviour
         }
 
         pendingRoute = connectedRoute;
-
-        // 이전 강조 해제 후 새 노드/경로 강조
-        ClearHighlights();
-        node.SetHighlighted(true);
-        highlightedNode = targetNode;
-        StageManager.Instance.GetRoute(connectedRoute)?.SetHighlighted(true);
-        highlightedRoute = connectedRoute;
-
         PlanningUI.Instance.ShowSelectionCards(connectedRoute);
         MessageSystem.L($"경로 확정: {connectedRoute.name}");
     }
@@ -95,9 +82,6 @@ public class PlanningManager : MonoBehaviour
     {
         if (pendingRoute == null) return;
         if (!SelectionValidator.Instance.IsTransportValid(pendingRoute, transport)) return;
-
-        // 강조 해제
-        ClearHighlights();
 
         // 출발 노드 결정 완료 처리
         decidedNodes.Add(pendingRoute.fromNode);
@@ -109,21 +93,6 @@ public class PlanningManager : MonoBehaviour
         pendingRoute = null;
 
         MessageSystem.L($"이동수단 확정: {transport} / 목적지: {currentNode.name}");
-    }
-
-    // 강조 초기화
-    private void ClearHighlights()
-    {
-        if (highlightedNode != null)
-        {
-            StageManager.Instance.GetNode(highlightedNode)?.SetHighlighted(false);
-            highlightedNode = null;
-        }
-        if (highlightedRoute != null)
-        {
-            StageManager.Instance.GetRoute(highlightedRoute)?.SetHighlighted(false);
-            highlightedRoute = null;
-        }
     }
 
     // 결정 버튼 클릭 → 즉시 해당 경로 이동 시작

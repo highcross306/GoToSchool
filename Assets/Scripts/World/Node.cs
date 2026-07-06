@@ -15,10 +15,7 @@ public class Node : MonoBehaviour
     public Sprite endSprite;
 
     [Header("결정 완료 시 색상 (반투명 처리)")]
-    public Color decidedColor = new Color(1f, 1f, 1f, 0.4f);
-
-    [Header("강조 색상")]
-    public Color highlightColor = new Color(1f, 0.9f, 0.3f, 1f); // 노란색
+    public Color decidedColor = new Color(1f, 1f, 1f, 0.4f); // 기본: 반투명 흰색
 
     public NodeData Data { get; private set; }
 
@@ -53,12 +50,6 @@ public class Node : MonoBehaviour
     public void SetDecided()
     {
         spriteRenderer.color = decidedColor;
-    }
-
-    // 노드 강조 표시 (노드 클릭 시)
-    public void SetHighlighted(bool highlighted)
-    {
-        spriteRenderer.color = highlighted ? highlightColor : Color.white;
     }
 
     // ClickableNode가 클릭을 감지하면 이 메서드 호출
