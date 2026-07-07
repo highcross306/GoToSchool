@@ -2,12 +2,12 @@
 // SelectionCardUI.cs
 // 역할: 이동수단 선택 카드 (항상 화면에 표시)
 //       카드 타입은 Inspector에서 미리 설정
+//       텍스트는 이미지에 포함되어 있어 별도 설정 불필요
 //       상태 변화만 스프라이트 교체로 처리
 // ============================================================
 
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class SelectionCardUI : MonoBehaviour
 {
@@ -15,9 +15,6 @@ public class SelectionCardUI : MonoBehaviour
     public TransportType cardType; // Walk / Bus / Taxi
 
     [Header("UI 연결")]
-    public TextMeshProUGUI transportNameText;
-    public TextMeshProUGUI costText;
-    public TextMeshProUGUI timeText;
     public Button cardButton;
     public Image cardImage;
 
@@ -26,35 +23,12 @@ public class SelectionCardUI : MonoBehaviour
     public Sprite selectedSprite;
     public Sprite disabledSprite;
 
-    [Header("이동수단 설정 연결")]
-    public TransportSettings transportSettings;
-
     public TransportType TransportType => cardType;
 
     private void Awake()
     {
         cardButton.onClick.AddListener(OnCardClicked);
-        SetupDisplay(); // 텍스트 초기화
-        SetDefault();   // 기본 상태로 시작
-    }
-
-    // Awake에서 카드 텍스트 초기화
-    private void SetupDisplay()
-    {
-        transportNameText.text = cardType switch
-        {
-            TransportType.Walk => "도보",
-            TransportType.Bus => "버스",
-            TransportType.Taxi => "택시",
-            _ => cardType.ToString()
-        };
-
-        TransportSetting setting = transportSettings.Get(cardType);
-        if (setting != null)
-        {
-            costText.text = setting.cost == 0 ? "-0원" : $"-{setting.cost}원";
-            timeText.text = $"-{setting.timeMinutes}분";
-        }
+        SetDefault();
     }
 
     // 기본 상태

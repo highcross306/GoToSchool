@@ -19,8 +19,9 @@ public class StageData : ScriptableObject
     [Header("노드 목록 (씬 생성용)")]
     public NodeData[] allNodes;
 
-    [Header("이벤트 목록")]
-    public GameEvent[] events; // 이 스테이지에서 발생 가능한 이벤트들
+    [Header("이벤트 설정")]
+    [Tooltip("true면 대중교통별 이벤트 활성화 (스테이지 1: false, 2~4: true)")]
+    public bool useTransportEvents = false;
 
     // 전체 경로 수 계산 (IsSelectionComplete에서 사용)
     public int GetTotalRouteCount()

@@ -19,3 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cdbc74b4761b86541a66c6fe9737183b, type: 2}
   - {fileID: 11400000, guid: 41d3f120113622248a28242bb5cc64dc, type: 2}
   - {fileID: 11400000, guid: 1123d78f5f081864a92c5329e8656ee4, type: 2}
+  useTransportEvents: 1

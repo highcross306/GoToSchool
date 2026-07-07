@@ -1,16 +1,18 @@
 ﻿// ============================================================
 // EventManager.cs
-// 역할: 이벤트 발동 판정 + 효과 적용
-//       한 경로당 최대 하나의 이벤트만 발동 (긍정/부정/없음)
-//       노드별 이벤트가 있으면 기존 이동수단 이벤트를 대체
+// 역할: 이벤트 발동 판정 및 효과 적용
+//       우선순위: 강화노드 이벤트 > 대중교통 이벤트
+//       한 경로당 이벤트 1개만 발동
 // ============================================================
 
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
+
+    [Header("대중교통 이벤트 테이블")]
+    public TransportEventTable transportEventTable;
 
     public int BonusScore { get; private set; } = 0;
 
@@ -25,29 +27,38 @@ public class EventManager : MonoBehaviour
         BonusScore = 0;
     }
 
-    // 경로 완료 시 호출 — 이동수단 + 출발 노드 기반 이벤트 판정
-    // 반환값: 발동된 이벤트 (없으면 null)
+    // 경로 완료 시 호출
+    // 우선순위: 강화노드 이벤트 → 대중교통 이벤트 → 없음
     public GameEvent TryTriggerEventForRoute(
-        GameEvent[] events,
         TransportType transport,
-        NodeData fromNode)
+        NodeData fromNode,
+        bool useTransportEvents)
     {
-        if (events == null || events.Length == 0) return null;
-
-        // 1. 노드별 이벤트 필터링
-        List<GameEvent> nodeSpecific = FilterEvents(events, transport, fromNode, nodeSpecificOnly: true);
-        List<GameEvent> general = FilterEvents(events, transport, fromNode, nodeSpecificOnly: false);
-
-        // 노드별 이벤트가 있으면 그것만 사용 (일반 이벤트 대체)
-        List<GameEvent> candidates = nodeSpecific.Count > 0 ? nodeSpecific : general;
-
-        // 2. 순서대로 확률 판정 — 첫 번째 발동 이벤트만 적용 (중복 방지)
-        foreach (GameEvent ev in candidates)
+        // 1순위: 강화노드 이벤트 (최우선)
+        // NodeType이 기본 타입(Start/Checkpoint/End)이 아니면 강화 노드
+        if (fromNode != null && fromNode.IsEnhancedNode &&
+            fromNode.enhancedEvents != null && fromNode.enhancedEvents.Length > 0)
         {
-            if (Roll(ev.probability))
+            GameEvent ev = RollFirst(fromNode.enhancedEvents);
+            if (ev != null)
             {
                 ApplyEvent(ev);
-                Debug.Log($"[EventManager] 이벤트 발동: {ev.eventName} ({ev.probability * 100}%)");
+                Debug.Log($"[EventManager] 강화노드 이벤트 발동: {ev.eventName}");
+                return ev;
+            }
+            // 강화노드에서 이벤트가 발동하지 않으면 종료 (대중교통 이벤트로 넘어가지 않음)
+            return null;
+        }
+
+        // 2순위: 대중교통 이벤트 (스테이지 2부터)
+        if (useTransportEvents && transportEventTable != null)
+        {
+            GameEvent[] events = transportEventTable.GetEvents(transport);
+            GameEvent ev = RollFirst(events);
+            if (ev != null)
+            {
+                ApplyEvent(ev);
+                Debug.Log($"[EventManager] 대중교통 이벤트 발동: {ev.eventName}");
                 return ev;
             }
         }
@@ -55,49 +66,20 @@ public class EventManager : MonoBehaviour
         return null;
     }
 
-    // 이동수단 + 노드 조건으로 이벤트 필터링
-    private List<GameEvent> FilterEvents(
-        GameEvent[] events,
-        TransportType transport,
-        NodeData fromNode,
-        bool nodeSpecificOnly)
+    // 이벤트 목록에서 순서대로 확률 판정 — 첫 번째 발동 이벤트 반환
+    private GameEvent RollFirst(GameEvent[] events)
     {
-        List<GameEvent> result = new();
-
+        if (events == null) return null;
         foreach (GameEvent ev in events)
         {
             if (ev == null) continue;
-            if (ev.isNodeSpecific != nodeSpecificOnly) continue;
-
-            // 이동수단 조건 확인
-            if (ev.targetTransports != null && ev.targetTransports.Length > 0)
-            {
-                bool transportMatch = false;
-                foreach (TransportType t in ev.targetTransports)
-                    if (t == transport) { transportMatch = true; break; }
-                if (!transportMatch) continue;
-            }
-
-            // 출발 노드 조건 확인
-            if (ev.targetFromNodes != null && ev.targetFromNodes.Length > 0)
-            {
-                bool nodeMatch = false;
-                foreach (NodeData n in ev.targetFromNodes)
-                    if (n == fromNode) { nodeMatch = true; break; }
-                if (!nodeMatch) continue;
-            }
-
-            result.Add(ev);
+            if (Random.value <= ev.probability)
+                return ev;
         }
-
-        return result;
+        return null;
     }
 
-    private bool Roll(float probability)
-    {
-        return Random.value <= probability;
-    }
-
+    // 이벤트 효과 적용
     private void ApplyEvent(GameEvent ev)
     {
         foreach (GameEventEffect effect in ev.effects)
@@ -108,12 +90,10 @@ public class EventManager : MonoBehaviour
                     // 양수: 자금 증가 / 음수: 자금 감소
                     PlayerBudget.Instance.Consume(-effect.value, 0);
                     break;
-
                 case EffectType.Time:
                     // 양수: 시간 단축 / 음수: 시간 추가
                     PlayerBudget.Instance.Consume(0, -effect.value);
                     break;
-
                 case EffectType.BonusScore:
                     BonusScore += effect.value;
                     break;
