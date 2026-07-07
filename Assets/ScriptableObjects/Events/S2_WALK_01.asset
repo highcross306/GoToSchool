@@ -18,4 +18,4 @@ MonoBehaviour:
   probability: 0.2
   effects:
   - effectType: 1
-    value: -10
+    value: 10

@@ -74,6 +74,7 @@ public class ExecutionManager : MonoBehaviour
         {
             GameState.CurrentPhase = Phase.Planning;
             PlanningUI.Instance.ResetForNextSelection();
+            PlanningManager.Instance.HighlightReachableNodes(); // 다음 이동 가능한 노드 강조
             MessageSystem.L("중간 노드 도착. 다음 경로를 선택하세요.");
         }
     }

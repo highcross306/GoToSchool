@@ -20,8 +20,8 @@ public class Node : MonoBehaviour
     [Header("결정 완료 시 색상 (반투명 처리)")]
     public Color decidedColor = new Color(1f, 1f, 1f, 0.4f);
 
-    [Header("강조 색상")]
-    public Color highlightColor = new Color(1f, 0.9f, 0.3f, 1f); // 노란색
+    [Header("강조 오브젝트 (Node 프리팹 자식으로 배치)")]
+    public GameObject highlightObject; // 강조 이미지 자식 오브젝트
 
     public NodeData Data { get; private set; }
 
@@ -65,10 +65,11 @@ public class Node : MonoBehaviour
         spriteRenderer.color = decidedColor;
     }
 
-    // 노드 강조 표시 (노드 클릭 시)
+    // 노드 강조 표시 — 이동 가능한 노드에 강조 이미지 표시
     public void SetHighlighted(bool highlighted)
     {
-        spriteRenderer.color = highlighted ? highlightColor : Color.white;
+        if (highlightObject != null)
+            highlightObject.SetActive(highlighted);
     }
 
     // ClickableNode가 클릭을 감지하면 이 메서드 호출

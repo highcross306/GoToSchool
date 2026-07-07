@@ -31,9 +31,7 @@ public class PlanningManager : MonoBehaviour
     private NodeData currentNode;
     private HashSet<NodeData> decidedNodes = new();
 
-    // 현재 강조 중인 노드/경로 추적
-    private NodeData highlightedNode = null;
-    private RouteData highlightedRoute = null;
+
 
     private void Awake()
     {
@@ -53,7 +51,7 @@ public class PlanningManager : MonoBehaviour
         pendingRoute = null;
         currentNode = startNode;
         decidedNodes.Add(startNode);
-        ClearHighlights();
+        HighlightReachableNodes();
         MessageSystem.L($"선택 단계 시작. 현재 위치: {startNode.name}");
     }
 
@@ -79,14 +77,6 @@ public class PlanningManager : MonoBehaviour
         }
 
         pendingRoute = connectedRoute;
-
-        // 이전 강조 해제 후 새 노드/경로 강조
-        ClearHighlights();
-        node.SetHighlighted(true);
-        highlightedNode = targetNode;
-        StageManager.Instance.GetRoute(connectedRoute)?.SetHighlighted(true);
-        highlightedRoute = connectedRoute;
-
         PlanningUI.Instance.ShowSelectionCards(connectedRoute);
         MessageSystem.L($"경로 확정: {connectedRoute.name}");
     }
@@ -96,8 +86,8 @@ public class PlanningManager : MonoBehaviour
         if (pendingRoute == null) return;
         if (!SelectionValidator.Instance.IsTransportValid(pendingRoute, transport)) return;
 
-        // 강조 해제
-        ClearHighlights();
+        // 이동 시작 → 모든 강조 해제
+        ClearAllHighlights();
 
         // 출발 노드 결정 완료 처리
         decidedNodes.Add(pendingRoute.fromNode);
@@ -111,18 +101,30 @@ public class PlanningManager : MonoBehaviour
         MessageSystem.L($"이동수단 확정: {transport} / 목적지: {currentNode.name}");
     }
 
-    // 강조 초기화
-    private void ClearHighlights()
+    // 현재 위치에서 이동 가능한 노드들 강조
+    public void HighlightReachableNodes()
     {
-        if (highlightedNode != null)
+        ClearAllHighlights();
+
+        if (currentNode == null) return;
+
+        foreach (RouteData route in currentNode.outgoingRoutes)
         {
-            StageManager.Instance.GetNode(highlightedNode)?.SetHighlighted(false);
-            highlightedNode = null;
+            if (route == null || route.toNode == null) continue;
+            if (decidedNodes.Contains(route.toNode)) continue; // 이미 결정된 노드 제외
+
+            StageManager.Instance.GetNode(route.toNode)?.SetHighlighted(true);
         }
-        if (highlightedRoute != null)
+    }
+
+    // 모든 노드 강조 해제
+    public void ClearAllHighlights()
+    {
+        if (StageManager.Instance?.CurrentStageData == null) return;
+
+        foreach (NodeData nodeData in StageManager.Instance.CurrentStageData.allNodes)
         {
-            StageManager.Instance.GetRoute(highlightedRoute)?.SetHighlighted(false);
-            highlightedRoute = null;
+            StageManager.Instance.GetNode(nodeData)?.SetHighlighted(false);
         }
     }
 
