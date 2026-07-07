@@ -40,14 +40,14 @@ public class ExecutionManager : MonoBehaviour
         if (setting != null)
             PlayerBudget.Instance.Consume(setting.cost, setting.timeMinutes);
 
-        // 2. 이벤트 판정 (이동수단 + 출발 노드 기반)
+        // 2. 이벤트 판정 (강화노드 이벤트 > 대중교통 이벤트)
         GameEvent triggeredEvent = null;
         if (EventManager.Instance != null)
         {
             triggeredEvent = EventManager.Instance.TryTriggerEventForRoute(
-                StageManager.Instance.CurrentStageData.events,
                 entry.transport,
-                entry.route.fromNode
+                entry.route.fromNode,
+                StageManager.Instance.CurrentStageData.useTransportEvents
             );
         }
 

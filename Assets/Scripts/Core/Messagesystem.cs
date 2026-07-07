@@ -45,11 +45,13 @@ public class MessageSystem : MonoBehaviour
 
     private void ShowError(string message)
     {
-        // 이전 코루틴 취소 후 새로 시작
+        // messagePanel이 파괴됐거나 null이면 무시
+        if (messagePanel == null || !messagePanel) return;
+
         if (hideCoroutine != null)
             StopCoroutine(hideCoroutine);
 
-        messageText.text = message;
+        if (messageText != null) messageText.text = message;
         messagePanel.SetActive(true);
         hideCoroutine = StartCoroutine(HideAfterDelay());
     }
@@ -57,6 +59,8 @@ public class MessageSystem : MonoBehaviour
     private IEnumerator HideAfterDelay()
     {
         yield return new WaitForSeconds(displayDuration);
-        messagePanel.SetActive(false);
+        // 코루틴 실행 중 messagePanel이 파괴될 수 있으므로 null 체크
+        if (messagePanel != null && messagePanel)
+            messagePanel.SetActive(false);
     }
 }

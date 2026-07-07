@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
+  m_Name: S2_WALK_01
+  m_EditorClassIdentifier: 
+  eventName: "\uACE8\uBAA9\uAE38 \uBC1C\uACAC"
+  uiMessage: "[\uC9C0\uB984\uAE38 \uBC1C\uACAC]\r\n\uBE60\uB978 \uC9C0\uB984\uAE38\uC744
+    \uBC1C\uACAC\uD588\uC2B5\uB2C8\uB2E4! \uC18C\uC694\uC2DC\uAC04 -10\uBD84\r\n"
+  probability: 0.2
+  effects:
+  - effectType: 1
+    value: -10

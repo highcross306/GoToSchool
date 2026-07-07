@@ -10,9 +10,14 @@ using UnityEngine;
 
 public enum NodeType
 {
+    // 기본 노드
     Start,
     Checkpoint,
-    End
+    End,
+
+    // 강화 노드 (여기에 새 타입 추가)
+    Enhanced_BusStop,  // 버스정류장
+    Enhanced_Slum,     // 슬럼
 }
 
 public enum TransportType
@@ -28,4 +33,17 @@ public class NodeData : ScriptableObject
     public NodeType nodeType;
     public Vector2 position;
     public RouteData[] outgoingRoutes; // 이 노드에서 출발하는 경로 직접 참조
+
+    [Header("강화 노드 이벤트")]
+    public GameEvent[] enhancedEvents; // 강화 노드 전용 이벤트
+
+    [Header("스프라이트 오버라이드")]
+    [Tooltip("비워두면 Node 프리팹의 기본 스프라이트 사용")]
+    public Sprite customSprite;
+
+    // 강화 노드 여부 — NodeType이 기본 타입이 아니면 강화 노드
+    public bool IsEnhancedNode =>
+        nodeType != NodeType.Start &&
+        nodeType != NodeType.Checkpoint &&
+        nodeType != NodeType.End;
 }

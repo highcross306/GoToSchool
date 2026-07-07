@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
+  m_Name: S2_BUS_01
+  m_EditorClassIdentifier: 
+  eventName: "\uBC84\uC2A4 \uC5F0\uCC29"
+  uiMessage: "[\uBC84\uC2A4 \uC5F0\uCC29]\r\n\uBC84\uC2A4\uAC00 \uC870\uAE08 \uB2A6\uC5C8\uC2B5\uB2C8\uB2E4.
+    \r\n\uC18C\uC694\uC2DC\uAC04 +5\uBD84\r\n"
+  probability: 1
+  effects:
+  - effectType: 1
+    value: 5
