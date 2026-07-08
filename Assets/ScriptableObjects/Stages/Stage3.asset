@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 669bfaa9ebbac2540a5c6fd44ef585cb, type: 3}
-  m_Name: Stage2
+  m_Name: Stage3
   m_EditorClassIdentifier: 
-  stageIndex: 2
-  timeLimitSeconds: 3600
-  initialBudget: 2000
+  stageIndex: 3
+  timeLimitSeconds: 4200
+  initialBudget: 2500
   allNodes:
-  - {fileID: 11400000, guid: 1778d805b7621714a959d5eabb676626, type: 2}
-  - {fileID: 11400000, guid: b4de5153b4ee5244b8e6b461afce700e, type: 2}
-  - {fileID: 11400000, guid: c272a9a8f35b09948a0d8aabb6d07988, type: 2}
+  - {fileID: 11400000, guid: 2701fe082608cbe43894d4c88ff74256, type: 2}
+  - {fileID: 11400000, guid: 50720445da60d0648aaf52b5838cc0af, type: 2}
+  - {fileID: 11400000, guid: aadc4e880abe39546ba8fb12e57e0b89, type: 2}
+  - {fileID: 11400000, guid: a2dd136a01173a94e9ae7794dd740bc4, type: 2}
   useTransportEvents: 1

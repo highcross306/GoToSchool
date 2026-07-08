@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb9c5cf9fc18084992ceb0bb6affb56, type: 3}
-  m_Name: stage2_node_start
+  m_Name: s2_node_end
   m_EditorClassIdentifier: 
-  nodeType: 0
-  position: {x: -6, y: 0}
-  outgoingRoutes:
-  - {fileID: 11400000, guid: 92f8936c5fe38754fa097d2bbf249f04, type: 2}
+  nodeType: 2
+  position: {x: 6, y: 0}
+  outgoingRoutes: []
+  enhancedEvents: []
+  customSprite: {fileID: 21300000, guid: 0b7e46bc50abd6049b73752bc80a1cde, type: 3}

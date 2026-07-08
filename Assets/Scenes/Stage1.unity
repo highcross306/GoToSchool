@@ -563,15 +563,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: 1
-  transportNameText: {fileID: 0}
-  costText: {fileID: 0}
-  timeText: {fileID: 0}
   cardButton: {fileID: 131251592}
   cardImage: {fileID: 131251593}
   defaultSprite: {fileID: 21300000, guid: 914db8e2d7a5aaf4baa11f860739ef19, type: 3}
   selectedSprite: {fileID: 21300000, guid: f1660350735471f46a2cffc3bb1a5856, type: 3}
   disabledSprite: {fileID: 21300000, guid: b51fc6569075ccf439d1f9418a7eba76, type: 3}
-  transportSettings: {fileID: 11400000, guid: e901420b849505648a6f5008665518ca, type: 2}
 --- !u!114 &131251592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1730,15 +1726,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: 0
-  transportNameText: {fileID: 0}
-  costText: {fileID: 0}
-  timeText: {fileID: 0}
   cardButton: {fileID: 1037677568}
   cardImage: {fileID: 1037677569}
   defaultSprite: {fileID: 21300000, guid: 2fe376f4a9ddecc4496cdc96c8dc7781, type: 3}
   selectedSprite: {fileID: 21300000, guid: 4b586737287f1894f85904e7bf30fb2f, type: 3}
   disabledSprite: {fileID: 21300000, guid: 9c37e1817b8ee7240af3936583013c23, type: 3}
-  transportSettings: {fileID: 11400000, guid: e901420b849505648a6f5008665518ca, type: 2}
 --- !u!114 &1037677568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2360,6 +2352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4129ed44bccde244c8303293e79513d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tickInterval: 10
+  tickMinutes: 3
 --- !u!4 &1323105372
 Transform:
   m_ObjectHideFlags: 0
@@ -2598,15 +2592,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardType: 2
-  transportNameText: {fileID: 0}
-  costText: {fileID: 0}
-  timeText: {fileID: 0}
   cardButton: {fileID: 1462146842}
   cardImage: {fileID: 1462146843}
   defaultSprite: {fileID: 21300000, guid: 2d7a91de5e4a9d742aa0df777a0468be, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3bcf2d4ddb24937479585923d7c04810, type: 3}
   disabledSprite: {fileID: 21300000, guid: 0ab5ce7feadc6834280269c53309cc0d, type: 3}
-  transportSettings: {fileID: 11400000, guid: e901420b849505648a6f5008665518ca, type: 2}
 --- !u!114 &1462146842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2841,7 +2831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1563390126
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3753,6 +3743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e43f9094da1274ba44970c7f93f4c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuSceneName: MainMenu
   stageSceneNames:
   - Stage1
   - Stage2

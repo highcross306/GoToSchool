@@ -15,3 +15,5 @@ MonoBehaviour:
   nodeType: 2
   position: {x: 6, y: 0}
   outgoingRoutes: []
+  enhancedEvents: []
+  customSprite: {fileID: 0}

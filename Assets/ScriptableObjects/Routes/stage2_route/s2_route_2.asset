@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9c290896d621c3418518184477d2b6b, type: 3}
-  m_Name: route_1_s2
+  m_Name: s2_route_2
   m_EditorClassIdentifier: 
-  fromNode: {fileID: 11400000, guid: cdbc74b4761b86541a66c6fe9737183b, type: 2}
-  toNode: {fileID: 11400000, guid: 41d3f120113622248a28242bb5cc64dc, type: 2}
+  fromNode: {fileID: 11400000, guid: b4de5153b4ee5244b8e6b461afce700e, type: 2}
+  toNode: {fileID: 11400000, guid: c272a9a8f35b09948a0d8aabb6d07988, type: 2}
   allowedTransports: 000000000100000002000000

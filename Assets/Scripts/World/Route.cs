@@ -11,7 +11,6 @@ public class Route : MonoBehaviour
     public RouteData Data { get; private set; }
 
     [Header("강조 색상")]
-    public Color highlightColor = new Color(1f, 0.9f, 0.3f, 1f); // 노란색
 
     private SpriteRenderer spriteRenderer;
 
@@ -27,10 +26,13 @@ public class Route : MonoBehaviour
     }
 
     // 경로 강조 표시 (노드 클릭 시)
+    [Header("강조 오브젝트")]
+    public GameObject highlightObject;
+
     public void SetHighlighted(bool highlighted)
     {
-        if (spriteRenderer != null)
-            spriteRenderer.color = highlighted ? highlightColor : Color.white;
+        if (highlightObject != null)
+            highlightObject.SetActive(highlighted);
     }
 
     private void PlaceSprite()

@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb9c5cf9fc18084992ceb0bb6affb56, type: 3}
-  m_Name: stage2_node_end
+  m_Name: s2_node_checkpoint
   m_EditorClassIdentifier: 
-  nodeType: 2
-  position: {x: 6, y: 0}
-  outgoingRoutes: []
+  nodeType: 1
+  position: {x: 0, y: 0}
+  outgoingRoutes:
+  - {fileID: 11400000, guid: b954466cb1cf9224ba26f5013b3bbafb, type: 2}
+  enhancedEvents: []
+  customSprite: {fileID: 21300000, guid: 8f5bac495b5818e4ba2b1d968870f0d4, type: 3}
