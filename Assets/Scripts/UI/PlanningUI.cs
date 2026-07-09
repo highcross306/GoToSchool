@@ -19,6 +19,7 @@ public class PlanningUI : MonoBehaviour
     private SelectionCardUI selectedCard = null;
     private bool isConfirmed = false;
     private bool isLocked = false;
+    private HashSet<SelectionCardUI> allowedCards = new(); // 현재 선택 가능한 카드 목록
 
     private void Awake()
     {
@@ -27,7 +28,7 @@ public class PlanningUI : MonoBehaviour
 
         decideButton.onClick.AddListener(OnDecideButtonClicked);
         SetDecideButtonActive(false);
-        ResetAllCardsToDefault();
+        DisableAllCards(); // 노드 선택 전 카드 비활성화
     }
 
     // 노드 클릭 후 허용된 이동수단 카드 상태 업데이트
@@ -38,11 +39,19 @@ public class PlanningUI : MonoBehaviour
         isLocked = false;
         SetDecideButtonActive(false);
 
+        allowedCards.Clear();
         HashSet<TransportType> allowed = new HashSet<TransportType>(route.allowedTransports);
         foreach (SelectionCardUI card in selectionCards)
         {
-            if (allowed.Contains(card.cardType)) card.SetDefault();
-            else card.SetDisabled();
+            if (allowed.Contains(card.cardType))
+            {
+                card.SetDefault();
+                allowedCards.Add(card); // 허용된 카드 목록 저장
+            }
+            else
+            {
+                card.SetDisabled();
+            }
         }
     }
 
@@ -80,7 +89,7 @@ public class PlanningUI : MonoBehaviour
         isConfirmed = false;
         isLocked = false;
         SetDecideButtonActive(false);
-        ResetAllCardsToDefault();
+        DisableAllCards(); // 다음 노드 선택 전까지 카드 비활성화
     }
 
     // 스테이지 시작/재시작 시 전체 초기화
@@ -89,9 +98,16 @@ public class PlanningUI : MonoBehaviour
         selectedCard = null;
         isConfirmed = false;
         isLocked = false;
+        allowedCards.Clear();
         SetDecideButtonActive(false);
+        DisableAllCards();
+    }
+
+    // 모든 카드 비활성화 (노드 선택 전 상태)
+    private void DisableAllCards()
+    {
         foreach (SelectionCardUI card in selectionCards)
-            card.SetDefault();
+            card.SetDisabled();
     }
 
     private void OnDecideButtonClicked()
@@ -122,11 +138,8 @@ public class PlanningUI : MonoBehaviour
 
     private void RestoreAllowedCardsToDefault()
     {
-        foreach (SelectionCardUI card in selectionCards)
-        {
-            if (!card.gameObject.activeSelf) continue;
-            if (card.cardButton.interactable == false) continue;
+        // allowedCards에 저장된 카드만 Default로 복원
+        foreach (SelectionCardUI card in allowedCards)
             card.SetDefault();
-        }
     }
 }

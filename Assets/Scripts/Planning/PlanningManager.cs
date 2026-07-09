@@ -101,7 +101,7 @@ public class PlanningManager : MonoBehaviour
         MessageSystem.L($"이동수단 확정: {transport} / 목적지: {currentNode.name}");
     }
 
-    // 현재 위치에서 이동 가능한 노드들 강조
+    // 현재 위치에서 이동 가능한 노드 + 경로 강조
     public void HighlightReachableNodes()
     {
         ClearAllHighlights();
@@ -111,13 +111,16 @@ public class PlanningManager : MonoBehaviour
         foreach (RouteData route in currentNode.outgoingRoutes)
         {
             if (route == null || route.toNode == null) continue;
-            if (decidedNodes.Contains(route.toNode)) continue; // 이미 결정된 노드 제외
+            if (decidedNodes.Contains(route.toNode)) continue;
 
+            // 목적지 노드 강조
             StageManager.Instance.GetNode(route.toNode)?.SetHighlighted(true);
+            // 연결 경로 강조
+            StageManager.Instance.GetRoute(route)?.SetHighlighted(true);
         }
     }
 
-    // 모든 노드 강조 해제
+    // 모든 노드/경로 강조 해제
     public void ClearAllHighlights()
     {
         if (StageManager.Instance?.CurrentStageData == null) return;
@@ -125,6 +128,9 @@ public class PlanningManager : MonoBehaviour
         foreach (NodeData nodeData in StageManager.Instance.CurrentStageData.allNodes)
         {
             StageManager.Instance.GetNode(nodeData)?.SetHighlighted(false);
+
+            foreach (RouteData route in nodeData.outgoingRoutes)
+                StageManager.Instance.GetRoute(route)?.SetHighlighted(false);
         }
     }
 

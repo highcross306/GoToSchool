@@ -10,7 +10,8 @@ public class Route : MonoBehaviour
 {
     public RouteData Data { get; private set; }
 
-    [Header("강조 색상")]
+    [Header("강조 오브젝트 (Route 프리팹 자식으로 배치)")]
+    public GameObject highlightObject;
 
     private SpriteRenderer spriteRenderer;
 
@@ -25,10 +26,7 @@ public class Route : MonoBehaviour
         PlaceSprite();
     }
 
-    // 경로 강조 표시 (노드 클릭 시)
-    [Header("강조 오브젝트")]
-    public GameObject highlightObject;
-
+    // 경로 강조 표시
     public void SetHighlighted(bool highlighted)
     {
         if (highlightObject != null)
