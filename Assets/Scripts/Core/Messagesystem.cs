@@ -33,7 +33,11 @@ public class MessageSystem : MonoBehaviour
     // E: 플레이어에게 노출되는 에러 메시지
     public static void E(string message)
     {
-        if (Instance == null) return;
+        if (Instance == null)
+        {
+            Debug.LogWarning($"[MessageSystem] Instance가 null입니다. 씬에 MessageSystem 컴포넌트가 있는지 확인하세요. 메시지: {message}");
+            return;
+        }
         Instance.ShowError(message);
     }
 
@@ -45,14 +49,27 @@ public class MessageSystem : MonoBehaviour
 
     private void ShowError(string message)
     {
-        // messagePanel이 파괴됐거나 null이면 무시
-        if (messagePanel == null || !messagePanel) return;
+        if (messagePanel == null || !messagePanel)
+        {
+            Debug.LogWarning($"[MessageSystem] messagePanel이 null입니다. Inspector에서 Message Panel 슬롯을 연결하세요. 메시지: {message}");
+            return;
+        }
+        if (messageText == null)
+        {
+            Debug.LogWarning($"[MessageSystem] messageText가 null입니다. Inspector에서 Message Text 슬롯을 연결하세요.");
+            return;
+        }
 
         if (hideCoroutine != null)
             StopCoroutine(hideCoroutine);
 
         if (messageText != null) messageText.text = message;
+
+        Debug.Log($"[MessageSystem] SetActive(true) 호출 전 — panel active: {messagePanel.activeSelf}");
         messagePanel.SetActive(true);
+        Debug.Log($"[MessageSystem] SetActive(true) 호출 후 — panel active: {messagePanel.activeSelf} " +
+                  $"/ 부모 active: {messagePanel.transform.parent?.gameObject.activeSelf}");
+
         hideCoroutine = StartCoroutine(HideAfterDelay());
     }
 

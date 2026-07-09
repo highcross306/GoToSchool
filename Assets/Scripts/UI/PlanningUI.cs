@@ -1,25 +1,37 @@
 ﻿// ============================================================
 // PlanningUI.cs
 // 역할: 선택 단계 UI 관리
-//       매 노드 이동 후 다음 선택을 위해 초기화
+//       결정 버튼도 interactable을 끄지 않고 스프라이트로만 비활성 표현
+//       (비활성 버튼은 onClick이 발생하지 않아 에러 메시지를 띄울 수 없기 때문)
 // ============================================================
 
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PlanningUI : MonoBehaviour
+public class PlanningUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public static PlanningUI Instance { get; private set; }
 
     [Header("UI 연결")]
     public SelectionCardUI[] selectionCards;
     public Button decideButton;
+    public Image decideButtonImage; // 결정 버튼 Image 컴포넌트
+
+    [Header("결정 버튼 스프라이트")]
+    public Sprite decideNormalSprite;   // 활성 상태
+    public Sprite decideDisabledSprite; // 비활성 상태
+    public Sprite decidePressedSprite;  // 눌린 상태
+
+    private bool isPressed = false; // 현재 버튼을 누르고 있는 중인지
 
     private SelectionCardUI selectedCard = null;
-    private bool isConfirmed = false;
-    private bool isLocked = false;
-    private HashSet<SelectionCardUI> allowedCards = new(); // 현재 선택 가능한 카드 목록
+    private bool isConfirmed = false; // 결정 후 재클릭 차단
+    private HashSet<SelectionCardUI> allowedCards = new(); // 현재 선택 가능한 카드
+
+    // 결정 버튼이 눌릴 수 있는 상태인지
+    private bool IsDecideReady => selectedCard != null && !isConfirmed;
 
     private void Awake()
     {
@@ -27,45 +39,56 @@ public class PlanningUI : MonoBehaviour
         Instance = this;
 
         decideButton.onClick.AddListener(OnDecideButtonClicked);
-        SetDecideButtonActive(false);
-        DisableAllCards(); // 노드 선택 전 카드 비활성화
+        ResetAllCardsToDefault();
     }
 
-    // 노드 클릭 후 허용된 이동수단 카드 상태 업데이트
+    // 노드 클릭 후 허용된 이동수단만 활성화
     public void ShowSelectionCards(RouteData route)
     {
         selectedCard = null;
         isConfirmed = false;
-        isLocked = false;
-        SetDecideButtonActive(false);
-
         allowedCards.Clear();
-        HashSet<TransportType> allowed = new HashSet<TransportType>(route.allowedTransports);
+
+        HashSet<TransportType> allowed = new(route.allowedTransports);
         foreach (SelectionCardUI card in selectionCards)
         {
             if (allowed.Contains(card.cardType))
             {
                 card.SetDefault();
-                allowedCards.Add(card); // 허용된 카드 목록 저장
+                allowedCards.Add(card);
             }
             else
             {
                 card.SetDisabled();
             }
         }
+        RefreshDecideButtonVisual();
     }
 
     // 카드 클릭 시 호출
     public void OnCardSelected(SelectionCardUI clickedCard)
     {
-        if (isLocked) return;
+        // 결정 완료 후 → 다음 노드 선택 전까지 차단
+        if (isConfirmed)
+        {
+            MessageSystem.E("이미 이동수단을 결정했습니다!");
+            return;
+        }
 
+        // 이 경로에서 허용되지 않는 이동수단
+        if (!allowedCards.Contains(clickedCard))
+        {
+            MessageSystem.E("이 경로에서는 사용할 수 없는 이동수단입니다!");
+            return;
+        }
+
+        // 같은 카드 재클릭 → 선택 해제
         if (selectedCard == clickedCard)
         {
             MessageSystem.L("이동수단 선택 해제.");
             selectedCard = null;
-            SetDecideButtonActive(false);
             RestoreAllowedCardsToDefault();
+            RefreshDecideButtonVisual();
             return;
         }
 
@@ -74,12 +97,59 @@ public class PlanningUI : MonoBehaviour
 
         selectedCard = clickedCard;
         UpdateCardStates();
-        SetDecideButtonActive(true);
+        RefreshDecideButtonVisual();
     }
 
-    public void SetDecideButtonActive(bool active)
+    // 결정 버튼 클릭 시
+    private void OnDecideButtonClicked()
     {
-        decideButton.interactable = active;
+        // 이벤트 메시지 표시 중 → 조작 불가
+        if (EventMessagePanel.IsOpen) return;
+
+        // 이동 중
+        if (GameState.CurrentPhase == Phase.Execution)
+        {
+            MessageSystem.E("이동 중에는 조작할 수 없습니다!");
+            return;
+        }
+
+        // 결과 팝업 중
+        if (GameState.CurrentPhase == Phase.Result)
+        {
+            MessageSystem.E("결과 확인 후 진행해주세요!");
+            return;
+        }
+
+        // 이미 결정 완료 (다음 노드 선택 전)
+        if (isConfirmed)
+        {
+            MessageSystem.E("이미 이동수단을 결정했습니다!");
+            return;
+        }
+
+        // 노드 미선택
+        if (!PlanningManager.Instance.HasPendingRoute)
+        {
+            MessageSystem.E("아직 이동할 노드를 선택하지 않았습니다!");
+            return;
+        }
+
+        // 노드는 선택했으나 이동수단 미선택
+        if (selectedCard == null)
+        {
+            MessageSystem.E("먼저 이동수단을 선택해주세요!");
+            return;
+        }
+
+        // 정상 확정
+        isConfirmed = true;
+        TransportType confirmed = selectedCard.TransportType;
+        selectedCard = null;
+        DisableAllCards();
+        RefreshDecideButtonVisual();
+
+        PlanningManager.Instance.OnTransportSelected(confirmed);
+        PlanningManager.Instance.OnDecideButtonClicked();
     }
 
     // 이동 후 다음 노드 선택을 위해 초기화
@@ -87,9 +157,9 @@ public class PlanningUI : MonoBehaviour
     {
         selectedCard = null;
         isConfirmed = false;
-        isLocked = false;
-        SetDecideButtonActive(false);
-        DisableAllCards(); // 다음 노드 선택 전까지 카드 비활성화
+        allowedCards.Clear();
+        DisableAllCards();
+        RefreshDecideButtonVisual();
     }
 
     // 스테이지 시작/재시작 시 전체 초기화
@@ -97,10 +167,9 @@ public class PlanningUI : MonoBehaviour
     {
         selectedCard = null;
         isConfirmed = false;
-        isLocked = false;
         allowedCards.Clear();
-        SetDecideButtonActive(false);
         DisableAllCards();
+        RefreshDecideButtonVisual();
     }
 
     // 모든 카드 비활성화 (노드 선택 전 상태)
@@ -110,36 +179,66 @@ public class PlanningUI : MonoBehaviour
             card.SetDisabled();
     }
 
-    private void OnDecideButtonClicked()
-    {
-        if (isConfirmed) return;
-        if (selectedCard == null) return;
-
-        isConfirmed = true;
-        isLocked = true;
-
-        TransportType confirmedTransport = selectedCard.TransportType;
-        selectedCard = null;
-        SetDecideButtonActive(false);
-
-        PlanningManager.Instance.OnTransportSelected(confirmedTransport);
-        PlanningManager.Instance.OnDecideButtonClicked();
-    }
-
+    // 선택 카드 → Selected / 나머지 → Disabled
     private void UpdateCardStates()
     {
         foreach (SelectionCardUI card in selectionCards)
         {
-            if (!card.gameObject.activeSelf) continue;
             if (card == selectedCard) card.SetSelected();
             else card.SetDisabled();
         }
     }
 
+    // 선택 해제 시 허용된 카드만 Default로 복원
     private void RestoreAllowedCardsToDefault()
     {
-        // allowedCards에 저장된 카드만 Default로 복원
-        foreach (SelectionCardUI card in allowedCards)
-            card.SetDefault();
+        foreach (SelectionCardUI card in selectionCards)
+        {
+            if (allowedCards.Contains(card)) card.SetDefault();
+            else card.SetDisabled();
+        }
+    }
+
+    // 결정 버튼 스프라이트 갱신 (interactable은 항상 true 유지)
+    private void RefreshDecideButtonVisual()
+    {
+        if (decideButtonImage == null)
+        {
+            Debug.LogWarning("[PlanningUI] decideButtonImage가 연결되지 않았습니다. " +
+                              "Inspector에서 Decide Button Image 슬롯을 연결하세요.");
+            return;
+        }
+
+        // 비활성 상태가 최우선, 그 다음 눌림 상태, 마지막 기본 상태
+        Sprite target;
+        if (!IsDecideReady)
+            target = decideDisabledSprite;
+        else if (isPressed)
+            target = decidePressedSprite != null ? decidePressedSprite : decideNormalSprite;
+        else
+            target = decideNormalSprite;
+
+        if (target == null)
+        {
+            Debug.LogWarning("[PlanningUI] 결정 버튼 스프라이트가 연결되지 않았습니다.");
+            return;
+        }
+
+        decideButtonImage.sprite = target;
+    }
+
+    // 버튼을 누르는 순간 (선택 가능한 상태일 때만 Pressed로 전환)
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (!IsDecideReady) return;
+        isPressed = true;
+        RefreshDecideButtonVisual();
+    }
+
+    // 버튼에서 손을 뗄 때
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        isPressed = false;
+        RefreshDecideButtonVisual();
     }
 }

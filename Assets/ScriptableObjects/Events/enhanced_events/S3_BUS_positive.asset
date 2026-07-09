@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
   m_Name: S3_BUS_positive
   m_EditorClassIdentifier: 
-  eventName: 
-  uiMessage: 
+  eventName: "\uB09C\uD3ED \uC6B4\uC804"
+  uiMessage: "[\uB09C\uD3ED \uC6B4\uC804]\r\n\uC6B4\uC804\uC740 \uAC70\uCE60\uC5C8\uC9C0\uB9CC,
+    \uBE60\uB974\uBA74 \uC0C1\uAD00\uC5C6\uC8E0!\r\n\uC18C\uC694\uC2DC\uAC04 -10\uBD84\r\n"
   probability: 0.3
-  effects: []
+  effects:
+  - effectType: 1
+    value: 10

@@ -1,7 +1,7 @@
 ﻿// ============================================================
 // ExecutionManager.cs
 // 역할: 단일 경로 이동 실행 및 매 노드마다 결과 판정
-//       이동 완료 후 이벤트 발동
+//       이동 전 이벤트 판정 → 메시지 표시 → 클릭 후 이동
 // ============================================================
 
 using System.Collections;
@@ -20,7 +20,39 @@ public class ExecutionManager : MonoBehaviour
         Instance = this;
     }
 
+    // 결정 버튼 클릭 후 호출 — 이벤트 판정 후 이동
     public void ExecuteSingle(SelectionEntry entry)
+    {
+        // 이동 전 이벤트 판정
+        GameEvent triggeredEvent = null;
+        if (EventManager.Instance != null)
+        {
+            triggeredEvent = EventManager.Instance.TryTriggerEventForRoute(
+                entry.transport,
+                entry.route.fromNode,
+                StageManager.Instance.CurrentStageData.useTransportEvents
+            );
+        }
+
+        if (triggeredEvent != null && !string.IsNullOrEmpty(triggeredEvent.uiMessage))
+        {
+            // 이벤트 발동 → 메시지 패널 표시, 클릭 후 이동
+            MessageSystem.L($"이벤트 발동: {triggeredEvent.eventName}");
+
+            if (EventMessagePanel.Instance != null)
+                EventMessagePanel.Instance.Show(triggeredEvent.uiMessage, () => StartMovement(entry));
+            else
+                StartMovement(entry); // 패널 없으면 바로 이동
+        }
+        else
+        {
+            // 이벤트 없음 → 바로 이동
+            StartMovement(entry);
+        }
+    }
+
+    // 실제 이동 시작
+    private void StartMovement(SelectionEntry entry)
     {
         Node targetNode = StageManager.Instance.GetNode(entry.route.toNode);
         if (targetNode == null)
@@ -33,31 +65,17 @@ public class ExecutionManager : MonoBehaviour
         PlayerMover.Instance.MoveTo(targetNode.transform.position, () => OnSingleMoveComplete(entry));
     }
 
+    // 이동 완료 후 처리
     private void OnSingleMoveComplete(SelectionEntry entry)
     {
-        // 1. 기본 비용/시간 차감
+        // 기본 비용/시간 차감
         TransportSetting setting = transportSettings.Get(entry.transport);
         if (setting != null)
             PlayerBudget.Instance.Consume(setting.cost, setting.timeMinutes);
 
-        // 2. 이벤트 판정 (강화노드 이벤트 > 대중교통 이벤트)
-        GameEvent triggeredEvent = null;
-        if (EventManager.Instance != null)
-        {
-            triggeredEvent = EventManager.Instance.TryTriggerEventForRoute(
-                entry.transport,
-                entry.route.fromNode,
-                StageManager.Instance.CurrentStageData.useTransportEvents
-            );
-        }
-
-        // 3. 이벤트 발동 시 메시지 표시
-        if (triggeredEvent != null && !string.IsNullOrEmpty(triggeredEvent.uiMessage))
-            MessageSystem.E(triggeredEvent.uiMessage);
-
         MessageSystem.L($"이동 완료 → {entry.route.toNode.name}");
 
-        // 4. 결과 판정
+        // 결과 판정
         bool isFail = PlayerBudget.Instance.IsBudgetOver() ||
                       PlayerBudget.Instance.IsTimeOver();
         bool isEnd = entry.route.toNode.nodeType == NodeType.End;
@@ -74,7 +92,7 @@ public class ExecutionManager : MonoBehaviour
         {
             GameState.CurrentPhase = Phase.Planning;
             PlanningUI.Instance.ResetForNextSelection();
-            PlanningManager.Instance.HighlightReachableNodes(); // 다음 이동 가능한 노드 강조
+            PlanningManager.Instance.HighlightReachableNodes();
             MessageSystem.L("중간 노드 도착. 다음 경로를 선택하세요.");
         }
     }

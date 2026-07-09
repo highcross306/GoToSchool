@@ -1,6 +1,6 @@
 ﻿// ============================================================
 // ClickableNode.cs
-// 역할: 노드 클릭 감지 + 상태별 메시지 처리
+// 역할: 노드 클릭 감지 + 단계별 에러 메시지
 // ============================================================
 
 using UnityEngine;
@@ -16,6 +16,9 @@ public class ClickableNode : MonoBehaviour
 
     private void OnMouseDown()
     {
+        // 이벤트 메시지 표시 중 → 조작 불가 (메시지 패널이 클릭을 처리)
+        if (EventMessagePanel.IsOpen) return;
+
         // 이동 중
         if (GameState.CurrentPhase == Phase.Execution)
         {
@@ -23,7 +26,7 @@ public class ClickableNode : MonoBehaviour
             return;
         }
 
-        // 결과 팝업
+        // 결과 팝업 중
         if (GameState.CurrentPhase == Phase.Result)
         {
             MessageSystem.E("결과 확인 후 진행해주세요!");

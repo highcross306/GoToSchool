@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
   m_Name: S3_WALK_negative
   m_EditorClassIdentifier: 
-  eventName: 
-  uiMessage: 
-  probability: 0.3
-  effects: []
+  eventName: "\uC73C\uC2A5\uD55C \uB4B7\uACE8\uBAA9"
+  uiMessage: "[\uC73C\uC2A5\uD55C \uB4B7\uACE8\uBAA9]\r\n\uBD88\uB7C9\uBC30\uC5D0\uAC8C
+    \uB3C8\uC744 \uBE7C\uC557\uACBC\uC2B5\uB2C8\uB2E4\u2026\r\n\uC790\uAE08 -500\r\n"
+  probability: 0.4
+  effects:
+  - effectType: 0
+    value: -500

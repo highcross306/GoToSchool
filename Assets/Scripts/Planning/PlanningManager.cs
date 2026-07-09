@@ -59,26 +59,33 @@ public class PlanningManager : MonoBehaviour
     {
         NodeData targetNode = node.Data;
 
-        if (targetNode.nodeType == NodeType.Start) return;
-
-        if (decidedNodes.Contains(targetNode))
+        // 현재 서 있는 노드 클릭
+        if (targetNode == currentNode)
         {
-            MessageSystem.E("결정을 마친 노드는 선택할 수 없습니다!");
+            MessageSystem.E("현재 위치한 노드입니다!");
             return;
         }
 
+        // 이미 지나온 노드 클릭
+        if (decidedNodes.Contains(targetNode))
+        {
+            MessageSystem.E("이미 지나온 노드는 선택할 수 없습니다!");
+            return;
+        }
+
+        // 연결되지 않은 노드 클릭
         RouteData connectedRoute = SelectionValidator.Instance.FindConnectedRoute(
             currentNode, targetNode);
 
         if (connectedRoute == null)
         {
-            MessageSystem.L($"{currentNode.name} → {targetNode.name} 연결 경로 없음.");
+            MessageSystem.E("현재 위치에서 갈 수 없는 노드입니다!");
             return;
         }
 
         pendingRoute = connectedRoute;
         PlanningUI.Instance.ShowSelectionCards(connectedRoute);
-        MessageSystem.L($"경로 확정: {connectedRoute.name}");
+        MessageSystem.L($"경로 선택: {connectedRoute.name}");
     }
 
     public void OnTransportSelected(TransportType transport)
