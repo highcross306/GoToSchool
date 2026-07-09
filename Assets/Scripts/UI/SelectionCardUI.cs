@@ -40,6 +40,7 @@ public class SelectionCardUI : MonoBehaviour
     {
         cardImage.sprite = defaultSprite;
         IsSelectable = true;
+        transform.localScale = Vector3.one; // 선택 해제 시 크기 원복
     }
 
     // 선택 상태

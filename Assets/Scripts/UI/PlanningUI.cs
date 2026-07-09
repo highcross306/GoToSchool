@@ -8,9 +8,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class PlanningUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class PlanningUI : MonoBehaviour
 {
     public static PlanningUI Instance { get; private set; }
 
@@ -227,18 +226,11 @@ public class PlanningUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         decideButtonImage.sprite = target;
     }
 
-    // 버튼을 누르는 순간 (선택 가능한 상태일 때만 Pressed로 전환)
-    public void OnPointerDown(PointerEventData eventData)
+    // DecideButtonPressHandler가 호출 — 버튼을 누르는 순간
+    public void SetPressed(bool pressed)
     {
-        if (!IsDecideReady) return;
-        isPressed = true;
-        RefreshDecideButtonVisual();
-    }
-
-    // 버튼에서 손을 뗄 때
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        isPressed = false;
+        if (pressed && !IsDecideReady) return; // 선택 불가 상태면 Pressed 무시
+        isPressed = pressed;
         RefreshDecideButtonVisual();
     }
 }

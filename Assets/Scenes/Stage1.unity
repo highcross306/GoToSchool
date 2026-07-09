@@ -1394,6 +1394,10 @@ MonoBehaviour:
   - {fileID: 131251591}
   - {fileID: 1462146841}
   decideButton: {fileID: 1595046865}
+  decideButtonImage: {fileID: 1595046866}
+  decideNormalSprite: {fileID: 21300000, guid: 2a1975fd76ac58c4399c5df86c69421c, type: 3}
+  decideDisabledSprite: {fileID: 21300000, guid: 669cbb460dc0f1b4fb4ed48ab2b75225, type: 3}
+  decidePressedSprite: {fileID: 21300000, guid: 6cf1f32d3bbf70e48abce8ab4aa7d579, type: 3}
 --- !u!1 &795789387
 GameObject:
   m_ObjectHideFlags: 0
@@ -2948,6 +2952,7 @@ GameObject:
   - component: {fileID: 1595046867}
   - component: {fileID: 1595046866}
   - component: {fileID: 1595046865}
+  - component: {fileID: 1595046868}
   m_Layer: 5
   m_Name: DecideButton
   m_TagString: Untagged
@@ -3057,6 +3062,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595046863}
   m_CullTransparentMesh: 1
+--- !u!114 &1595046868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595046863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad54ca97fcba6146aff6ddd499ad1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1598446670
 GameObject:
   m_ObjectHideFlags: 0
@@ -3668,7 +3685,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
