@@ -48,7 +48,8 @@ public class PlanningUI : MonoBehaviour
         isConfirmed = false;
         allowedCards.Clear();
 
-        HashSet<TransportType> allowed = new(route.allowedTransports);
+        TransportType[] effectiveAllowed = SelectionValidator.Instance.GetAllowedTransports(route);
+        HashSet<TransportType> allowed = new(effectiveAllowed);
         foreach (SelectionCardUI card in selectionCards)
         {
             if (allowed.Contains(card.cardType))

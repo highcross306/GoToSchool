@@ -28,10 +28,21 @@ public class SelectionValidator : MonoBehaviour
         return null;
     }
 
+    // 경로에서 실제로 허용되는 이동수단 목록 계산
+    // fromNode에 출발 제한이 걸려있으면 RouteData.allowedTransports는 무시하고
+    // fromNode.allowedTransportsOverride를 최우선으로 사용
+    public TransportType[] GetAllowedTransports(RouteData route)
+    {
+        if (route.fromNode != null && route.fromNode.restrictTransportsOnDeparture)
+            return route.fromNode.allowedTransportsOverride ?? new TransportType[0];
+
+        return route.allowedTransports;
+    }
+
     // 해당 경로에서 이동수단 허용 여부 확인
     public bool IsTransportValid(RouteData route, TransportType transport)
     {
-        foreach (TransportType allowed in route.allowedTransports)
+        foreach (TransportType allowed in GetAllowedTransports(route))
         {
             if (allowed == transport) return true;
         }
