@@ -62,6 +62,15 @@ public class ExecutionManager : MonoBehaviour
         }
 
         MessageSystem.L($"이동 시작: {entry.route.fromNode.name} → {entry.route.toNode.name} ({entry.transport})");
+
+        if (SoundManager.Instance != null)
+        {
+            if (entry.transport == TransportType.Walk)
+                SoundManager.Instance.PlayWithPitchVariance(SoundManager.Sfx.Walk);
+            else
+                SoundManager.Instance.Play(SoundManager.Sfx.CarMove);
+        }
+
         PlayerMover.Instance.MoveTo(targetNode.transform.position, () => OnSingleMoveComplete(entry));
     }
 
@@ -71,7 +80,11 @@ public class ExecutionManager : MonoBehaviour
         // 기본 비용/시간 차감
         TransportSetting setting = transportSettings.Get(entry.transport);
         if (setting != null)
+        {
             PlayerBudget.Instance.Consume(setting.cost, setting.timeMinutes);
+            if (SoundManager.Instance != null)
+                SoundManager.Instance.Play(SoundManager.Sfx.Cash);
+        }
 
         MessageSystem.L($"이동 완료 → {entry.route.toNode.name}");
 

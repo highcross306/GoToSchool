@@ -82,6 +82,8 @@ public class EventManager : MonoBehaviour
     // 이벤트 효과 적용
     private void ApplyEvent(GameEvent ev)
     {
+        int netBenefit = 0; // 양수 누적 = 이득, 음수 누적 = 손해
+
         foreach (GameEventEffect effect in ev.effects)
         {
             switch (effect.effectType)
@@ -89,15 +91,25 @@ public class EventManager : MonoBehaviour
                 case EffectType.Budget:
                     // 양수: 자금 증가 / 음수: 자금 감소
                     PlayerBudget.Instance.Consume(-effect.value, 0);
+                    netBenefit += effect.value;
                     break;
                 case EffectType.Time:
                     // 양수: 시간 단축 / 음수: 시간 추가
                     PlayerBudget.Instance.Consume(0, -effect.value);
+                    netBenefit += effect.value;
                     break;
                 case EffectType.BonusScore:
                     BonusScore += effect.value;
+                    netBenefit += effect.value;
                     break;
             }
+        }
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.Play(netBenefit >= 0
+                ? SoundManager.Sfx.EventPositive
+                : SoundManager.Sfx.EventNegative);
         }
     }
 }

@@ -35,6 +35,9 @@ public class ClickableNode : MonoBehaviour
 
         if (GameState.CurrentPhase != Phase.Planning) return;
 
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.Play(SoundManager.Sfx.Click);
+
         node.OnClicked();
     }
 }

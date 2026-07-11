@@ -65,6 +65,7 @@ public class ResultUI : MonoBehaviour
         if (failPanel != null) failPanel.SetActive(false);
         if (nextStageButton != null) nextStageButton.gameObject.SetActive(true);
 
+        PlaySfxSafe(SoundManager.Sfx.StageClear);
         ShowPopup();
     }
 
@@ -83,6 +84,7 @@ public class ResultUI : MonoBehaviour
         if (nextStageButton != null) nextStageButton.gameObject.SetActive(false);
         if (retryButton != null) retryButton.gameObject.SetActive(true);
 
+        PlaySfxSafe(SoundManager.Sfx.StageFail);
         ShowPopup();
     }
 
@@ -107,9 +109,13 @@ public class ResultUI : MonoBehaviour
                   $"CurrentStage: {GameState.CurrentStage} / " +
                   $"GameManager null: {GameManager.Instance == null}");
 
+        // 매니저 상태와 무관하게 클릭 반응 소리는 항상 재생
+        PlaySfxSafe(SoundManager.Sfx.Click);
+
         if (GameManager.Instance == null)
         {
-            Debug.LogError("[ResultUI] GameManager.Instance가 null입니다.");
+            Debug.LogError("[ResultUI] GameManager.Instance가 null입니다. " +
+                            "Bootstrap을 거치지 않고 이 씬을 직접 실행했을 가능성이 높습니다.");
             return;
         }
 
@@ -122,9 +128,12 @@ public class ResultUI : MonoBehaviour
     {
         Debug.Log($"[ResultUI] OnNextStageClicked 호출 — CurrentStage: {GameState.CurrentStage}");
 
+        PlaySfxSafe(SoundManager.Sfx.Click);
+
         if (GameManager.Instance == null)
         {
-            Debug.LogError("[ResultUI] GameManager.Instance가 null입니다.");
+            Debug.LogError("[ResultUI] GameManager.Instance가 null입니다. " +
+                            "Bootstrap을 거치지 않고 이 씬을 직접 실행했을 가능성이 높습니다.");
             return;
         }
 
@@ -137,5 +146,16 @@ public class ResultUI : MonoBehaviour
 
         HidePopup();
         GameManager.Instance.LoadStage(next);
+    }
+
+    // SoundManager.Instance가 null이어도 게임이 죽지 않도록 방어적으로 재생
+    private void PlaySfxSafe(SoundManager.Sfx id)
+    {
+        if (SoundManager.Instance == null)
+        {
+            Debug.LogWarning($"[ResultUI] SoundManager.Instance가 null이라 {id} 소리를 재생하지 못했습니다.");
+            return;
+        }
+        SoundManager.Instance.Play(id);
     }
 }
