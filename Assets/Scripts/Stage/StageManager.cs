@@ -50,6 +50,9 @@ public class StageManager : MonoBehaviour
         ClearStage();
         InputLock.Unlock();
 
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.StartNewStageMusic();
+
         foreach (NodeData nodeData in data.allNodes)
             SpawnNode(nodeData);
 
