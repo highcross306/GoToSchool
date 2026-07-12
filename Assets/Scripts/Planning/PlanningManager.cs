@@ -84,14 +84,18 @@ public class PlanningManager : MonoBehaviour
         }
 
         pendingRoute = connectedRoute;
-        PlanningUI.Instance.ShowSelectionCards(connectedRoute);
+        PlanningUI.Instance.ShowSelectionCards(connectedRoute, currentNode);
         MessageSystem.L($"경로 선택: {connectedRoute.name}");
     }
 
     public void OnTransportSelected(TransportType transport)
     {
         if (pendingRoute == null) return;
-        if (!SelectionValidator.Instance.IsTransportValid(pendingRoute, transport)) return;
+        if (!SelectionValidator.Instance.IsTransportValid(pendingRoute, transport, currentNode))
+        {
+            MessageSystem.E("현재 위치에서는 사용할 수 없는 이동수단입니다!");
+            return;
+        }
 
         // 이동 시작 → 모든 강조 해제
         ClearAllHighlights();
