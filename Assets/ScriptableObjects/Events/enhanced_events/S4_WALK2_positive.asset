@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
   m_Name: S4_WALK2_positive
   m_EditorClassIdentifier: 
-  eventName: 
-  uiMessage: 
-  probability: 0.3
-  restrictToTransport: 0
+  eventName: "\uAC1C\uAD6C\uBA4D \uBC1C\uACAC"
+  uiMessage: "[\uAC1C\uAD6C\uBA4D \uBC1C\uACAC]\r\n\uB4F1\uAD50 \uC55E\uC5D0\uC11C\uB294
+    \uCCB4\uBA74\uB3C4 \uC0AC\uCE58\uC785\uB2C8\uB2E4!\r\n\uB0A8\uC740 \uC2DC\uAC04
+    +15\uBD84\r\n"
+  probability: 0.25
+  restrictToTransport: 1
   requiredTransport: 0
-  effects: []
+  effects:
+  - effectType: 1
+    value: 15
