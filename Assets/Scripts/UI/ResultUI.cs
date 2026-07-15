@@ -91,10 +91,6 @@ public class ResultUI : MonoBehaviour
     private void ShowPopup()
     {
         Debug.Log("[ResultUI] ShowPopup 호출");
-
-        if (MusicManager.Instance != null)
-            MusicManager.Instance.StopMusic();
-
         if (dimOverlay != null) dimOverlay.SetActive(true);
         if (resultPanel != null) resultPanel.SetActive(true);
     }

@@ -73,7 +73,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4818831409803495102}
   - component: {fileID: 6463031359514129261}
-  - component: {fileID: 6222538770811374497}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -132,23 +131,6 @@ MonoBehaviour:
   - id: 10
     clip: {fileID: 8300000, guid: 07d8f9806a489b647b5884eaf77920b0, type: 3}
   poolSize: 8
---- !u!114 &6222538770811374497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5326530617077609704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1603e88e432647c43b625a0fcb4eb928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playlist:
-  - {fileID: 8300000, guid: 3e9931bc66e333b4f9d52ebf2c8b0540, type: 3}
-  - {fileID: 8300000, guid: e5444e8b7e217b940b6d51919f493532, type: 3}
-  - {fileID: 8300000, guid: 1fe602f87d5a76440aa4bac9ae349848, type: 3}
-  - {fileID: 8300000, guid: c7bdc25f5c83f224480111372f7cc3e8, type: 3}
 --- !u!1 &6531661244471534944
 GameObject:
   m_ObjectHideFlags: 0
