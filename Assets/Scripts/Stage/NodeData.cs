@@ -37,21 +37,16 @@ public class NodeData : ScriptableObject
     [Header("강화 노드 이벤트")]
     public GameEvent[] enhancedEvents; // 강화 노드 전용 이벤트
 
+    [Header("강화 노드 출발 시 이동수단 제한")]
+    [Tooltip("체크하면 이 노드에서 '출발'하는 모든 경로는 아래 목록만 이용 가능. " +
+             "각 RouteData의 allowedTransports는 무시됨. 노드 하나하나 개별 설정.")]
+    public bool restrictTransportsOnDeparture = false;
+    [Tooltip("restrictTransportsOnDeparture가 체크된 경우에만 사용")]
+    public TransportType[] allowedTransportsOverride;
+
     [Header("스프라이트 오버라이드")]
     [Tooltip("비워두면 Node 프리팹의 기본 스프라이트 사용")]
     public Sprite customSprite;
-
-    [Header("이동수단 제한 (이 노드에 서 있을 때 선택 불가한 이동수단)")]
-    public TransportType[] disabledTransports;
-
-    // 해당 이동수단이 이 노드에서 선택 불가능한지 확인
-    public bool IsTransportDisabled(TransportType transport)
-    {
-        if (disabledTransports == null) return false;
-        foreach (TransportType t in disabledTransports)
-            if (t == transport) return true;
-        return false;
-    }
 
     // 강화 노드 여부 — NodeType이 기본 타입이 아니면 강화 노드
     public bool IsEnhancedNode =>

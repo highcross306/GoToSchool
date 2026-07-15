@@ -42,28 +42,20 @@ public class PlanningUI : MonoBehaviour
     }
 
     // 노드 클릭 후 허용된 이동수단만 활성화
-    // fromNode: 현재 캐릭터가 서 있는 노드 (이동수단 제한 확인용)
-    public void ShowSelectionCards(RouteData route, NodeData fromNode)
+    public void ShowSelectionCards(RouteData route)
     {
         selectedCard = null;
         isConfirmed = false;
         allowedCards.Clear();
 
-        HashSet<TransportType> allowed = new(route.allowedTransports);
+        TransportType[] effectiveAllowed = SelectionValidator.Instance.GetAllowedTransports(route);
+        HashSet<TransportType> allowed = new(effectiveAllowed);
         foreach (SelectionCardUI card in selectionCards)
         {
-            bool routeAllows = allowed.Contains(card.cardType);
-            bool nodeBlocks = fromNode != null && fromNode.IsTransportDisabled(card.cardType);
-
-            if (routeAllows && !nodeBlocks)
+            if (allowed.Contains(card.cardType))
             {
                 card.SetDefault();
                 allowedCards.Add(card);
-            }
-            else if (nodeBlocks)
-            {
-                // 노드가 금지한 이동수단 → 금지 오버레이 표시
-                card.SetBlockedByNode();
             }
             else
             {
@@ -90,7 +82,7 @@ public class PlanningUI : MonoBehaviour
             return;
         }
 
-        // 같은 카드 재클릭 → 선택 해제
+        // 같은 카드 재클릭 → 선택 해제 (소리 재생 안 함)
         if (selectedCard == clickedCard)
         {
             MessageSystem.L("이동수단 선택 해제.");
@@ -103,9 +95,29 @@ public class PlanningUI : MonoBehaviour
         if (selectedCard != null)
             MessageSystem.L("이동수단 변경.");
 
+        // 새로 선택하거나 다른 카드로 변경할 때만 카드별 효과음 재생
+        PlayCardSelectSfx(clickedCard.TransportType);
+
         selectedCard = clickedCard;
         UpdateCardStates();
         RefreshDecideButtonVisual();
+    }
+
+    // 카드 종류별 선택 효과음
+    private void PlayCardSelectSfx(TransportType type)
+    {
+        switch (type)
+        {
+            case TransportType.Walk:
+                SoundManager.Instance.Play(SoundManager.Sfx.Walk);
+                break;
+            case TransportType.Bus:
+                SoundManager.Instance.Play(SoundManager.Sfx.Bus);
+                break;
+            case TransportType.Taxi:
+                SoundManager.Instance.Play(SoundManager.Sfx.Taxi);
+                break;
+        }
     }
 
     // 결정 버튼 클릭 시
@@ -155,6 +167,9 @@ public class PlanningUI : MonoBehaviour
         selectedCard = null;
         DisableAllCards();
         RefreshDecideButtonVisual();
+
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.Play(SoundManager.Sfx.Confirm);
 
         PlanningManager.Instance.OnTransportSelected(confirmed);
         PlanningManager.Instance.OnDecideButtonClicked();

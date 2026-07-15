@@ -33,12 +33,6 @@ public class GameEvent : ScriptableObject
     [Range(0f, 1f)]
     public float probability = 0.3f;
 
-    [Header("강화 노드 전용 — 이동수단 제한")]
-    [Tooltip("체크하면 특정 이동수단을 선택했을 때만 이 이벤트가 발동합니다. " +
-             "대중교통 이벤트(TransportEventTable)에는 사용하지 않습니다.")]
-    public bool restrictToTransport = false;
-    public TransportType requiredTransport;
-
     [Header("효과 목록")]
     public GameEventEffect[] effects;
 }

@@ -17,8 +17,6 @@ MonoBehaviour:
     \uC218\uC0C1\uD55C \uB3C8\uC744 \uC8FC\uC6E0\uC2B5\uB2C8\uB2E4!\r\n\uC790\uAE08
     +500\r\n"
   probability: 0.4
-  restrictToTransport: 1
-  requiredTransport: 0
   effects:
   - effectType: 0
     value: 500

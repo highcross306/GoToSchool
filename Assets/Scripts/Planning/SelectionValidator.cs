@@ -28,30 +28,26 @@ public class SelectionValidator : MonoBehaviour
         return null;
     }
 
-    // 해당 경로 + 출발 노드 기준으로 이동수단 사용 가능 여부 확인
-    // fromNode: 현재 캐릭터가 서 있는 노드 (null이면 노드 제한 검사 생략)
-    public bool IsTransportValid(RouteData route, TransportType transport, NodeData fromNode = null)
+    // 경로에서 실제로 허용되는 이동수단 목록 계산
+    // fromNode에 출발 제한이 걸려있으면 RouteData.allowedTransports는 무시하고
+    // fromNode.allowedTransportsOverride를 최우선으로 사용
+    public TransportType[] GetAllowedTransports(RouteData route)
     {
-        bool routeAllows = false;
-        foreach (TransportType allowed in route.allowedTransports)
-        {
-            if (allowed == transport) { routeAllows = true; break; }
-        }
+        if (route.fromNode != null && route.fromNode.restrictTransportsOnDeparture)
+            return route.fromNode.allowedTransportsOverride ?? new TransportType[0];
 
-        if (!routeAllows)
-        {
-            Debug.Log($"[Validator] {route.name}에서 {transport}는 허용되지 않습니다.");
-            return false;
-        }
+        return route.allowedTransports;
+    }
 
-        // 노드에서 해당 이동수단이 금지됐는지 확인 (Stage 4: 공사구간 택시 금지 등)
-        if (fromNode != null && fromNode.IsTransportDisabled(transport))
+    // 해당 경로에서 이동수단 허용 여부 확인
+    public bool IsTransportValid(RouteData route, TransportType transport)
+    {
+        foreach (TransportType allowed in GetAllowedTransports(route))
         {
-            Debug.Log($"[Validator] {fromNode.name}에서는 {transport}를 선택할 수 없습니다.");
-            return false;
+            if (allowed == transport) return true;
         }
-
-        return true;
+        Debug.Log($"[Validator] {route.name}에서 {transport}는 허용되지 않습니다.");
+        return false;
     }
 
     // 전체 경로 선택 완료 여부 확인

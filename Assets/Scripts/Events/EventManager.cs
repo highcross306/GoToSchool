@@ -39,26 +39,14 @@ public class EventManager : MonoBehaviour
         if (fromNode != null && fromNode.IsEnhancedNode &&
             fromNode.enhancedEvents != null && fromNode.enhancedEvents.Length > 0)
         {
-            // 이동수단 조건에 맞는 이벤트만 후보로 필터링
-            // (restrictToTransport가 false면 모든 이동수단에 적용)
-            System.Collections.Generic.List<GameEvent> candidates = new();
-            foreach (GameEvent e in fromNode.enhancedEvents)
-            {
-                if (e == null) continue;
-                if (e.restrictToTransport && e.requiredTransport != transport) continue;
-                candidates.Add(e);
-            }
-
-            GameEvent ev = RollFirst(candidates.ToArray());
+            GameEvent ev = RollFirst(fromNode.enhancedEvents);
             if (ev != null)
             {
                 ApplyEvent(ev);
-                Debug.Log($"[EventManager] 강화노드 이벤트 발동: {ev.eventName} (이동수단: {transport})");
+                Debug.Log($"[EventManager] 강화노드 이벤트 발동: {ev.eventName}");
                 return ev;
             }
-
-            // 이동수단 조건에 맞는 강화노드 이벤트가 없거나 발동 실패 시
-            // 대중교통 이벤트로 넘어가지 않고 종료 (강화노드는 항상 최우선)
+            // 강화노드에서 이벤트가 발동하지 않으면 종료 (대중교통 이벤트로 넘어가지 않음)
             return null;
         }
 
@@ -94,6 +82,8 @@ public class EventManager : MonoBehaviour
     // 이벤트 효과 적용
     private void ApplyEvent(GameEvent ev)
     {
+        int netBenefit = 0; // 양수 누적 = 이득, 음수 누적 = 손해
+
         foreach (GameEventEffect effect in ev.effects)
         {
             switch (effect.effectType)
@@ -101,15 +91,25 @@ public class EventManager : MonoBehaviour
                 case EffectType.Budget:
                     // 양수: 자금 증가 / 음수: 자금 감소
                     PlayerBudget.Instance.Consume(-effect.value, 0);
+                    netBenefit += effect.value;
                     break;
                 case EffectType.Time:
                     // 양수: 시간 단축 / 음수: 시간 추가
                     PlayerBudget.Instance.Consume(0, -effect.value);
+                    netBenefit += effect.value;
                     break;
                 case EffectType.BonusScore:
                     BonusScore += effect.value;
+                    netBenefit += effect.value;
                     break;
             }
+        }
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.Play(netBenefit >= 0
+                ? SoundManager.Sfx.EventPositive
+                : SoundManager.Sfx.EventNegative);
         }
     }
 }

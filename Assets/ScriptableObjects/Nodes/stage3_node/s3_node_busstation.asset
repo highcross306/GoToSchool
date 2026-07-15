@@ -19,6 +19,6 @@ MonoBehaviour:
   enhancedEvents:
   - {fileID: 11400000, guid: 42a6557313a5a3340a3fd67666960b9e, type: 2}
   - {fileID: 11400000, guid: 41b6cbdbbff7b114fb5cfd55f96bcf62, type: 2}
-  restrictTransportsOnDeparture: 0
-  allowedTransportsOverride: 
+  restrictTransportsOnDeparture: 1
+  allowedTransportsOverride: 01000000
   customSprite: {fileID: 21300000, guid: 8f5bac495b5818e4ba2b1d968870f0d4, type: 3}
