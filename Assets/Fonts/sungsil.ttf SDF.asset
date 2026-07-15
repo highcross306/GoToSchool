@@ -2284,6 +2284,7 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
+<<<<<<< HEAD
   - m_Index: 8397
     m_Metrics:
       m_Width: 49.6875
@@ -2536,6 +2537,20 @@ MonoBehaviour:
       m_Y: 702
       m_Width: 42
       m_Height: 76
+=======
+  - m_Index: 7136
+    m_Metrics:
+      m_Width: 72.734375
+      m_Height: 38.15625
+      m_HorizontalBearingX: 2.0625
+      m_HorizontalBearingY: 44.90625
+      m_HorizontalAdvance: 77.046875
+    m_GlyphRect:
+      m_X: 325
+      m_Y: 973
+      m_Width: 73
+      m_Height: 39
+>>>>>>> parent of 53e3f0a (Revert "4스테이지 이벤트 추가")
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
@@ -3163,6 +3178,10 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 55193
     m_GlyphIndex: 11325
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 51004
+    m_GlyphIndex: 7136
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: -5904384690417210642}
