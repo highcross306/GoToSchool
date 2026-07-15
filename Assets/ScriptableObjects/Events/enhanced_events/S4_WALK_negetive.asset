@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
   m_Name: S4_WALK_negetive
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   eventName: "\uC5EC\uAE34 \uC5B4\uB514\uACE0 \uB098\uB294 \uB204\uAD6C\uC778\uAC00"
   uiMessage: "[\uC5EC\uAE34 \uC5B4\uB514\uACE0 \uB098\uB294 \uB204\uAD6C\uC778\uAC00]\r\n\uAE38\uB3C4
     \uC783\uACE0 \uC815\uC2E0\uB3C4 \uC783\uC5C8\uC2B5\uB2C8\uB2E4.\r\n\uB0A8\uC740
@@ -22,3 +23,11 @@ MonoBehaviour:
   effects:
   - effectType: 1
     value: -15
+=======
+  eventName: 
+  uiMessage: 
+  probability: 0.3
+  restrictToTransport: 0
+  requiredTransport: 0
+  effects: []
+>>>>>>> parent of d69c6e6 (Revert "이벤트 제한과 금지 스프라이트 표시")
