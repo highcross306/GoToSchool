@@ -71,7 +71,7 @@ public class ExecutionManager : MonoBehaviour
                 SoundManager.Instance.Play(SoundManager.Sfx.CarMove);
         }
 
-        PlayerMover.Instance.MoveTo(targetNode.transform.position, () => OnSingleMoveComplete(entry));
+        PlayerMover.Instance.MoveTo(targetNode.transform.position, () => OnSingleMoveComplete(entry), entry.transport);
     }
 
     // 이동 완료 후 처리
