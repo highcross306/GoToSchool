@@ -106,6 +106,9 @@ public class PlanningUI : MonoBehaviour
     // 카드 종류별 선택 효과음
     private void PlayCardSelectSfx(TransportType type)
     {
+        if (SoundManager.Instance == null) return;
+
+
         switch (type)
         {
             case TransportType.Walk:
