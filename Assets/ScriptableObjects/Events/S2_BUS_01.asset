@@ -13,12 +13,9 @@ MonoBehaviour:
   m_Name: S2_BUS_01
   m_EditorClassIdentifier: 
   eventName: "\uBC84\uC2A4 \uC5F0\uCC29"
-  uiMessage: "[\uB7EC\uC2DC \uC544\uC6CC]\r\n\uB3C4\uB85C\uAC00 \uB9C9\uD799\uB2C8\uB2E4.
-    \uB2F5\uB2F5\uD569\uB2C8\uB2E4.\r\n\uB0A8\uC740 \uC2DC\uAC04 -5\uBD84\r\n\uD604\uC7AC
-    \uC790\uAE08 -500\uC6D0\r\n"
+  uiMessage: "[\uBC84\uC2A4 \uC5F0\uCC29]\r\n\uBC84\uC2A4\uAC00 \uC870\uAE08 \uB2A6\uC5C8\uC2B5\uB2C8\uB2E4.
+    \r\n\uC18C\uC694\uC2DC\uAC04 +5\uBD84\r\n"
   probability: 0.15
-  restrictToTransport: 0
-  requiredTransport: 0
   effects:
   - effectType: 1
     value: -5
