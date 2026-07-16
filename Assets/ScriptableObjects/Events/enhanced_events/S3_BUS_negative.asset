@@ -16,6 +16,8 @@ MonoBehaviour:
   uiMessage: "[\uC9C0\uB098\uAC04 \uBC84\uC2A4]\r\n\uCF54 \uC55E\uC5D0\uC11C \uBC84\uC2A4\uB97C
     \uB193\uCCE4\uC2B5\uB2C8\uB2E4\u2026\r\n\uC18C\uC694\uC2DC\uAC04 +10\uBD84\r\n"
   probability: 0.3
+  restrictToTransport: 1
+  requiredTransport: 1
   effects:
   - effectType: 1
     value: -10

@@ -39,14 +39,26 @@ public class EventManager : MonoBehaviour
         if (fromNode != null && fromNode.IsEnhancedNode &&
             fromNode.enhancedEvents != null && fromNode.enhancedEvents.Length > 0)
         {
-            GameEvent ev = RollFirst(fromNode.enhancedEvents);
+            // 이동수단 조건에 맞는 이벤트만 후보로 필터링
+            // (restrictToTransport가 false면 모든 이동수단에 적용)
+            System.Collections.Generic.List<GameEvent> candidates = new();
+            foreach (GameEvent e in fromNode.enhancedEvents)
+            {
+                if (e == null) continue;
+                if (e.restrictToTransport && e.requiredTransport != transport) continue;
+                candidates.Add(e);
+            }
+
+            GameEvent ev = RollFirst(candidates.ToArray());
             if (ev != null)
             {
                 ApplyEvent(ev);
-                Debug.Log($"[EventManager] 강화노드 이벤트 발동: {ev.eventName}");
+                Debug.Log($"[EventManager] 강화노드 이벤트 발동: {ev.eventName} (이동수단: {transport})");
                 return ev;
             }
-            // 강화노드에서 이벤트가 발동하지 않으면 종료 (대중교통 이벤트로 넘어가지 않음)
+
+            // 이동수단 조건에 맞는 강화노드 이벤트가 없거나 발동 실패 시
+            // 대중교통 이벤트로 넘어가지 않고 종료 (강화노드는 항상 최우선)
             return null;
         }
 
