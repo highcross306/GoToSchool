@@ -97,6 +97,12 @@ public class ResultUI : MonoBehaviour
 
         if (dimOverlay != null) dimOverlay.SetActive(true);
         if (resultPanel != null) resultPanel.SetActive(true);
+
+        // 같은 Canvas 안의 다른 UI(가속 버튼 등)보다 항상 위에 그려지도록
+        // 형제 오브젝트 순서를 맨 뒤(= 가장 위에 렌더링)로 강제한다.
+        // Hierarchy 순서를 나중에 바꿔도 이 문제가 재발하지 않는다.
+        if (dimOverlay != null) dimOverlay.transform.SetAsLastSibling();
+        if (resultPanel != null) resultPanel.transform.SetAsLastSibling();
     }
 
     private void HidePopup()
@@ -142,7 +148,15 @@ public class ResultUI : MonoBehaviour
         }
 
         int next = GameState.CurrentStage + 1;
-        if (next > 4)
+
+        // 하드코딩된 4 대신 GameManager에 실제 등록된 스테이지 개수를 참조.
+        // 스테이지 수가 바뀌어도 여기를 따로 수정할 필요가 없다.
+        // (이전엔 4로 고정돼 있어 스테이지가 3개로 줄었을 때
+        //  마지막 스테이지 클리어 후 존재하지 않는 4번 스테이지를 시도 →
+        //  HidePopup()만 실행되고 LoadStage(4)는 조용히 실패해
+        //  버튼도 다음 씬도 없는 상태로 멈추는 버그가 있었음)
+        int totalStages = GameManager.Instance.stageSceneNames.Length;
+        if (next > totalStages)
         {
             Debug.Log("[ResultUI] 모든 스테이지 클리어!");
             return;
