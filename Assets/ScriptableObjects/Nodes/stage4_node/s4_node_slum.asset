@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb9c5cf9fc18084992ceb0bb6affb56, type: 3}
-  m_Name: s3_node_slum
+  m_Name: s4_node_slum
   m_EditorClassIdentifier: 
   nodeType: 4
-  position: {x: 0, y: 0}
+  position: {x: -2, y: 0}
   outgoingRoutes:
-  - {fileID: 11400000, guid: c2cb1e395fde2284ab30bf86a6f90289, type: 2}
+  - {fileID: 11400000, guid: 4498a9a94b9cfeb40b056d20c297afd3, type: 2}
+  - {fileID: 11400000, guid: 0d19c71efdbabf14681ebabfbaf37cd4, type: 2}
   enhancedEvents:
   - {fileID: 11400000, guid: 3c1950a864302f64abe8fa00f5f797a1, type: 2}
   - {fileID: 11400000, guid: 5a2e0a3414c5c9640951879281aaca11, type: 2}

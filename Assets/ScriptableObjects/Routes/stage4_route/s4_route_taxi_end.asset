@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9c290896d621c3418518184477d2b6b, type: 3}
+  m_Name: s4_route_taxi_end
+  m_EditorClassIdentifier: 
+  fromNode: {fileID: 11400000, guid: 59dd0c1acd7178b4c842f3a8020dc61a, type: 2}
+  toNode: {fileID: 11400000, guid: 32ac346762204b14caa650ea07061168, type: 2}
+  allowedTransports: 000000000100000002000000
