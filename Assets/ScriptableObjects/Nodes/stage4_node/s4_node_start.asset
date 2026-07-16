@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb9c5cf9fc18084992ceb0bb6affb56, type: 3}
-  m_Name: s3_node_slum
+  m_Name: s4_node_start
   m_EditorClassIdentifier: 
-  nodeType: 4
-  position: {x: 0, y: 0}
+  nodeType: 0
+  position: {x: -6, y: 1.5}
   outgoingRoutes:
-  - {fileID: 11400000, guid: c2cb1e395fde2284ab30bf86a6f90289, type: 2}
-  enhancedEvents:
-  - {fileID: 11400000, guid: 3c1950a864302f64abe8fa00f5f797a1, type: 2}
-  - {fileID: 11400000, guid: 5a2e0a3414c5c9640951879281aaca11, type: 2}
-  customSprite: {fileID: 21300000, guid: ab8207b24eb8df84da620bc4678fb9c6, type: 3}
+  - {fileID: 11400000, guid: 5620fb9d02f23c44a837972cc2e05fd7, type: 2}
+  - {fileID: 11400000, guid: 2c4e46055e3ce0240b0506767d347d75, type: 2}
+  enhancedEvents: []
+  customSprite: {fileID: 21300000, guid: 341b53579eb19084aa9122f1f177063a, type: 3}
   disabledTransports: 
