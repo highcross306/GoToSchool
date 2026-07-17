@@ -144,6 +144,9 @@ public class PlanningUI : MonoBehaviour
         // 스토리 인트로 표시 중 → 조작 불가
         if (StoryIntroPanel.IsOpen) return;
 
+        // 설정 패널(ESC) 표시 중 → 조작 불가
+        if (SettingsPanel.IsOpen) return;
+
         // 이동 중
         if (GameState.CurrentPhase == Phase.Execution)
         {
