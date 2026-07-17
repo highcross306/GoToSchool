@@ -70,6 +70,10 @@ public class StageManager : MonoBehaviour
             PlayerMover.Instance.transform.position = (Vector3)startNode.position;
             PlayerMover.Instance.ResetSpeed();
         }
+
+        // 스테이지 구성이 끝난 뒤 스토리 인트로 팝업 표시 (없으면 조용히 무시됨)
+        if (StoryIntroPanel.Instance != null)
+            StoryIntroPanel.Instance.Show(data.storyTitle, data.storyText);
     }
 
     public Node GetNode(NodeData data)

@@ -23,6 +23,13 @@ public class StageData : ScriptableObject
     [Tooltip("true면 대중교통별 이벤트 활성화 (스테이지 1: false, 2~4: true)")]
     public bool useTransportEvents = false;
 
+    [Header("스토리 인트로 (스테이지 진입 시 표시)")]
+    [Tooltip("예: \"Stage 1 <첫 통학>\"")]
+    public string storyTitle;
+    [TextArea(2, 5)]
+    [Tooltip("예: \"개강 첫날부터 늦잠을 자버렸다!\\n첫날부터 늦고 싶지않아…\"")]
+    public string storyText;
+
     // 전체 경로 수 계산 (IsSelectionComplete에서 사용)
     public int GetTotalRouteCount()
     {

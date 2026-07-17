@@ -19,6 +19,9 @@ public class ClickableNode : MonoBehaviour
         // 이벤트 메시지 표시 중 → 조작 불가 (메시지 패널이 클릭을 처리)
         if (EventMessagePanel.IsOpen) return;
 
+        // 스토리 인트로 표시 중 → 조작 불가
+        if (StoryIntroPanel.IsOpen) return;
+
         // 이동 중
         if (GameState.CurrentPhase == Phase.Execution)
         {
