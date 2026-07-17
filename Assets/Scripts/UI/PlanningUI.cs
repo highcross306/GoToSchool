@@ -97,23 +97,29 @@ public class PlanningUI : MonoBehaviour
             selectedCard = null;
             RestoreAllowedCardsToDefault();
             RefreshDecideButtonVisual();
+
+            // 카드 선택을 취소했으므로 이벤트 미리보기 팝업도 닫는다.
+            if (EventInfoPopup.Instance != null)
+                EventInfoPopup.Instance.Hide();
+
             return;
         }
 
         if (selectedCard != null)
             MessageSystem.L("이동수단 변경.");
 
+        // 새로 선택하거나 다른 카드로 변경할 때만 카드별 효과음 재생
+        PlayCardSelectSfx(clickedCard.TransportType);
+
         selectedCard = clickedCard;
         UpdateCardStates();
         RefreshDecideButtonVisual();
     }
 
-
     // 카드 종류별 선택 효과음
     private void PlayCardSelectSfx(TransportType type)
     {
         if (SoundManager.Instance == null) return;
-
 
         switch (type)
         {
@@ -128,6 +134,7 @@ public class PlanningUI : MonoBehaviour
                 break;
         }
     }
+
     // 결정 버튼 클릭 시
     private void OnDecideButtonClicked()
     {
@@ -175,6 +182,13 @@ public class PlanningUI : MonoBehaviour
         selectedCard = null;
         DisableAllCards();
         RefreshDecideButtonVisual();
+
+        // 결정 버튼을 눌렀으므로 이벤트 미리보기 팝업을 닫는다.
+        if (EventInfoPopup.Instance != null)
+            EventInfoPopup.Instance.Hide();
+
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.Play(SoundManager.Sfx.Confirm);
 
         PlanningManager.Instance.OnTransportSelected(confirmed);
         PlanningManager.Instance.OnDecideButtonClicked();

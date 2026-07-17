@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb9c5cf9fc18084992ceb0bb6affb56, type: 3}
   m_Name: s4_node_construction
   m_EditorClassIdentifier: 
-  nodeType: 1
+  nodeType: 5
   position: {x: 2, y: 3}
   outgoingRoutes:
   - {fileID: 11400000, guid: 24e227454dfec934e98de0f08ba6bd76, type: 2}
   enhancedEvents:
   - {fileID: 11400000, guid: 4c11b8599ac6200469c32f2826d89d9b, type: 2}
-  - {fileID: 11400000, guid: 4c11b8599ac6200469c32f2826d89d9b, type: 2}
+  - {fileID: 11400000, guid: d8b188f5906808e4f8e5278e11b61558, type: 2}
   customSprite: {fileID: 21300000, guid: 8f5bac495b5818e4ba2b1d968870f0d4, type: 3}
-  disabledTransports: 
+  disabledTransports: 02000000

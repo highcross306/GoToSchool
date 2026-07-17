@@ -130,6 +130,15 @@ public class SelectionCardUI : MonoBehaviour
             return;
         }
 
+        // 여기까지 통과했으면 유효한 카드 클릭 → 이벤트 정보 팝업 먼저 띄운다
+        // (실제 발동/적용과 무관한 미리보기. 아래 선택 로직은 그대로 진행됨)
+        if (EventInfoPopup.Instance != null && EventManager.Instance != null &&
+            EventManager.Instance.transportEventTable != null)
+        {
+            GameEvent[] events = EventManager.Instance.transportEventTable.GetEvents(cardType);
+            EventInfoPopup.Instance.ShowForCard(cardType, events);
+        }
+
         PlanningUI.Instance.OnCardSelected(this);
     }
 }

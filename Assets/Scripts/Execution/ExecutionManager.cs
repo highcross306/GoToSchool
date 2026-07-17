@@ -39,6 +39,7 @@ public class ExecutionManager : MonoBehaviour
             // 이벤트 발동 → 메시지 패널 표시, 클릭 후 이동
             MessageSystem.L($"이벤트 발동: {triggeredEvent.eventName}");
 
+            // uiMessage만 그대로 표시 — 이벤트명/효과값 자동 표기는 넣지 않는다.
             if (EventMessagePanel.Instance != null)
                 EventMessagePanel.Instance.Show(triggeredEvent.uiMessage, () => StartMovement(entry));
             else

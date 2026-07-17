@@ -10,8 +10,10 @@
 //          GetComponent로 같은 오브젝트에서 찾도록 변경.
 // [수정 2] IsMoving 공개 프로퍼티 추가
 //          → 가속 버튼이 "이동 중일 때만 클릭 가능"을 판단하는 근거로 사용
-// [수정 3] 매 이동 시작 시 IsFastForward를 false로 초기화
-//          → 결정 버튼을 눌러 새 이동이 시작될 때마다 가속은 항상 꺼진 상태로 시작
+// [수정 3] IsFastForward 초기화 시점을 "이동 시작 시"에서
+//          "이동 완료 시"로 변경
+//          → 이동이 끝나자마자 가속 버튼이 즉시 비활성화 상태가 됨.
+//          (이전에는 다음 이동이 시작될 때까지 켜진 상태가 그대로 남아있었음)
 // ============================================================
 
 using System;
@@ -95,10 +97,6 @@ public class PlayerMover : MonoBehaviour
 
         IsMoving = true;
 
-        // 새 이동이 시작될 때마다 가속은 항상 꺼진 상태(비활성화 이미지)로 초기화한다.
-        // 이전 구간에서 켜놨던 상태가 다음 구간으로 이어지지 않도록 한다.
-        IsFastForward = false;
-
         // 이동수단에 맞는 애니메이션 재생 시작
         if (transport.HasValue && anim != null)
             anim.PlayMoveAnimation(transport.Value);
@@ -120,6 +118,11 @@ public class PlayerMover : MonoBehaviour
 
         // 이동 종료 → Idle 애니메이션으로 복귀, 이동 상태 해제
         IsMoving = false;
+
+        // 이동이 끝났으므로 가속은 항상 꺼진(비활성화) 상태로 리셋한다.
+        // 다음 이동이 시작되기 전, 계획 단계 동안에도 버튼이 켜진 채로
+        // 남아있지 않도록 여기서 즉시 초기화한다.
+        IsFastForward = false;
 
         if (anim != null)
             anim.PlayIdleAnimation();

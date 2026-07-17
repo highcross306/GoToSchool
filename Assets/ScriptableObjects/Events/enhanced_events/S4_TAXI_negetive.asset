@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
-  m_Name: S2_BUS_01
+  m_Name: S4_TAXI_negetive
   m_EditorClassIdentifier: 
-  eventName: "\uBC84\uC2A4 \uC5F0\uCC29"
-  uiMessage: "[\uBC84\uC2A4 \uC5F0\uCC29]\r\n\uBC84\uC2A4\uAC00 \uC608\uC815\uBCF4\uB2E4
-    \uB2A6\uAC8C \uB3C4\uCC29\uD588\uC2B5\uB2C8\uB2E4. \r\n\uB0A8\uC740 \uC2DC\uAC04
-    -5\uBD84\r\n"
-  probability: 0.15
-  restrictToTransport: 0
-  requiredTransport: 0
+  eventName: "\uBC14\uAC00\uC9C0 \uC694\uAE08"
+  uiMessage: "[\uBC14\uAC00\uC9C0 \uC694\uAE08]\r\n\uAE30\uC0AC\uAC00 \uD130\uBB34\uB2C8\uC5C6\uB294
+    \uC694\uAE08\uC744 \uC694\uAD6C\uD588\uC2B5\uB2C8\uB2E4\u2026\r\n\uD604\uC7AC
+    \uC790\uAE08 -1000\uC6D0\r\n"
+  probability: 0.3
+  restrictToTransport: 1
+  requiredTransport: 2
   effects:
   - effectType: 1
-    value: -5
+    value: -1000

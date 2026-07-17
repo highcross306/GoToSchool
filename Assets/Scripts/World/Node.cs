@@ -75,6 +75,11 @@ public class Node : MonoBehaviour
     // ClickableNode가 클릭을 감지하면 이 메서드 호출
     public void OnClicked()
     {
+        // 강화 노드면 이벤트 정보 팝업을 먼저 띄운다 (실제 발동/적용과 무관한 미리보기).
+        // 팝업을 띄우는 것과 별개로 아래 노드 선택 로직은 그대로 진행된다.
+        if (Data != null && Data.IsEnhancedNode && EventInfoPopup.Instance != null)
+            EventInfoPopup.Instance.ShowForNode(Data);
+
         PlanningManager.Instance.OnNodeClicked(this);
     }
 }

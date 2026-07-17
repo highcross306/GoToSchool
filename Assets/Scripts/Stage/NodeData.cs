@@ -18,6 +18,10 @@ public enum NodeType
     // 강화 노드 (여기에 새 타입 추가)
     Enhanced_BusStop,  // 버스정류장
     Enhanced_Slum,     // 슬럼
+
+    // 스테이지 4 신규 노드
+    Enhanced_ConstructionZone, // 공사구간 — 택시 선택 불가, 걷기 선택 시 강화 이벤트
+    Enhanced_TaxiStand,        // 택시승강장 — 버스 선택 불가, 택시 선택 시 강화 이벤트
 }
 
 public enum TransportType
