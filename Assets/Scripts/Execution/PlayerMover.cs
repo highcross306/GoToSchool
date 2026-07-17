@@ -3,14 +3,15 @@
 // 역할: 플레이어 오브젝트를 노드에서 노드로 이동
 //       코루틴 기반 이동 애니메이션
 //       이동 완료 시 ExecutionManager에 콜백
-//       speedMultiplier로 화면 탭 시 배속 이동 지원
+//       speedMultiplier로 가속 버튼 클릭 시 배속 이동 지원
 //       transport 파라미터로 이동수단별 애니메이션 재생
 //
-// [수정] PlayerAnimationController를 static Instance가 아니라
-//        GetComponent로 같은 오브젝트에서 찾도록 변경.
-//        → PlayerMover와 PlayerAnimationController가 서로 다른
-//          오브젝트에 붙는 사고를 원천 차단하고, 어긋나면 Awake에서
-//          즉시 에러를 띄운다.
+// [수정 1] PlayerAnimationController를 static Instance가 아니라
+//          GetComponent로 같은 오브젝트에서 찾도록 변경.
+// [수정 2] IsMoving 공개 프로퍼티 추가
+//          → 가속 버튼이 "이동 중일 때만 클릭 가능"을 판단하는 근거로 사용
+// [수정 3] 매 이동 시작 시 IsFastForward를 false로 초기화
+//          → 결정 버튼을 눌러 새 이동이 시작될 때마다 가속은 항상 꺼진 상태로 시작
 // ============================================================
 
 using System;
@@ -25,9 +26,13 @@ public class PlayerMover : MonoBehaviour
     public float moveSpeed = 3f; // 기본 이동 속도 (유닛/초)
 
     [Header("배속 설정")]
-    public float fastForwardMultiplier = 2f; // 화면 탭 시 배속 배율
+    public float fastForwardMultiplier = 2f; // 가속 버튼 클릭 시 배속 배율
 
     public bool IsFastForward { get; private set; } = false;
+
+    // 현재 노드 간 이동 코루틴이 진행 중인지 여부.
+    // 가속 버튼(FastForwardButton)이 클릭 허용 여부를 판단하는 데 사용한다.
+    public bool IsMoving { get; private set; } = false;
 
     // 같은 오브젝트에 붙어 있는 애니메이션 컨트롤러 (Awake에서 캐싱)
     private PlayerAnimationController anim;
@@ -35,8 +40,6 @@ public class PlayerMover : MonoBehaviour
     private void Awake()
     {
         // ---- 진단 1: 씬에 PlayerMover가 여러 개인가? ----
-        // 아래 싱글톤 가드는 GameObject 자체를 파괴하기 때문에,
-        // 중복이 있으면 제대로 세팅한 Player가 통째로 사라질 수 있다.
         PlayerMover[] all = FindObjectsOfType<PlayerMover>();
         if (all.Length > 1)
         {
@@ -72,7 +75,8 @@ public class PlayerMover : MonoBehaviour
         StartCoroutine(MoveCoroutine(targetPosition, onComplete, transport));
     }
 
-    // 화면 탭 시 호출 — 배속 토글
+    // 가속 버튼 클릭 시 호출 — 배속 토글
+    // 이동 중이 아닐 때 호출하는 것을 막는 책임은 호출부(FastForwardButton)에 있다.
     public void ToggleFastForward()
     {
         IsFastForward = !IsFastForward;
@@ -88,6 +92,12 @@ public class PlayerMover : MonoBehaviour
     private IEnumerator MoveCoroutine(Vector3 targetPosition, Action onComplete, TransportType? transport)
     {
         Debug.Log($"[Mover] 이동 시작 → {targetPosition}");
+
+        IsMoving = true;
+
+        // 새 이동이 시작될 때마다 가속은 항상 꺼진 상태(비활성화 이미지)로 초기화한다.
+        // 이전 구간에서 켜놨던 상태가 다음 구간으로 이어지지 않도록 한다.
+        IsFastForward = false;
 
         // 이동수단에 맞는 애니메이션 재생 시작
         if (transport.HasValue && anim != null)
@@ -108,7 +118,9 @@ public class PlayerMover : MonoBehaviour
         transform.position = targetPosition;
         Debug.Log("[Mover] 이동 완료");
 
-        // 이동 종료 → Idle 애니메이션으로 복귀
+        // 이동 종료 → Idle 애니메이션으로 복귀, 이동 상태 해제
+        IsMoving = false;
+
         if (anim != null)
             anim.PlayIdleAnimation();
 
