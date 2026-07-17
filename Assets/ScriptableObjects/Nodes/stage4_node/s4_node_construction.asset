@@ -19,5 +19,5 @@ MonoBehaviour:
   enhancedEvents:
   - {fileID: 11400000, guid: 4c11b8599ac6200469c32f2826d89d9b, type: 2}
   - {fileID: 11400000, guid: d8b188f5906808e4f8e5278e11b61558, type: 2}
-  customSprite: {fileID: 21300000, guid: 8f5bac495b5818e4ba2b1d968870f0d4, type: 3}
+  customSprite: {fileID: 21300000, guid: 49c2b7699e3e1ee4aa0b962479de0fc7, type: 3}
   disabledTransports: 02000000
