@@ -181,8 +181,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC2DC\uAC04"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -436,8 +436,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -568,6 +568,7 @@ MonoBehaviour:
   defaultSprite: {fileID: 21300000, guid: 914db8e2d7a5aaf4baa11f860739ef19, type: 3}
   selectedSprite: {fileID: 21300000, guid: f1660350735471f46a2cffc3bb1a5856, type: 3}
   disabledSprite: {fileID: 21300000, guid: b51fc6569075ccf439d1f9418a7eba76, type: 3}
+  blockedOverlay: {fileID: 0}
 --- !u!114 &131251592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,8 +755,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: score
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -779,7 +780,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.45
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1504,8 +1505,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBE44\uC6A9"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1782,6 +1783,7 @@ MonoBehaviour:
   defaultSprite: {fileID: 21300000, guid: 2fe376f4a9ddecc4496cdc96c8dc7781, type: 3}
   selectedSprite: {fileID: 21300000, guid: 4b586737287f1894f85904e7bf30fb2f, type: 3}
   disabledSprite: {fileID: 21300000, guid: 9c37e1817b8ee7240af3936583013c23, type: 3}
+  blockedOverlay: {fileID: 0}
 --- !u!114 &1037677568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1923,8 +1925,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ~~~~FAIL~~~~
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2057,8 +2059,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: BudgetText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2082,7 +2084,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.45
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2299,8 +2301,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SUCCESS!!!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2648,6 +2650,7 @@ MonoBehaviour:
   defaultSprite: {fileID: 21300000, guid: 2d7a91de5e4a9d742aa0df777a0468be, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3bcf2d4ddb24937479585923d7c04810, type: 3}
   disabledSprite: {fileID: 21300000, guid: 0ab5ce7feadc6834280269c53309cc0d, type: 3}
+  blockedOverlay: {fileID: 0}
 --- !u!114 &1462146842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3419,8 +3422,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: TimeText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
-  m_sharedMaterial: {fileID: -1401231938205444801, guid: 4157463423a95ec4ea3e11a0e4c68134, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3444,7 +3447,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.45
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3840,11 +3843,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Player '
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1124191047257023796, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5485518648020036891, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3823842918360054552}
   m_SourcePrefab: {fileID: 100100000, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
+--- !u!1 &3823842918360054551 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5485518648020036891, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
+  m_PrefabInstance: {fileID: 3823842918360054550}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3823842918360054552
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3823842918360054551}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 507c10a1d0050e245b67b7dc779c50c4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

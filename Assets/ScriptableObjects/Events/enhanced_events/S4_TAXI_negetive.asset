@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1cc07bcf1b67a45a9d3116cedb4886, type: 3}
   m_Name: S4_TAXI_negetive
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   eventName: "\uBC14\uAC00\uC9C0 \uC694\uAE08"
   uiMessage: "[\uBC14\uAC00\uC9C0 \uC694\uAE08]\r\n\uAE30\uC0AC\uAC00 \uD130\uBB34\uB2C8\uC5C6\uB294
     \uC694\uAE08\uC744 \uC694\uAD6C\uD588\uC2B5\uB2C8\uB2E4\u2026\r\n\uD604\uC7AC
@@ -22,3 +23,11 @@ MonoBehaviour:
   effects:
   - effectType: 0
     value: -1000
+=======
+  eventName: 
+  uiMessage: 
+  probability: 0.3
+  restrictToTransport: 0
+  requiredTransport: 0
+  effects: []
+>>>>>>> parent of d69c6e6 (Revert "이벤트 제한과 금지 스프라이트 표시")
