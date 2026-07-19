@@ -19,6 +19,9 @@ public class MusicManager : MonoBehaviour
     [Header("게임플레이 중 재생할 BGM 목록")]
     public AudioClip[] playlist;
 
+    [Header("메인 메뉴 BGM (단일 트랙, 반복 재생)")]
+    public AudioClip menuTrack;
+
     private AudioSource source;
     private List<AudioClip> shuffledQueue = new();
     private int queueIndex;
@@ -41,14 +44,35 @@ public class MusicManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isActive) return;
+        // 볼륨은 메뉴 BGM/스테이지 BGM 상관없이 항상 실시간 반영
+        // (설정 패널에서 조절하면 바로 들리도록)
+        if (source != null)
+            source.volume = SettingsPanel.GetBGMVolume();
 
-        // 실시간 볼륨 반영 (설정 패널에서 슬라이더를 움직이면 바로 들리도록)
-        source.volume = SettingsPanel.GetBGMVolume();
+        if (!isActive) return; // 셔플 자동전환은 스테이지 재생 모드에서만 필요
 
         // 재생 중이던 곡이 끝났으면 다음 곡으로
         if (!source.isPlaying)
             PlayNext();
+    }
+
+    // 메인 메뉴에서 호출 — 단일 트랙을 반복 재생한다 (셔플/자동전환 없음)
+    public void PlayMenuMusic()
+    {
+        if (menuTrack == null)
+        {
+            Debug.LogWarning("[MusicManager] menuTrack이 비어있어 메뉴 BGM을 재생할 수 없습니다.");
+            return;
+        }
+
+        // 이미 같은 곡이 재생 중이면 다시 틀지 않음 (메인 메뉴 재진입 시 끊김 방지)
+        if (isActive == false && source.clip == menuTrack && source.isPlaying) return;
+
+        isActive = false; // 스테이지용 자동전환 로직 끔
+        source.loop = true;
+        source.volume = SettingsPanel.GetBGMVolume();
+        source.clip = menuTrack;
+        source.Play();
     }
 
     // 스테이지가 시작될 때마다 호출 — 완전히 새로운 셔플로 처음부터 재생
@@ -63,6 +87,7 @@ public class MusicManager : MonoBehaviour
         Reshuffle();
         queueIndex = 0;
         isActive = true;
+        source.loop = false; // 메뉴 BGM(loop=true)에서 넘어왔을 경우를 대비해 재설정
         PlayCurrent();
     }
 

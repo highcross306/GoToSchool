@@ -3,6 +3,7 @@
 // 역할: 메인 화면 UI 관리 — 게임 시작 / 설정 / 종료 버튼 처리
 //       설정 패널은 전역 싱글톤 SettingsPanel이 담당하므로
 //       여기서는 열기 요청만 전달한다.
+//       메인 메뉴 진입 시 배경음악(단일 트랙 반복)을 재생한다.
 //       PDF 지침: "버튼 효과음은 모두 click 효과음으로 통일"
 //                 → 모든 버튼에서 SoundManager.Sfx.Click 재생.
 // 부착: MainMenu 씬의 [MainMenuManager] 오브젝트에 부착
@@ -23,6 +24,12 @@ public class MainMenuManager : MonoBehaviour
         if (startButton != null) startButton.onClick.AddListener(OnStartClicked);
         if (settingsButton != null) settingsButton.onClick.AddListener(OnSettingsClicked);
         if (exitButton != null) exitButton.onClick.AddListener(OnExitClicked);
+
+        // 메인 메뉴 배경음악 재생 (단일 트랙 반복)
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayMenuMusic();
+        else
+            Debug.LogWarning("[MainMenu] MusicManager.Instance가 null이라 배경음악을 재생하지 못했습니다.");
     }
 
     // 게임 시작 → 스테이지 1 씬으로 전환
