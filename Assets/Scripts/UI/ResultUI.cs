@@ -158,7 +158,15 @@ public class ResultUI : MonoBehaviour
         int totalStages = GameManager.Instance.stageSceneNames.Length;
         if (next > totalStages)
         {
-            Debug.Log("[ResultUI] 모든 스테이지 클리어!");
+            Debug.Log($"[ResultUI] 모든 스테이지 클리어! 누적 점수: {GameState.TotalScore}점");
+
+            HidePopup();
+
+            if (EndingUI.Instance != null)
+                EndingUI.Instance.Show(GameState.TotalScore);
+            else
+                Debug.LogError("[ResultUI] EndingUI.Instance가 null입니다. " +
+                               "씬에 EndingUI 오브젝트가 배치되어 있는지 확인하세요.");
             return;
         }
 

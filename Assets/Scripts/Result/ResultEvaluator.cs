@@ -36,7 +36,12 @@ public class ResultEvaluator : MonoBehaviour
         {
             // 성공
             int score = ScoreCalculator.Instance.Calculate();
-            Debug.Log($"[Result] 성공 — 최종 점수: {score}점");
+
+            // 4개 스테이지 누적 점수에 이번 스테이지 점수를 더한다.
+            // (엔딩 화면에서 GameState.TotalScore를 그대로 사용)
+            GameState.TotalScore += score;
+
+            Debug.Log($"[Result] 성공 — 최종 점수: {score}점 / 누적 점수: {GameState.TotalScore}점");
             ResultUI.Instance.ShowSuccess(score);
         }
     }

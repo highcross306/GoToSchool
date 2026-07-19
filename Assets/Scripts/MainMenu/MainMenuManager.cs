@@ -32,11 +32,15 @@ public class MainMenuManager : MonoBehaviour
             Debug.LogWarning("[MainMenu] MusicManager.Instance가 null이라 배경음악을 재생하지 못했습니다.");
     }
 
-    // 게임 시작 → 스테이지 1 씬으로 전환
+    // 게임 시작 → 누적 점수/스테이지 상태 초기화 후 스테이지 1 씬으로 전환
     private void OnStartClicked()
     {
         PlayClick();
         Debug.Log("[MainMenu] 게임 시작");
+
+        // 이전 플레이의 누적 점수가 새 게임으로 이어지지 않도록 초기화
+        GameState.ResetForNewGame();
+
         GameManager.Instance.LoadStage(1);
     }
 
