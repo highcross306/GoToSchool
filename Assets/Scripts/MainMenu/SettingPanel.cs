@@ -1,16 +1,18 @@
 ﻿// ============================================================
 // SettingsPanel.cs
-// 역할: 설정 패널 UI — ◀▶ 버튼으로 BGM/SFX 볼륨을 10%씩 조절.
+// 역할: 메인 메뉴 전용 설정 패널 — ◀▶ 버튼으로 BGM/SFX 볼륨을 10%씩 조절.
 //       PlayerPrefs에 즉시 저장. SoundManager/MusicManager는
 //       재생 시점마다 이 값을 직접 읽어가므로 별도로 알릴 필요가 없다.
 //
-//       메인 메뉴에서 열든 스테이지 플레이 중 ESC로 열든
-//       항상 같은 인스턴스 하나만 존재 — DontDestroyOnLoad 싱글톤.
-//       (MusicManager와 동일한 이유로 루트 분리 후 유지:
-//        프리팹의 자식인 채로는 DontDestroyOnLoad가 무시됨)
+//       [변경] ESC 토글 / 메인 메뉴 이동 / DontDestroyOnLoad는
+//              전부 PauseMenu.cs로 분리했다.
+//              이 패널은 메인 메뉴 씬 안에서만 "설정" 버튼으로 연다.
 //
-// 부착: 메인 메뉴 씬의 최상위 SettingsPanel 오브젝트에 한 번만 배치.
-//       이후 씬이 바뀌어도 파괴되지 않고 계속 유지된다.
+//       GetBGMVolume()/GetSFXVolume()/SetBGMVolume()/SetSFXVolume()은
+//       static이라 PauseMenu.cs에서도 그대로 가져다 쓴다 —
+//       PlayerPrefs 키 이름을 두 파일에 따로 적어 어긋나는 것을 방지.
+//
+// 부착: 메인 메뉴 씬의 SettingsPanel 오브젝트에 부착
 // ============================================================
 
 using UnityEngine;
@@ -39,7 +41,6 @@ public class SettingsPanel : MonoBehaviour
     private const string SFX_KEY = "SFXVolume";
     private const float Step = 0.1f;
 
-    // 다른 스크립트(노드/카드 클릭 차단 등)에서 참조
     public static bool IsOpen =>
         Instance != null && Instance.panel != null && Instance.panel.activeSelf;
 
@@ -47,10 +48,6 @@ public class SettingsPanel : MonoBehaviour
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
-
-        // MusicManager와 동일한 이유로 루트로 분리한 뒤 유지시킴
-        transform.SetParent(null);
-        DontDestroyOnLoad(gameObject);
 
         if (closeButton != null) closeButton.onClick.AddListener(Close);
         if (bgmDownButton != null) bgmDownButton.onClick.AddListener(() => AdjustBGM(-Step));
@@ -61,17 +58,6 @@ public class SettingsPanel : MonoBehaviour
         RefreshText();
 
         if (panel != null) panel.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Toggle();
-    }
-
-    public void Toggle()
-    {
-        if (IsOpen) Close(); else Open();
     }
 
     public void Open()
@@ -87,18 +73,14 @@ public class SettingsPanel : MonoBehaviour
 
     private void AdjustBGM(float delta)
     {
-        float value = Mathf.Clamp01(PlayerPrefs.GetFloat(BGM_KEY, 1f) + delta);
-        PlayerPrefs.SetFloat(BGM_KEY, value);
-        PlayerPrefs.Save();
+        SetBGMVolume(GetBGMVolume() + delta);
         RefreshText();
         PlayClick(); // 새로 반영된 볼륨으로 재생되어 바뀐 소리 크기를 바로 확인 가능
     }
 
     private void AdjustSFX(float delta)
     {
-        float value = Mathf.Clamp01(PlayerPrefs.GetFloat(SFX_KEY, 1f) + delta);
-        PlayerPrefs.SetFloat(SFX_KEY, value);
-        PlayerPrefs.Save();
+        SetSFXVolume(GetSFXVolume() + delta);
         RefreshText();
         PlayClick();
     }
@@ -117,7 +99,19 @@ public class SettingsPanel : MonoBehaviour
             SoundManager.Instance.Play(SoundManager.Sfx.Click);
     }
 
-    // 외부(MusicManager, SoundManager)에서 읽어가는 저장값
+    // 외부(MusicManager, SoundManager, PauseMenu)에서 읽고 쓰는 저장값
     public static float GetBGMVolume() => PlayerPrefs.GetFloat(BGM_KEY, 1f);
     public static float GetSFXVolume() => PlayerPrefs.GetFloat(SFX_KEY, 1f);
+
+    public static void SetBGMVolume(float value)
+    {
+        PlayerPrefs.SetFloat(BGM_KEY, Mathf.Clamp01(value));
+        PlayerPrefs.Save();
+    }
+
+    public static void SetSFXVolume(float value)
+    {
+        PlayerPrefs.SetFloat(SFX_KEY, Mathf.Clamp01(value));
+        PlayerPrefs.Save();
+    }
 }

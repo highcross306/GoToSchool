@@ -105,8 +105,8 @@ public class SelectionCardUI : MonoBehaviour
         // 스토리 인트로 표시 중 → 조작 불가
         if (StoryIntroPanel.IsOpen) return;
 
-        // 설정 패널(ESC) 표시 중 → 조작 불가
-        if (SettingsPanel.IsOpen) return;
+        // 일시정지 창(ESC) 표시 중 → 조작 불가
+        if (PauseMenu.IsOpen) return;
 
         // 이동 중
         if (GameState.CurrentPhase == Phase.Execution)
