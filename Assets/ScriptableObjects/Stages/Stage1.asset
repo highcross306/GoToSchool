@@ -18,4 +18,7 @@ MonoBehaviour:
   allNodes:
   - {fileID: 11400000, guid: 7e8828b08a1f46e41b4076fde71b2ccf, type: 2}
   - {fileID: 11400000, guid: 5206e4e84e6f5434e87c6a1272d5a671, type: 2}
-  events: []
+  useTransportEvents: 0
+  storyTitle: "<\uCCAB\uD1B5\uD559>"
+  storyText: "\uAC1C\uAC15 \uCCAB\uB0A0\uBD80\uD130 \uB2A6\uC7A0\uC744 \uC790\uBC84\uB838\uB2E4!\n\uCCAB\uB0A0\uBD80\uD130
+    \uB2A6\uACE0 \uC2F6\uC9C0\uC54A\uC544\u2026\n<color=red>(\uD074\uB9AD\uD574 \uC2DC\uC791)</color>"
