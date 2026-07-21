@@ -23,3 +23,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59dd0c1acd7178b4c842f3a8020dc61a, type: 2}
   - {fileID: 11400000, guid: 32ac346762204b14caa650ea07061168, type: 2}
   useTransportEvents: 1
+  storyTitle: "Stage 4 <\uC885\uAC15>"
+  storyText: "\uC774\uC81C \uB0A8\uC740 \uAC74 \uAE30\uB9D0\uACE0\uC0AC!\n\uB2A6\uC5B4\uBC84\uB9AC\uBA74
+    \uC9C4\uC9DC '\uC8FD\uB294\uB2E4'!"
