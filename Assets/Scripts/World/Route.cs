@@ -49,7 +49,7 @@ public class Route : MonoBehaviour
 
         // 거리에 맞게 스케일 조정
         float distance = Vector3.Distance(fromPos, toPos);
-        float spriteWidth = spriteRenderer.sprite != null
+        float spriteWidth = (spriteRenderer != null && spriteRenderer.sprite != null)
                                ? spriteRenderer.sprite.bounds.size.x : 1f;
         transform.localScale = new Vector3(distance / spriteWidth, 1f, 1f);
     }

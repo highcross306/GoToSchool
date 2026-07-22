@@ -50,6 +50,7 @@ public class PlanningManager : MonoBehaviour
         Selections.Clear();
         decidedNodes.Clear();
         pendingRoute = null;
+        hasNewSelection = false;
         currentNode = startNode;
         decidedNodes.Add(startNode);
         HighlightReachableNodes();
@@ -89,8 +90,14 @@ public class PlanningManager : MonoBehaviour
         MessageSystem.L($"경로 선택: {connectedRoute.name}");
     }
 
+    // 이번 결정으로 새 경로가 실제로 확정됐는지 여부.
+    // OnDecideButtonClicked가 "직전에 실행한 경로를 또 실행"하는 것을 막는 안전장치.
+    private bool hasNewSelection = false;
+
     public void OnTransportSelected(TransportType transport)
     {
+        hasNewSelection = false;
+
         if (pendingRoute == null) return;
         if (!SelectionValidator.Instance.IsTransportValid(pendingRoute, transport, currentNode))
         {
@@ -109,6 +116,7 @@ public class PlanningManager : MonoBehaviour
         Selections.Add(entry);
         currentNode = pendingRoute.toNode;
         pendingRoute = null;
+        hasNewSelection = true;
 
         MessageSystem.L($"이동수단 확정: {transport} / 목적지: {currentNode.name}");
     }
@@ -158,6 +166,17 @@ public class PlanningManager : MonoBehaviour
     public void OnDecideButtonClicked()
     {
         if (Selections.Count == 0) return;
+
+        // 직전 OnTransportSelected가 실패(유효하지 않은 이동수단 등)했다면
+        // Selections에는 "이미 실행이 끝난 이전 경로"만 남아있다.
+        // 그 상태로 진행하면 지나온 경로를 다시 이동해버리므로 여기서 차단한다.
+        if (!hasNewSelection)
+        {
+            Debug.LogWarning("[PlanningManager] 확정된 새 경로가 없어 이동을 실행하지 않습니다.");
+            return;
+        }
+
+        hasNewSelection = false;
 
         // 가장 최근 확정된 경로를 즉시 실행
         SelectionEntry latest = Selections[Selections.Count - 1];

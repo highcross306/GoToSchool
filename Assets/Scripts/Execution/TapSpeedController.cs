@@ -1,29 +1,26 @@
 ﻿// ============================================================
 // TapSpeedController.cs
-// 역할: 실행 단계에서 화면을 탭하면 이동 속도를 배속으로 전환
-//       PC: 마우스 클릭 / 모바일: 터치 모두 지원
-// 부착: 씬에 빈 오브젝트(예: [GameManager])에 함께 부착
+// 역할: (구) 화면 탭 배속 기능 — 가속 버튼(FastForwardButton)으로
+//       대체되어 더 이상 사용하지 않는다.
+//
+//       씬 어딘가([GameManager] 오브젝트 등)에 이 컴포넌트가
+//       아직 붙어 있어도 아무 동작도 하지 않도록 본문을 비웠다.
+//       (화면 탭과 가속 버튼이 동시에 살아있으면 한 번의 클릭으로
+//        배속이 두 번 토글되거나, 일시정지 창을 조작하는 클릭까지
+//        배속을 건드리는 충돌이 있었음)
+//
+//       컴포넌트 자체는 남겨두어 씬 참조가 Missing Script로
+//       깨지지 않게 한다. 완전히 정리하려면 씬에서 이 컴포넌트를
+//       제거한 뒤 이 파일을 삭제하면 된다.
 // ============================================================
 
 using UnityEngine;
 
 public class TapSpeedController : MonoBehaviour
 {
-    private void Update()
+    private void Awake()
     {
-        // 실행 단계가 아니면 무시
-        if (GameState.CurrentPhase != Phase.Execution) return;
-
-        bool tapped = false;
-
-        // PC 마우스 클릭
-        if (Input.GetMouseButtonDown(0)) tapped = true;
-
-        // 모바일 터치
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            tapped = true;
-
-        if (tapped)
-            PlayerMover.Instance.ToggleFastForward();
+        Debug.LogWarning("[TapSpeedController] 이 컴포넌트는 가속 버튼으로 대체되어 " +
+                         "더 이상 동작하지 않습니다. 씬에서 제거해도 됩니다.", this);
     }
 }

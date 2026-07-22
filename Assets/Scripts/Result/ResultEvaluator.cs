@@ -37,9 +37,10 @@ public class ResultEvaluator : MonoBehaviour
             // 성공
             int score = ScoreCalculator.Instance.Calculate();
 
-            // 4개 스테이지 누적 점수에 이번 스테이지 점수를 더한다.
-            // (엔딩 화면에서 GameState.TotalScore를 그대로 사용)
-            GameState.TotalScore += score;
+            // 이번 스테이지의 점수를 "스테이지별로" 기록한다.
+            // 단순 += 누적이 아니라 스테이지 번호를 키로 덮어쓰기 때문에,
+            // 재시도로 같은 스테이지를 여러 번 클리어해도 점수가 중복 합산되지 않는다.
+            GameState.RecordStageScore(GameState.CurrentStage, score);
 
             Debug.Log($"[Result] 성공 — 최종 점수: {score}점 / 누적 점수: {GameState.TotalScore}점");
             ResultUI.Instance.ShowSuccess(score);

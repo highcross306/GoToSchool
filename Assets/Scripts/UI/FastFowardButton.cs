@@ -51,6 +51,11 @@ public class FastForwardButton : MonoBehaviour
     // Button의 OnClick()에 연결
     public void OnClickFastForward()
     {
+        // 이벤트 메시지/스토리 창이 떠 있는 동안에는 다른 UI와 동일하게 조작 차단.
+        // (일시정지 창은 자체 블로커가 클릭을 흡수하므로 별도 검사 불필요)
+        if (EventMessagePanel.IsOpen) return;
+        if (StoryIntroPanel.IsOpen) return;
+
         if (PlayerMover.Instance == null)
         {
             Debug.LogWarning("[FastForwardButton] PlayerMover.Instance가 null입니다.");

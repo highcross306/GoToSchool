@@ -43,7 +43,10 @@ public class PlayerBudget : MonoBehaviour
     {
         RemainingBudget -= cost;
         ElapsedMinutes += minutes;
-        Debug.Log($"[Budget] 소비 — -{cost}원 / +{minutes}분 " +
+        // 이벤트 효과로 cost/minutes가 음수(= 이득)로 들어올 수 있으므로
+        // 부호를 하드코딩하지 않고 실제 변화량 그대로 찍는다.
+        // (이전에는 "-{cost}"로 고정돼 cost가 -1000일 때 "--1000원"으로 표시됐다)
+        Debug.Log($"[Budget] 소비 — 자금 {-cost:+#;-#;0}원 / 시간 {minutes:+#;-#;0}분 " +
                   $"| 잔액: {RemainingBudget}원 / 경과: {ElapsedMinutes}분");
     }
 

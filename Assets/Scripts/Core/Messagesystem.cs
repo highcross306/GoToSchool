@@ -65,10 +65,7 @@ public class MessageSystem : MonoBehaviour
 
         if (messageText != null) messageText.text = message;
 
-        Debug.Log($"[MessageSystem] SetActive(true) 호출 전 — panel active: {messagePanel.activeSelf}");
         messagePanel.SetActive(true);
-        Debug.Log($"[MessageSystem] SetActive(true) 호출 후 — panel active: {messagePanel.activeSelf} " +
-                  $"/ 부모 active: {messagePanel.transform.parent?.gameObject.activeSelf}");
 
         hideCoroutine = StartCoroutine(HideAfterDelay());
     }

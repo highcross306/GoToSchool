@@ -24,6 +24,11 @@ public class HUDController : MonoBehaviour
 
     private void Update()
     {
+        // PlayerBudget은 스테이지 씬에만 존재한다.
+        // 씬 전환 직후처럼 아직(또는 이미) 없는 순간에 접근하면
+        // 매 프레임 NullReferenceException이 발생하므로 먼저 확인한다.
+        if (PlayerBudget.Instance == null) return;
+
         if (GameState.CurrentPhase == Phase.Planning ||
             GameState.CurrentPhase == Phase.Execution)
         {
@@ -35,6 +40,8 @@ public class HUDController : MonoBehaviour
     // 남은 시간 = 제한 시간 - 경과 시간
     private void UpdateRemainingTime()
     {
+        if (remainingTimeText == null) return;
+
         int limitMinutes = PlayerBudget.Instance.TimeLimitSeconds / 60;
         int remaining = Mathf.Max(0, limitMinutes - PlayerBudget.Instance.ElapsedMinutes);
 
@@ -47,6 +54,8 @@ public class HUDController : MonoBehaviour
     // 현재 자금
     private void UpdateCurrentBudget()
     {
+        if (currentBudgetText == null) return;
+
         int budget = PlayerBudget.Instance.RemainingBudget;
 
         currentBudgetText.text = $"현재 자금: {budget}원";
@@ -58,6 +67,7 @@ public class HUDController : MonoBehaviour
     // 외부에서 HUD 즉시 갱신 시 호출 (Consume 직후 등)
     public void RefreshHUD()
     {
+        if (PlayerBudget.Instance == null) return;
         UpdateRemainingTime();
         UpdateCurrentBudget();
     }

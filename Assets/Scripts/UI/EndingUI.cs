@@ -113,6 +113,10 @@ public class EndingUI : MonoBehaviour
         // 다음 플레이를 위해 누적 점수/스테이지 상태를 초기화
         GameState.ResetForNewGame();
 
-        SceneManager.LoadScene(MainMenuSceneName);
+        // GameManager를 거쳐야 GameState.CurrentPhase도 Planning으로 되돌아간다.
+        if (GameManager.Instance != null)
+            GameManager.Instance.LoadMainMenu();
+        else
+            SceneManager.LoadScene(MainMenuSceneName);
     }
 }

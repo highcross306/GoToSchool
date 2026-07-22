@@ -95,6 +95,11 @@ public class ResultUI : MonoBehaviour
         if (MusicManager.Instance != null)
             MusicManager.Instance.StopMusic();
 
+        // 강화 노드에서 자동으로 떠 있던 이벤트 설명창이 결과 팝업 뒤에
+        // 남지 않도록 정리한다.
+        if (EventInfoPopup.Instance != null)
+            EventInfoPopup.Instance.Hide();
+
         if (dimOverlay != null) dimOverlay.SetActive(true);
         if (resultPanel != null) resultPanel.SetActive(true);
 
