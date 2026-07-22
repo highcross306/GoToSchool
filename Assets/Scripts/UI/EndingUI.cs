@@ -84,9 +84,10 @@ public class EndingUI : MonoBehaviour
 
         ApplyStars(filledStars);
 
-        // 결과창과 동일한 관례 — 엔딩 화면에서는 배경음악을 정지
+        // 결과창과 달리, 엔딩 화면에서는 배경음악을 정지하지 않고
+        // 전용 엔딩 BGM을 무한 반복 재생한다.
         if (MusicManager.Instance != null)
-            MusicManager.Instance.StopMusic();
+            MusicManager.Instance.PlayEndingMusic();
 
         panel.SetActive(true);
         panel.transform.SetAsLastSibling();

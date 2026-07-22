@@ -22,6 +22,9 @@ public class MusicManager : MonoBehaviour
     [Header("메인 메뉴 BGM (단일 트랙, 반복 재생)")]
     public AudioClip menuTrack;
 
+    [Header("엔딩 화면 BGM (단일 트랙, 반복 재생)")]
+    public AudioClip endingTrack;
+
     private AudioSource source;
     private List<AudioClip> shuffledQueue = new();
     private int queueIndex;
@@ -72,6 +75,22 @@ public class MusicManager : MonoBehaviour
         source.loop = true;
         source.volume = SettingsPanel.GetBGMVolume();
         source.clip = menuTrack;
+        source.Play();
+    }
+
+    // 엔딩 화면에서 호출 — 단일 트랙을 반복 재생한다 (셔플/자동전환 없음)
+    public void PlayEndingMusic()
+    {
+        if (endingTrack == null)
+        {
+            Debug.LogWarning("[MusicManager] endingTrack이 비어있어 엔딩 BGM을 재생할 수 없습니다.");
+            return;
+        }
+
+        isActive = false; // 스테이지용 자동전환 로직 끔
+        source.loop = true;
+        source.volume = SettingsPanel.GetBGMVolume();
+        source.clip = endingTrack;
         source.Play();
     }
 
