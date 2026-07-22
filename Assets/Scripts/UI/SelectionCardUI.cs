@@ -24,8 +24,9 @@ public class SelectionCardUI : MonoBehaviour
     public Sprite selectedSprite;
     public Sprite disabledSprite;
 
-    [Header("금지 오버레이 (자식 오브젝트, 위치는 Unity에서 자유 조절)")]
-    [Tooltip("노드에서 이 이동수단을 금지했을 때만 표시되는 자식 오브젝트")]
+    [Header("금지 오버레이 (자식 오브젝트)")]
+    [Tooltip("노드에서 이 이동수단을 금지했을 때만 표시되는 자식 오브젝트. " +
+             "위치/크기는 Awake에서 카드 전체를 덮도록 코드로 강제 고정된다.")]
     public GameObject blockedOverlay;
 
     public TransportType TransportType => cardType;
@@ -40,10 +41,37 @@ public class SelectionCardUI : MonoBehaviour
     {
         cardButton.onClick.AddListener(OnCardClicked);
 
-        // BlockedOverlay는 항상 카드 이미지 위(자식 순서상 마지막)에 렌더링되도록 고정
         if (blockedOverlay != null)
         {
+            // 항상 카드 이미지 위(자식 순서상 마지막)에 렌더링되도록 고정
             blockedOverlay.transform.SetAsLastSibling();
+
+            // 위치를 Unity에서 수동으로 맞출 필요 없이, 카드 전체와 정확히
+            // 겹치도록 anchor/offset을 강제로 꽉 채움(stretch)으로 고정한다.
+            // 카드 크기가 나중에 바뀌어도 항상 카드 전체를 그대로 덮는다.
+            RectTransform overlayRect = blockedOverlay.GetComponent<RectTransform>();
+            if (overlayRect != null)
+            {
+                overlayRect.anchorMin = Vector2.zero;
+                overlayRect.anchorMax = Vector2.one;
+                overlayRect.offsetMin = Vector2.zero;
+                overlayRect.offsetMax = Vector2.zero;
+                overlayRect.anchoredPosition = Vector2.zero;
+            }
+            else
+            {
+                Debug.LogWarning($"[SelectionCardUI] '{blockedOverlay.name}'에 " +
+                                 "RectTransform이 없어 카드 위치에 맞출 수 없습니다.", this);
+            }
+
+            // 카드(200x300)는 정사각형이 아니므로, 위 stretch 설정만 두면
+            // 금지 스프라이트가 카드 비율에 맞춰 늘어나 찌그러진다.
+            // Preserve Aspect를 켜면 채워지는 영역(카드 전체) 안에서
+            // 스프라이트의 원본 비율(1:1)을 유지한 채 중앙에 맞춰 그려진다.
+            Image overlayImage = blockedOverlay.GetComponent<Image>();
+            if (overlayImage != null)
+                overlayImage.preserveAspect = true;
+
             blockedOverlay.SetActive(false);
         }
 

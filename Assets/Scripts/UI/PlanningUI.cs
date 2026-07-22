@@ -221,10 +221,21 @@ public class PlanningUI : MonoBehaviour
     }
 
     // 모든 카드 비활성화 (노드 선택 전 상태)
+    // 현재 서 있는 노드가 특정 이동수단을 금지한다면, 목적지를 아직
+    // 선택하지 않았어도 "도착한 순간부터" 그 카드에 금지 오버레이를 표시한다.
     private void DisableAllCards()
     {
+        NodeData currentNode = PlanningManager.Instance != null
+            ? PlanningManager.Instance.CurrentNode
+            : null;
+
         foreach (SelectionCardUI card in selectionCards)
-            card.SetDisabled();
+        {
+            if (currentNode != null && currentNode.IsTransportDisabled(card.cardType))
+                card.SetBlockedByNode();
+            else
+                card.SetDisabled();
+        }
     }
 
     // 선택 카드 → Selected / 나머지 → Disabled
