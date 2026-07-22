@@ -4777,6 +4777,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 691915357452517388, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7c9aca8e25dac9f44b2ac9f3e0f50514, type: 2}
     - target: {fileID: 1975712184246700870, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
       propertyPath: m_Size.x
       value: 1.28
@@ -4788,7 +4792,7 @@ PrefabInstance:
     - target: {fileID: 1975712184246700870, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8ef9799c420c2e1429faf173147bffaa, type: 3}
+      objectReference: {fileID: 21300000, guid: bc1023915c0457445b78568478b6b1d9, type: 3}
     - target: {fileID: 1975712184246700870, guid: a930e835f520e614e9cdb0f272ecdc7a, type: 3}
       propertyPath: m_SortingOrder
       value: 3
