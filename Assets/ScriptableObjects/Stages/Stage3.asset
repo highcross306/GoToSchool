@@ -21,7 +21,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aadc4e880abe39546ba8fb12e57e0b89, type: 2}
   - {fileID: 11400000, guid: a2dd136a01173a94e9ae7794dd740bc4, type: 2}
   useTransportEvents: 1
-  storyTitle: "Stage 3 <\uC704\uD5D8\uD55C \uC9C0\uB984\uAE38>"
-  storyText: "\uD559\uAD50\uAE4C\uC9C0 \uB354 \uBE68\uB9AC \uAC08 \uC218 \uC788\uB294
-    \uBC29\uBC95\uC740?\n\uBB50\uAC00 \uC788\uC744 \uC9C0 \uBAA8\uB974\uB294 \uB4B7\uACE8\uBAA9
-    \uD0D0\uD5D8!"

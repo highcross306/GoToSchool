@@ -26,7 +26,6 @@ public class PlanningManager : MonoBehaviour
 
     public List<SelectionEntry> Selections { get; private set; } = new();
     public bool HasPendingRoute => pendingRoute != null;
-    public NodeData CurrentNode => currentNode;
 
     private RouteData pendingRoute;
     private NodeData currentNode;
@@ -114,7 +113,6 @@ public class PlanningManager : MonoBehaviour
     }
 
     // 현재 위치에서 이동 가능한 노드 + 경로 강조
-    // (스테이지 시작 시, 그리고 매 이동 완료 후 다시 호출됨)
     public void HighlightReachableNodes()
     {
         ClearAllHighlights();
@@ -131,13 +129,6 @@ public class PlanningManager : MonoBehaviour
             // 연결 경로 강조
             StageManager.Instance.GetRoute(route)?.SetHighlighted(true);
         }
-
-        // 현재 서 있는 노드가 강화 노드라면, 클릭하지 않아도
-        // 그 노드의 이벤트 설명창을 기본으로 띄운다.
-        // (강화 이벤트/이동수단 제한은 "현재 위치한 노드" 기준으로 적용되므로,
-        //  플레이어가 다음 선택을 하기 전에 미리 알고 있어야 하는 정보)
-        if (currentNode.IsEnhancedNode && EventInfoPopup.Instance != null)
-            EventInfoPopup.Instance.ShowForNode(currentNode);
     }
 
     // 모든 노드/경로 강조 해제
